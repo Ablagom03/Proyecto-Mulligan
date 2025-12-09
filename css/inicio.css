@@ -1,0 +1,49 @@
+.main {
+    text-align: center;
+    font-size: xx-large;
+}
+
+input {
+    font-size: xx-large;
+    border-radius: 10px;
+}
+
+.marcas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
+.marca {
+    margin: 5px;
+    border: 2px solid black;
+    border-radius: 12px;
+    background-color: skyblue;
+    padding: 20px;
+}
+
+.marca:hover{
+    background-color: violet;
+    cursor: pointer;
+}
+
+.marca:active{
+    background-color: purple;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .marca {
+        flex-direction: column;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+.marca img {
+    width: 400px;
+}

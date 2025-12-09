@@ -1,0 +1,38 @@
+header,
+footer {
+    background: #a538ff;
+    background: linear-gradient(0deg, rgba(165, 56, 255, 1) 0%, rgba(252, 70, 107, 1) 100%);
+}
+
+.contenedor-grid {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+
+    gap: 10px;
+}
+
+header {
+    grid-area: header;
+    top: 0px;
+    left: 0px;
+
+    padding: 1em;
+}
+
+footer {
+    grid-area: footer;
+    left: 0;
+    bottom: 0;
+    padding: 1em;
+}
+
+body {
+    background-color: rgb(255, 194, 235);
+}
+
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

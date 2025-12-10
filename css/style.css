@@ -30,6 +30,10 @@ header .sesion {
     margin: 0 auto;
 }
 
+.sesion a{
+    text-decoration: none;
+}
+
 .sesion button:hover {
     background-color: #db34a9c4;
     cursor: pointer;

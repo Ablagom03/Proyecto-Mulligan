@@ -25,6 +25,16 @@ body {
     padding: 20px;
     border-radius: 10px
 }
+.volver a{
+    text-decoration: none;
+    color: #777;
+    font-size: 14px;
+}
+.volver a:hover{
+    text-decoration: none;
+    color: #db34a9;
+    font-size: 14px;
+}
 
 .titulo {
     text-align: center;
@@ -37,6 +47,10 @@ body {
 
 .input-group {
     margin-bottom: 10px;
+}
+.terms{
+    display: flex;
+
 }
 
 input {

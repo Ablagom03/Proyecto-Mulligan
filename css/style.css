@@ -1,7 +1,27 @@
-header,
-footer {
+header {
     background: #a538ff;
     background: linear-gradient(0deg, rgba(165, 56, 255, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+header .sesion {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.sesion button {
+    background-color: skyblue;
+    font-size: xx-large;
+    border-radius: 3px;
+}
+
+.sesion button:hover {
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .contenedor-grid {
@@ -22,6 +42,7 @@ header {
 }
 
 footer {
+    background-color: #a538ff;
     grid-area: footer;
     left: 0;
     bottom: 0;

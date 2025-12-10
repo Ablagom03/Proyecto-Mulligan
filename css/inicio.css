@@ -21,11 +21,11 @@ input {
 }
 
 .marca {
-    margin: 5px;
     border: 2px solid black;
     border-radius: 12px;
     background-color: skyblue;
-    padding: 20px;
+    width: 250px;
+    height: 200px;
 }
 
 .marca:hover {

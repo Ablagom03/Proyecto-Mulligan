@@ -27,75 +27,15 @@
     </h1>
 
     <div class="carrusel-cartas">
-        <div class="cartas fundido">
+        <div class="carta-destacada">
             <img src="images/ace_of_spades.png" alt="Ace">
-            <div class="texto">As de Picas</div>
+            <div class="texto-imagen">As de Picas</div>
         </div>
-        <div class="cartas fundido">
-            <img src="images/chariz.png" alt="Charizard">
-            <div class="texto">Charizard Original</div>
-
-        </div>
-        <div class="cartas fundido">
-            <img src="images/uno_card.png" alt="Ace">
-            <div class="texto">Uno Reverse</div>
-
-        </div>
-        <div class="cartas fundido">
-            <img src="images/bewd.jpg" alt="Charizard">
-            <div class="texto">Blue Eyes White Dragon</div>
-        </div>
-
         <a class="ant" onclick="numCarr(-1)">&#10094;</a>
         <a class="sig" onclick="numCarr(1)">&#10095;</a>
     </div>
 
-    <br>
-    <!-- Puntos para mostrar donde estás en el carrusel-->
-    <div style="text-align:center">
-        <span class="punto" onclick="cartaSelect(1)"></span>
-        <span class="punto" onclick="cartaSelect(2)"></span>
-        <span class="punto" onclick="cartaSelect(3)"></span>
-        <span class="punto" onclick="cartaSelect(4)"></span>
-    </div>
 
-    <script>
-        let indiceDiapositiva = 1;
-        mostrarDiapositiva(indiceDiapositiva);
-
-
-        function numCarr(numero) {
-            mostrarDiapositiva(indiceDiapositiva += numero);
-        }
-
-        function cartaSelect(numero) {
-            mostrarDiapositiva(indiceDiapositiva = n);
-        }
-
-
-        function mostrarDiapositiva(numero) {
-            let i;
-            let diapositiva = document.getElementsByClassName("carta");
-            let puntos = document.getElementsByClassName("punto");
-
-            if (numero > diapositiva.length) { indiceDiapositiva = 1 };
-
-            if (numero < 1) { indiceDiapositiva = diapositiva.length }
-
-            for (i = 0; i < diapositiva.length; i++) {
-                diapositiva[i].style.display = "none";
-            }
-
-            for (i = 0; i < puntos.length; i++) {
-                puntos[i].className = puntos[i].className.replace("activo", "");
-            }
-            diapositiva[indiceDiapositiva-1].style = "block";
-            puntos[indiceDiapositiva-1].classList += "activo";
-
-        }
-        
-
-    </script>
 
 
     <footer></footer>

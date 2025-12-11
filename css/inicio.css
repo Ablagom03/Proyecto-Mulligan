@@ -58,3 +58,8 @@ input {
     width: 250px;
     align-self: auto;
 }
+.video {
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+}

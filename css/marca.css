@@ -2,3 +2,70 @@ h1 {
     text-align: center;
     font-size: 5em;
 }
+
+.carrusel-cartas {
+    box-sizing: border-box;
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+}
+
+.cartas {
+    display: none
+}
+
+.ant,
+.sig {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.sig {
+    right: 0;
+    border-radius: 3px;
+}
+
+.ant:hover,
+.sig:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.texto {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.activo,
+.punto:hover {
+    background-color: #717171;
+}
+
+.fundido {
+    animation-name: fundido;
+    animation-duration: 1.5s;
+}
+
+@keyframes fundido {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}

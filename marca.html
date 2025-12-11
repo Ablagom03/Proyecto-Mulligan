@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marca Seleccionada</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/slide.css">
     <link rel="stylesheet" href="css/marca.css">
 
 </head>
@@ -26,19 +27,44 @@
         Marca Seleccionada
     </h1>
 
-    <div class="carrusel-cartas">
-        <div class="carta-destacada">
-            <img src="images/ace_of_spades.png" alt="Ace">
-            <div class="texto-imagen">As de Picas</div>
-        </div>
-        <a class="ant" onclick="numCarr(-1)">&#10094;</a>
-        <a class="sig" onclick="numCarr(1)">&#10095;</a>
+      <div class="slideshow-container">
+    <div class="mySlides fade">
+      <div class="numbertext">1 / 3</div>
+      <img src="images/ace_of_spades.png" style="width:50%">
+      <div class="text">Carta</div>
     </div>
+
+    <div class="mySlides fade">
+      <div class="numbertext">2 / 3</div>
+      <img src="images/uno_card.png" style="width:50%">
+      <div class="text">Carta 2</div>
+    </div>
+
+    <div class="mySlides fade">
+      <div class="numbertext">3 / 3</div>
+      <img src="images/chariz.png" style="width:50%">
+      <div class="text">Yey</div>
+    </div>
+
+    <a class="prev" onclick="plusSlides(-1)">❮</a>
+    <a class="next" onclick="plusSlides(1)">❯</a>
+
+  </div>
+  <br>
+
+  <div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+  </div>
+
+
 
 
 
 
     <footer></footer>
+      <script src="js/slide.js"></script>
 </body>
 
 </html>

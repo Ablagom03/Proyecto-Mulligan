@@ -1,0 +1,40 @@
+.imagen-usuario {
+    padding: 15px;
+    border: 1px solid black;
+    background-color: gray;
+}
+
+.imagen-usuario img {
+    width: 300px;
+}
+
+.informacion-usuario {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+}
+
+.descripcion-usuario {
+    padding: 10px;
+}
+
+.no-imagen {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    font-size: larger;
+}
+
+.nombre-usuario {
+    font-size: xx-large;
+    font-weight: 800;
+}
+
+.reputacion {
+    font-size: 50px;
+    text-align: right;
+}
+
+.reputacion>b{
+    color: green;
+}

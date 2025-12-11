@@ -78,11 +78,22 @@ header {
 }
 
 footer {
-    background-color: #a538ff;
-    grid-area: footer;
-    left: 0;
-    bottom: 0;
-    padding: 1em;
+    background: #a538ff;
+    background: linear-gradient(0deg, rgba(165, 56, 255, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.redes-sociales {
+    justify-content: flex-start;
+}
+
+.contact {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 body {
@@ -102,7 +113,7 @@ body {
     width: 100px;
 }
 
-.logo:hover{
+.logo:hover {
     transition: 0.25s;
     transform: scale(1.15);
 }

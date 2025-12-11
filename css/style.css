@@ -101,3 +101,8 @@ body {
 .logo {
     width: 100px;
 }
+
+.logo:hover{
+    transition: 0.25s;
+    transform: scale(1.15);
+}

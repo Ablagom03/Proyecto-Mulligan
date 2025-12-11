@@ -9,10 +9,14 @@
 body {
     font-family: Arial;
     background: linear-gradient(0deg, rgba(165, 56, 255, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    background-size: auto;
+    background-repeat: no-repeat;
     padding: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    overflow: hidden;
 }
 
 .login {
@@ -25,12 +29,14 @@ body {
     padding: 20px;
     border-radius: 10px
 }
-.volver a{
+
+.volver a {
     text-decoration: none;
     color: #777;
     font-size: 14px;
 }
-.volver a:hover{
+
+.volver a:hover {
     text-decoration: none;
     color: #db34a9;
     font-size: 14px;
@@ -48,7 +54,8 @@ body {
 .input-group {
     margin-bottom: 10px;
 }
-.terms{
+
+.terms {
     display: flex;
 }
 

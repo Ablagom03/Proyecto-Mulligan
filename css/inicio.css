@@ -25,7 +25,7 @@ input {
     border-radius: 12px;
     background-color: skyblue;
     width: 250px;
-    height: 200px;
+    height: 160px;
 }
 
 .marca:hover {
@@ -37,12 +37,15 @@ input {
     animation: shine 3s infinite linear;
     cursor: pointer;
     transform: scale(1.1);
+    transition: 0.25s;
 }
 
 .marca:active {
     background-color: rgb(148, 21, 148);
     color: white;
-    transform:scale(1.15);
+    transform: scale(1.15);
+    transition: 0.25s;
+
 }
 
 @media (max-width: 600px) {
@@ -51,9 +54,7 @@ input {
     }
 }
 
-
-
 .marca img {
     width: 250px;
+    align-self: auto;
 }
-

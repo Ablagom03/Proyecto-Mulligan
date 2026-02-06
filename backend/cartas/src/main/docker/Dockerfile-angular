@@ -1,0 +1,8 @@
+FROM node:24-alpine
+# Este será nuestro directorio de trabajo, donde podemos dejar nuestros
+# proyectos directamente.
+WORKDIR /app
+# cuando esté creado el contenedor, instala lo necesario, como git y angular
+# Si no usamos un Dockerfile, lo que ocurre es que tendríamos que escribir
+# estos comandos, por tanto esta imágen que estáis creando personalizada.
+RUN apk update

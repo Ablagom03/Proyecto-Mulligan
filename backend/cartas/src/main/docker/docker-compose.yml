@@ -1,0 +1,33 @@
+version: '1'
+
+services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile-spring
+    container_name: backend
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile-angular
+    container_name: frontend
+    ports:
+      - '4200:80'
+
+          
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=root
+  

@@ -14,7 +14,6 @@ services:
       - '8080:8080'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cartas
-      - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     restart: on-failure
@@ -24,6 +23,8 @@ services:
       context: ../../../../../frontend
       dockerfile: Dockerfile
     container_name: frontend
+    volumes:
+      - ../../../../../frontend:/app
     ports:
       - '4200:80'
 
@@ -32,7 +33,6 @@ services:
     image: 'postgres:16-alpine'
     container_name: db
     environment:
-      - POSTGRES_USER=user
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=cartas
     ports:

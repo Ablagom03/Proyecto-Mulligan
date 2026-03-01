@@ -1,33 +1,50 @@
-version: '1'
+version: '3.8'
 
 services:
   app:
     image: 'docker-spring-boot-postgres:latest'
     build:
-      context: .
-      dockerfile: Dockerfile-spring
+      context: ../../../
+      dockerfile: src/main/docker/Dockerfile-spring
     container_name: backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    ports:
+      - '8080:8080'
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cartas
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: on-failure
 
   front:
     build:
-      context: .
-      dockerfile: Dockerfile-angular
+      context: ../../../../../frontend
+      dockerfile: Dockerfile
     container_name: frontend
     ports:
       - '4200:80'
 
           
   db:
-    image: 'postgres:latest'
+    image: 'postgres:16-alpine'
     container_name: db
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=cartas
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d cartas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
   

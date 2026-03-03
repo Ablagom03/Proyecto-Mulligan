@@ -14,6 +14,7 @@ services:
       - '8080:8080'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cartas
+      - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     restart: on-failure
@@ -33,6 +34,7 @@ services:
     image: 'postgres:16-alpine'
     container_name: db
     environment:
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=cartas
     ports:
@@ -40,7 +42,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d cartas"]
+      test: ["CMD-SHELL", "pg_isready -U root -d cartas"]
       interval: 10s
       timeout: 5s
       retries: 5

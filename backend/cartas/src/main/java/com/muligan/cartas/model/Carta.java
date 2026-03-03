@@ -6,39 +6,43 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Carta base 
+ * Carta base
  */
 @Entity
-@Table(name = "carta", schema = "public")
+@Table(name = "carta")
 public class Carta {
     @Id
-    private Long Cardid;
-    @Column(name = "nombre_card")
+    @Column(name = "cardid")
+    @JsonProperty("cardid")
+    private String Cardid;
+    
+    @Column(name = "nombrecard")
+    @JsonProperty("nombrecard")
     private String nombreCard;
-    @Column(name = "descripcion")
+
     private String descripcion;
-    @Column(name = "coleccion")
     private String coleccion;
-    @Column(name = "empresa")
     private String empresa;
 
     public Carta() {
     }
 
-    public Carta(Long cardid, String nombreCard, String descripcion, String coleccion, String empresa) {
+    public Carta(String cardid, String nombreCard, String descripcion, String coleccion, String empresa) {
         Cardid = cardid;
         this.nombreCard = nombreCard;
         this.descripcion = descripcion;
         this.coleccion = coleccion;
         this.empresa = empresa;
     }
-    public Long getCardid() {
+
+    public String getCardid() {
         return this.Cardid;
     }
 
-    public void setCardid(Long Cardid) {
+    public void setCardid(String Cardid) {
         this.Cardid = Cardid;
     }
 
@@ -74,7 +78,7 @@ public class Carta {
         this.empresa = empresa;
     }
 
-    public Carta Cardid(Long Cardid) {
+    public Carta Cardid(String Cardid) {
         setCardid(Cardid);
         return this;
     }
@@ -107,7 +111,9 @@ public class Carta {
             return false;
         }
         Carta Carta = (Carta) o;
-        return Objects.equals(Cardid, Carta.Cardid) && Objects.equals(nombreCard, Carta.nombreCard) && Objects.equals(descripcion, Carta.descripcion) && Objects.equals(coleccion, Carta.coleccion) && Objects.equals(empresa, Carta.empresa);
+        return Objects.equals(Cardid, Carta.Cardid) && Objects.equals(nombreCard, Carta.nombreCard)
+                && Objects.equals(descripcion, Carta.descripcion) && Objects.equals(coleccion, Carta.coleccion)
+                && Objects.equals(empresa, Carta.empresa);
     }
 
     @Override
@@ -118,14 +124,12 @@ public class Carta {
     @Override
     public String toString() {
         return "{" +
-            " Cardid='" + getCardid() + "'" +
-            ", nombreCard='" + getNombreCard() + "'" +
-            ", descripcion='" + getDescripcion() + "'" +
-            ", coleccion='" + getColeccion() + "'" +
-            ", empresa='" + getEmpresa() + "'" +
-            "}";
+                " Cardid='" + getCardid() + "'" +
+                ", nombreCard='" + getNombreCard() + "'" +
+                ", descripcion='" + getDescripcion() + "'" +
+                ", coleccion='" + getColeccion() + "'" +
+                ", empresa='" + getEmpresa() + "'" +
+                "}";
     }
-    
-
 
 }

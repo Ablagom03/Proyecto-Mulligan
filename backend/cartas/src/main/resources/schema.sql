@@ -16,7 +16,7 @@ CREATE TABLE carta (
 );
 
 CREATE TABLE inventario (
-  usrId varchar(5),
+  usrId varchar(15),
   cardId varchar(5),
   valor float(5),
   estado varchar(20),

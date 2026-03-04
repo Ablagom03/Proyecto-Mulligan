@@ -2,8 +2,8 @@ services:
   app:
     image: 'docker-spring-boot-postgres:latest'
     build:
-      context: ../../../
-      dockerfile: src/main/docker/Dockerfile-spring
+      context: ./backend/cartas
+      dockerfile: src/main/docker/Dockerfile
     container_name: backend
     depends_on:
       db:
@@ -19,12 +19,12 @@ services:
 
   front:
     build:
-      context: ../../../../../frontend
-      dockerfile: Dockerfile
+      context: ./frontend/angularfront
+      dockerfile: ../Dockerfile
     container_name: frontend
     volumes:
-      - ../../../../../frontend:/app
-      - /app/angularfront/node_modules
+      - ./frontend/angularfront:/app
+      - /app/node_modules
     ports:
       - '4200:4200'
     stdin_open: true

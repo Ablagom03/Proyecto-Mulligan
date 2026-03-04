@@ -1,11 +1,14 @@
 FROM node:24-alpine
+
 WORKDIR /app
-COPY . /usr/share/nginx/html/
 
-RUN apk update && \
-npm install -g @angular/cli
+RUN npm install -g @angular/cli
 
-CMD ["sh"]
+COPY . .
+
+WORKDIR /app/angularfront
+
+RUN npm install
 
 EXPOSE 4200
-#CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll", "2000"]

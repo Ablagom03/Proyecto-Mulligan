@@ -1,0 +1,10 @@
+<h1>Cartas</h1>
+    
+    @for (carta of cartas(); track carta.cardid) {
+      <div style="border: 1px solid black; margin: 10px; padding: 10px;">
+        <h3>{{ carta.nombrecard }}</h3>
+        <p>ID: {{ carta.cardid }} | Empresa: {{ carta.empresa }}</p>
+      </div>
+    } @empty {
+      <p>Error</p>
+    }

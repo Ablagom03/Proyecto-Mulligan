@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.muligan.cartas.model.Carta;
 
 @Repository
-public interface CartaRepository extends JpaRepository<Carta, String> {
+public interface CartaRepository extends JpaRepository<Carta, Integer> {
     @Query("SELECT c FROM Carta c WHERE c.nombreCard = :nombreCard")
     Carta findByNombreCard(String nombreCard);
 

@@ -17,12 +17,11 @@ public class Carta {
     @Id
     @Column(name = "cardid")
     @JsonProperty("cardid")
-    private String Cardid;
+    private Integer Cardid;
     
     @Column(name = "nombrecard")
     @JsonProperty("nombrecard")
     private String nombreCard;
-
     private String descripcion;
     private String coleccion;
     private String empresa;
@@ -30,7 +29,7 @@ public class Carta {
     public Carta() {
     }
 
-    public Carta(String cardid, String nombreCard, String descripcion, String coleccion, String empresa) {
+    public Carta(Integer cardid, String nombreCard, String descripcion, String coleccion, String empresa) {
         Cardid = cardid;
         this.nombreCard = nombreCard;
         this.descripcion = descripcion;
@@ -38,11 +37,11 @@ public class Carta {
         this.empresa = empresa;
     }
 
-    public String getCardid() {
+    public Integer getCardid() {
         return this.Cardid;
     }
 
-    public void setCardid(String Cardid) {
+    public void setCardid(Integer Cardid) {
         this.Cardid = Cardid;
     }
 
@@ -78,7 +77,7 @@ public class Carta {
         this.empresa = empresa;
     }
 
-    public Carta Cardid(String Cardid) {
+    public Carta Cardid(Integer Cardid) {
         setCardid(Cardid);
         return this;
     }

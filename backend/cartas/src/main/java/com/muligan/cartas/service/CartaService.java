@@ -20,7 +20,7 @@ public class CartaService {
         return cartaRepository.findAll();
     }
 
-    public Carta getCartaById(String id) {
+    public Carta getCartaById(Integer id) {
         Optional<Carta> carta = cartaRepository.findById(id);
         return carta.orElse( null);
     }
@@ -29,7 +29,7 @@ public class CartaService {
         return cartaRepository.save(carta);
     }
 
-    public Carta updateCarta(String id, Carta d) {
+    public Carta updateCarta(Integer id, Carta d) {
         Optional<Carta> optionalCarta = cartaRepository.findById(id);
         if (optionalCarta.isPresent()) {
             Carta carta = optionalCarta.get();
@@ -43,7 +43,7 @@ public class CartaService {
         }
     }
 
-    public void deleteCartaById(String id) {
+    public void deleteCartaById(Integer id) {
         cartaRepository.deleteById(id);
     }
 }

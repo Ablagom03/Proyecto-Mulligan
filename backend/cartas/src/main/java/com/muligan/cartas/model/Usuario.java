@@ -1,3 +1,14 @@
+package com.muligan.cartas.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -28,7 +39,7 @@ public class Usuario {
     }
     
     public void setUsrId(Integer UsrId){
-        this.Cardid = Cardid;
+        this.UsrId = UsrId;
     }
 
     public String getNombreUsr(){
@@ -51,7 +62,7 @@ public class Usuario {
         return this.passwd;
     }
 
-    public String setPasswd(String passwd){
+    public void setPasswd(String passwd){
         this.passwd = passwd;
     }
 }

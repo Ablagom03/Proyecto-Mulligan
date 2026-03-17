@@ -52,7 +52,7 @@ public class CartaController {
      * @return carta con el id especificado
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Carta> getCartaById(@PathVariable Integer id) {
+    public ResponseEntity<Carta> getCartaById(@PathVariable Long id) {
         Carta carta = cartaService.getCartaById(id);
         if (carta != null) {
             return ResponseEntity.ok(carta);
@@ -85,7 +85,7 @@ public class CartaController {
      * @return carta actualizada
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Carta> updateCarta(@PathVariable Integer id, @RequestBody Carta carta) {
+    public ResponseEntity<Carta> updateCarta(@PathVariable Long id, @RequestBody Carta carta) {
         Carta updatedCarta = cartaService.updateCarta(id, carta);
         if (updatedCarta != null) {
             return ResponseEntity.ok(updatedCarta);
@@ -103,7 +103,7 @@ public class CartaController {
      * @return respuesta vacia
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCartaById(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteCartaById(@PathVariable Long id) {
         cartaService.deleteCartaById(id);
         return ResponseEntity.noContent().build();
     }

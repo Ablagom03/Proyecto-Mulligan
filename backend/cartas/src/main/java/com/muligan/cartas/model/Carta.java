@@ -2,6 +2,8 @@ package com.muligan.cartas.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
@@ -15,9 +17,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "carta")
 public class Carta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cardid")
     @JsonProperty("cardid")
-    private Integer Cardid;
+    private Long Cardid;
     
     @Column(name = "nombrecard")
     @JsonProperty("nombrecard")
@@ -29,7 +32,7 @@ public class Carta {
     public Carta() {
     }
 
-    public Carta(Integer cardid, String nombreCard, String descripcion, String coleccion, String empresa) {
+    public Carta(Long cardid, String nombreCard, String descripcion, String coleccion, String empresa) {
         Cardid = cardid;
         this.nombreCard = nombreCard;
         this.descripcion = descripcion;
@@ -37,11 +40,11 @@ public class Carta {
         this.empresa = empresa;
     }
 
-    public Integer getCardid() {
+    public Long getCardid() {
         return this.Cardid;
     }
 
-    public void setCardid(Integer Cardid) {
+    public void setCardid(Long Cardid) {
         this.Cardid = Cardid;
     }
 
@@ -77,7 +80,7 @@ public class Carta {
         this.empresa = empresa;
     }
 
-    public Carta Cardid(Integer Cardid) {
+    public Carta Cardid(Long Cardid) {
         setCardid(Cardid);
         return this;
     }

@@ -28,6 +28,7 @@ public class InventarioService {
         return inventarioRepository.save(inventario);
     }
 
+
     public void deleteInventario(Long id) {
         inventarioRepository.deleteById(id);
     }

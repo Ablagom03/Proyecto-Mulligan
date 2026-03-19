@@ -416,3 +416,4 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+backend/cartas/src/main/resources/application.properties

@@ -21,6 +21,8 @@ export class ListaCartasComponent implements OnInit {
       next : (cartas) => {
         this.listadoCartas = cartas;
         this.cdr.detectChanges();
+        //Debug, quitar luego
+        console.log(cartas);
       },
       error : (error) => {
         console.log(error);

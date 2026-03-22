@@ -1,7 +1,7 @@
 <h1>Cartas</h1>
 
     
-    @for (carta of listadoCartas; track carta.cardId ) {
+    @for (carta of listadoCartas ; track carta) {
       <div style="border: 1px solid black; margin: 10px; padding: 10px;">
         <h3>{{ carta.nombreCard }}</h3>
         <p>ID: {{ carta.cardId }} | Empresa: {{ carta.empresa }}</p>

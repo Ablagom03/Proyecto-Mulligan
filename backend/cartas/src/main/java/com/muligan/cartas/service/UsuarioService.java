@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.UsuarioRepository;
 import java.util.List;
- 
-
+import java.util.Optional;
 
 
 @Service
@@ -30,9 +29,18 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    /*public Usuario updateUsuario(Long id, Usuario usuario) {
-      //TODO crear esto
-    }*/
+    public Usuario updateUsuario(Long id, Usuario u) {
+      Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+      if (optionalUsuario.isPresent()) {
+        Usuario usuario = optionalUsuario.get();
+        usuario.setNombreUsr(u.getNombreUsr());
+        usuario.setEmail(u.getEmail());
+        usuario.setPasswd(u.getPasswd());
+        return usuarioRepository.save(usuario);
+      } else {
+        return null;
+      }
+    }
 
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);

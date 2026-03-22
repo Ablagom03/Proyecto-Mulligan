@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mis-cartas.component.css']
 })
 export class MisCartasComponent implements OnInit {
+  
 
   constructor() { }
 

@@ -53,6 +53,7 @@ public class UsuarioController {
      * @param id del usuario
      * @return usuario con el id especificado
      */
+    @GetMapping("/{id}")    
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioService.getUsuarioById(id);
         if (usuario != null) {
@@ -85,7 +86,7 @@ public class UsuarioController {
      * @param usuario con los datos nuevos
      * @return usuario actualizado
      */
-    /*
+    
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable long id, @RequestBody Usuario usuario) {
         Usuario usuarioActualizado = usuarioService.updateUsuario(id,usuario);
@@ -93,11 +94,25 @@ public class UsuarioController {
           return ResponseEntity.ok(usuarioActualizado);  
         } else {
             return ResponseEntity.notFound().build();
-        }
-        
-        
+        } 
     }
+
+    /**
+     * Metodo: DELETE
+     * URL: localhost:8080/usuario/{id}
+     * Proposito: Eliminar un usuario por su id
+     * 
+     * @param id del usuario a eliminar
+     * @return respuesta vacía
      */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuarioById(@PathVariable Long id) {
+        usuarioService.deleteUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
+     
+
 
 
 

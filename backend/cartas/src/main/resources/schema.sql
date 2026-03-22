@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS usuario (
   usrId bigserial PRIMARY KEY,
   nombre_usr varchar(80),
-  email varchar(80) UNIQUE,
+  email varchar(80),
   passwd varchar(80)
 );
 
 CREATE TABLE IF NOT EXISTS carta (
   cardId bigserial PRIMARY KEY,
-  nombreCard varchar(80) UNIQUE,
+  nombreCard varchar(80),
   descripcion varchar(80),
   coleccion varchar(80),
   empresa varchar(20)

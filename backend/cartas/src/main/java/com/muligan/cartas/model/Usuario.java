@@ -29,6 +29,7 @@ public class Usuario {
     @JsonProperty("nombre_usr")
     private String nombreUsr;
     private String email;
+    private int reputacion;
     @JsonIgnore
     private String passwd;
 }

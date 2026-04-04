@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS usuario (
   usrId bigserial PRIMARY KEY,
   nombre_usr varchar(80),
   email varchar(80),
+  reputacion int,
   passwd varchar(80)
 );
 
@@ -25,3 +26,8 @@ CREATE TABLE IF NOT EXISTS inventario (
   FOREIGN KEY(cardId) REFERENCES carta(cardId)
 );
 
+CREATE TABLE IF NOT EXISTS imagenes (
+  idImg bigserial PRIMARY KEY,
+  nombre varchar(30),
+  data BYTEA 
+);

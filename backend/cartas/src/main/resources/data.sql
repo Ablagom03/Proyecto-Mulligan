@@ -1,8 +1,8 @@
-INSERT INTO usuario (nombre_usr, email, passwd) 
+INSERT INTO usuario (nombre_usr, email, reputacion,passwd) 
 VALUES 
-('John Doe', 'johndoe@gmail.com', md5('paswd')),
-('Jane Doe', 'janedoe@gmail.com', md5('maswd')),
-('Johnathan Dobee', 'johnathancomp@hotmail.com', md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
+('John Doe', 'johndoe@gmail.com', 0, md5('paswd')),
+('Jane Doe', 'janedoe@gmail.com', 0 , md5('maswd')),
+('Johnathan Dobee', 'johnathancomp@hotmail.com', 0, md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
 ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO carta (nombreCard, descripcion, coleccion, empresa) 
@@ -21,6 +21,12 @@ AND NOT EXISTS (
     SELECT 1 FROM inventario i 
     WHERE i.usrId = u.usrId AND i.cardId = c.cardId AND i.estado = 'Perfecto'
 );
+
+
+INSERT INTO imagenes(nombre,data) VALUES (
+    'logoInvizimals.png',
+    pg_read_binary_file('frontend\angularfront\src\app\images\logosMarcas\invizimals.png')
+); 
 --
 --INSERT INTO inventario (usrId, cardId, valor, estado, copias)
 --SELECT * FROM (

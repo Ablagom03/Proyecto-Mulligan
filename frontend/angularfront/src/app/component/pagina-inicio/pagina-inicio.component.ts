@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pagina-inicio',
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './pagina-inicio.component.html',
   styleUrls: ['./pagina-inicio.component.css']
 })

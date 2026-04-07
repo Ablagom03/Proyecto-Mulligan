@@ -2,7 +2,7 @@ package com.muligan.cartas.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +37,7 @@ public class Inventario {
     @ManyToOne
     @JoinColumn(name = "cardid", referencedColumnName = "cardid")
     @JsonProperty("carta")
-    private List<Carta> cartas;
+    private Carta carta;
 
     @Column(name = "valor")
     private Integer valor;

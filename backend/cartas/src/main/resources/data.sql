@@ -25,7 +25,7 @@ AND NOT EXISTS (
 
 INSERT INTO imagenes(nombre,data) VALUES (
     'logoInvizimals.png',
-    pg_read_binary_file('frontend\angularfront\src\app\images\logosMarcas\invizimals.png')
+    pg_read_binary_file('/images/logosMarcas/invizimals.png')
 ); 
 --
 --INSERT INTO inventario (usrId, cardId, valor, estado, copias)

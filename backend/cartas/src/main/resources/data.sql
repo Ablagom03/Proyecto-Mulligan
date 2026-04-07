@@ -25,8 +25,11 @@ AND NOT EXISTS (
 
 INSERT INTO imagenes(nombre,data) VALUES (
     'logoInvizimals.png',
-    pg_read_binary_file('/images/logosMarcas/invizimals.png')
-); 
+    pg_read_binary_file('/images/logosMarcas/invizimals.png'))
+ON CONFLICT (nombreCard) DO NOTHING;
+
+
+
 --
 --INSERT INTO inventario (usrId, cardId, valor, estado, copias)
 --SELECT * FROM (

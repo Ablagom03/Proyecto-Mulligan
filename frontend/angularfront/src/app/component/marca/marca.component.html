@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marca Seleccionada</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/slide.css">
+  <link rel="stylesheet" href="../../css/marca.css">
+
+</head>
+
+<body>
+  <header>
+    <a (click)="navigateTo('')">
+      <img src="images/logo.png" alt="Logo" class="logo">
+    </a>
+    <div class="sesion">
+      <a (click)="navigateTo('login')"><button>Iniciar Sesión</button></a>
+      <a (click)="navigateTo('signIn')"><button>Registrarse</button></a>
+    </div>
+  </header>
+
+  <h1>
+    Marca Seleccionada
+  </h1>
+
+  <div class="slideshow-container">
+    <div class="mySlides fade">
+      <img src="images/ace_of_spades.png">
+      <div class="text">Carta</div>
+    </div>
+
+    <div class="mySlides fade">
+      <img src="images/uno_card.png">
+      <div class="text">Carta 2</div>
+    </div>
+
+    <div class="mySlides fade">
+      <img src="images/chariz.png">
+      <div class="text">Carta 3</div>
+    </div>
+
+    <a class="prev" onclick="plusSlides(-1)">❮</a>
+    <a class="next" onclick="plusSlides(1)">❯</a>
+
+  </div>
+  <br>
+
+  <div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+  </div>
+
+  <footer>
+    <div class="redes-sociales">
+      <p>Facebook</p>
+      <p>Instagram</p>
+      <p>Youtube</p>
+    </div>
+    <div class="contact">Contáctanos</div>
+  </footer>
+  <script src="../../js/slide.js"></script>
+</body>
+
+</html>

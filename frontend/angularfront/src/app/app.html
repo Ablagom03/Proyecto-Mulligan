@@ -1,4 +1,4 @@
+<app-pagina-inicio></app-pagina-inicio>
 <app-sidebar [abierto]="sidebarAbierto" (cerrarSidebar)="sidebarAbierto = $event"></app-sidebar>
 <app-navbar [sidebarAbierto]="sidebarAbierto" (toggleSidebar)="abrirSide()"></app-navbar>
-<app-pagina-inicio></app-pagina-inicio>
 <router-outlet />

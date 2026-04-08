@@ -7,7 +7,7 @@
 
     </div>
     <div class="nav-right">
-        <button class="nav-btn" routerLink="/login">Iniciar sesión</button>
-        <button class="nav-btn" routerLink="/register">Registrarse</button>
+        <a (click)="navigateTo('/login')"><button class="nav-btn">Iniciar sesión</button></a>
+        <a (click)="navigateTo('/signIn')"><button class="nav-btn">Registrarse</button></a>
     </div>
 </nav>

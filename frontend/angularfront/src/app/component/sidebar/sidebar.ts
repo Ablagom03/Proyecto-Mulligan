@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,5 +29,14 @@ export class Sidebar {
       this.abierto = false;
       this.cerrarSidebar.emit(this.abierto);
     }
+  }
+
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 }

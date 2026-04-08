@@ -13,32 +13,32 @@
 <body>
     <div class="contenedor-grid">
         <header>
-            <a (click)="navigateTo('')">
+            <!--<a (click)="navigateTo('')">
                 <img src="images/logo.png" alt="Logo" class="logo">
             </a>
             <div class="sesion">
                 <a href="inicioSesion.html"><button>Iniciar Sesión</button></a>
                 <a href="registrarse.html"><button>e</button></a>
-            </div>
+            </div>-->
         </header>
         <div class="main">
             <h1>Mulligan</h1>
             <input type="text" name="buscar" class="buscar" placeholder="Buscar carta...">
 
             <div class="marcas">
-                <div class="marca"><a href="marca.html"><img src="../../images/logosMarcas/Yugioh_Logo.webp"
+                <div class="marca"><a (click)="navigateTo('marcas')"><img src="../../images/logosMarcas/Yugioh_Logo.webp"
                             alt="Yu-Gi-Oh"></a></div>
 
-                <div class="marca"><a href="marca.html"><img src="../../images/logosMarcas/Magic-The-Gathering-logo.png"
+                <div class="marca"><a (click)="navigateTo('marcas')"><img src="../../images/logosMarcas/Magic-The-Gathering-logo.png"
                             alt="Magic: The Gathering"></a></div>
-                <div class="marca"><a href="marca.html"><img
+                <div class="marca"><a (click)="navigateTo('marcas')"><img
                             src="../../images/logosMarcas/Pokémon_Trading_Card_Game_logo.svg.png"
                             alt="Pokémon: Trading Card Games"></a></div>
-                <div class="marca"><a href="marca.html"><img src="../../images/logosMarcas/invizimals.png"
+                <div class="marca"><a (click)="navigateTo('marcas')"><img src="../../images/logosMarcas/invizimals.png"
                             alt="Invizimals"></a></div>
-                <div class="marca"><a href="marca.html"><img src="../../images/logosMarcas/marvelChampions.png"
+                <div class="marca"><a (click)="navigateTo('marcas')"><img src="../../images/logosMarcas/marvelChampions.png"
                             alt="Marvel Champions"></a></div>
-                <div class="marca"><a href="marca.html"><img src="../../images/logosMarcas/lorcanalogo.png" alt="Lorcana"></a>
+                <div class="marca"><a (click)="navigateTo('marcas')"><img src="../../images/logosMarcas/lorcanalogo.png" alt="Lorcana"></a>
                 </div>
             </div>
 

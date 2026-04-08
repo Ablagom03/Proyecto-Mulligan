@@ -31,3 +31,10 @@ CREATE TABLE IF NOT EXISTS imagenes (
   nombre varchar(30),
   data BYTEA 
 );
+
+CREATE TABLE IF NOT EXISTS deseados (
+  desId bigserial PRIMARY KEY,
+  usrId bigint,
+  cardId bigInt,
+  precioMax float
+)

@@ -16,6 +16,7 @@
             <div class="titulo">
                 <h1>Bienvenido</h1>
             </div>
+
             <div class="form">
                 <div class="input-group">
                     <input type="text" class="login-field" value="" placeholder="usuario" id="usuario">
@@ -26,20 +27,9 @@
                     <input type="password" class="login-field" value="" placeholder="contraseña" id="contraseña">
                     <label class="login-contraseña" for="contraseña"></label>
                 </div>
-                <div class="input-group">
-                    <input type="password" class="login-field" value="" placeholder="confirmar contraseña"
-                        id="contraseña">
-                    <label class="login-contraseña" for="contraseña"></label>
-                </div>
-                <div class="input-group">
-                    <p class="terms">
-                        <label class="login-contraseña" for="acepto">Acepto los terminos</label>
-                        <input class="login-field" type="checkbox" name="acepto" id="acepto">
-                    </p>
 
-                </div>
-
-                <a class="btn" [routerLink]="['/inicio']">Registrarse</a>
+                <a class="btn" [routerLink]="['/inicio']">Iniciar sesion</a>
+                <a class="login-link" href="#">Olvidaste tu contraseña?</a> <!-- Falta esta pagina -->
             </div>
         </div>
     </div>

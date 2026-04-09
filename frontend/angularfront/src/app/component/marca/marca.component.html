@@ -13,12 +13,12 @@
 
 <body>
   <header>
-    <a (click)="navigateTo('')">
+    <a [routerLink]="['/inicio']">
       <img src="images/logo.png" alt="Logo" class="logo">
     </a>
     <div class="sesion">
-      <a (click)="navigateTo('login')"><button>Iniciar Sesión</button></a>
-      <a (click)="navigateTo('signIn')"><button>Registrarse</button></a>
+      <a [routerLink]="['/login']"><button>Iniciar Sesión</button></a>
+      <a [routerLink]="['/signIn']"><button>Registrarse</button></a>
     </div>
   </header>
 

@@ -11,7 +11,7 @@
     <div class="login">
         <div class="login-pantalla">
             <div class="volver">
-                <a (click)="navigateTo('')">&#8592; Volver</a>
+                <a [routerLink]="['/inicio']">&#8592; Volver</a>
             </div>
             <div class="titulo">
                 <h1>Bienvenido</h1>
@@ -37,7 +37,7 @@
                         <input class="login-field" type="checkbox" name="acepto" id="acepto">
                     </p>
                 </div>
-                <a class="btn" (click)="navigateTo('')">Registrarse</a>
+                <a class="btn" [routerLink]="['/inicio']">Registrarse</a>
             </div>
         </div>
     </div>

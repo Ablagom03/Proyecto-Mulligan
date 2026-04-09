@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, input, Output } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -15,12 +16,7 @@ export class Navbar {
     this.toggleSidebar.emit();
   }
 
-  constructor(private router: Router) { }
-
   ngOnInit() {
   }
-
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
-  }
 }
+

@@ -1,20 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-signin',
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private router: Router) { }
-
   ngOnInit() {
   }
 
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
-  }
-
 }
+

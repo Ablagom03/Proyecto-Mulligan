@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pagina-inicio',
@@ -10,13 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class PaginaInicioComponent implements OnInit {
 
-  constructor(private router: Router) { }
-
   ngOnInit() {
-  }
-
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
   }
 
 }

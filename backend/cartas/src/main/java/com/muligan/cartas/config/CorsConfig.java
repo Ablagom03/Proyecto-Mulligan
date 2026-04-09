@@ -18,7 +18,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-                "http://localhost:4200/"
+                "http://localhost:4200"
         ));
 
         config.setAllowedMethods(List.of(
@@ -26,11 +26,16 @@ public class CorsConfig {
         ));
 
         config.setAllowedHeaders(List.of(
-                "Authorization",
+                /*
                 "Content-Type",
+                "Authorization",
                 "Accept",
                 "X-Requested-With",
-                "Cache-Control"
+                "Cache-Control",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers"
+                */
+                "*"
         ));
 
         config.setExposedHeaders(List.of(

@@ -5,25 +5,34 @@
             <a [routerLink]="['/inicio']">&#8592; Volver</a>
         </div>
         <div class="titulo">
-            <h1>Bienvenido</h1>
+            <h1>Iniciar Sesión</h1>
         </div>
 
-        <div class="form">
+        <form class="form" (ngSubmit)="login()" #loginForm="ngForm">
             <div class="input-group">
-                <input type="text" class="login-field" value
-                    placeholder="usuario" id="usuario">
-                <label class="login-usuario" for="usuario"></label>
+                <input
+                    name="email"
+                    type="email"
+                    class="login-field"
+                    placeholder="Email"
+                    required
+                    [(ngModel)]="email"
+                />
             </div>
 
             <div class="input-group">
-                <input type="password" class="login-field" value
-                    placeholder="contraseña" id="contraseña">
-                <label class="login-contraseña" for="contraseña"></label>
+                <input
+                    name="passwd"
+                    type="password"
+                    class="login-field"
+                    placeholder="Contraseña"
+                    required
+                    [(ngModel)]="passwd"
+                />
             </div>
 
-            <a class="btn" [routerLink]="['/inicio']">Iniciar sesion</a>
-            <a class="login-link" href="#">Olvidaste tu contraseña?</a>
-            <!-- Falta esta pagina -->
-        </div>
+            <button class="btn" type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
+            <a class="login-link" [routerLink]="['/signIn']">¿No tienes cuenta? Regístrate</a>
+        </form>
     </div>
 </div>

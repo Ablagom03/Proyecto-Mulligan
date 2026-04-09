@@ -1,46 +1,53 @@
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse</title>
-    <link rel="stylesheet" href="../../css/inicioSesion.css">
-</head>
-
-<body>
-    <div class="login">
-        <div class="login-pantalla">
-            <div class="volver">
-                <a [routerLink]="['/inicio']">&#8592; Volver</a>
-            </div>
-            <div class="titulo">
-                <h1>Bienvenido</h1>
-            </div>
-            <div class="form">
-                <div class="input-group">
-                    <input type="text" class="login-field" value="" placeholder="usuario" id="usuario">
-                    <label class="login-usuario" for="usuario"></label>
-                </div>
-
-                <div class="input-group">
-                    <input type="password" class="login-field" value="" placeholder="contraseña" id="contraseña">
-                    <label class="login-contraseña" for="contraseña"></label>
-                </div>
-                <div class="input-group">
-                    <input type="password" class="login-field" value="" placeholder="confirmar contraseña"
-                        id="contraseña">
-                    <label class="login-contraseña" for="contraseña"></label>
-                </div>
-                <div class="input-group">
-                    <p class="terms">
-                        <label class="login-contraseña" for="acepto">Acepto los terminos</label>
-                        <input class="login-field" type="checkbox" name="acepto" id="acepto">
-                    </p>
-                </div>
-                <a class="btn" [routerLink]="['/inicio']">Registrarse</a>
-            </div>
-        </div>
+<div class="login">
+  <div class="login-pantalla">
+    <div class="volver">
+      <a [routerLink]="['/inicio']">&#8592; Volver</a>
     </div>
-</body>
+    <div class="titulo">
+      <h1>Registrarse</h1>
+    </div>
 
-</html>
+    <form class="form" (ngSubmit)="register()" #signupForm="ngForm">
+      <div class="input-group">
+        <input
+          name="nombre_usr"
+          type="text"
+          class="login-field"
+          placeholder="Nombre de usuario"
+          required
+          [(ngModel)]="user.nombre_usr"
+        />
+      </div>
+
+      <div class="input-group">
+        <input
+          name="email"
+          type="email"
+          class="login-field"
+          placeholder="Email"
+          required
+          [(ngModel)]="user.email"
+        />
+      </div>
+
+      <div class="input-group">
+        <input
+          name="passwd"
+          type="password"
+          class="login-field"
+          placeholder="Contraseña"
+          required
+          [(ngModel)]="user.passwd"
+        />
+      </div>
+
+      <div class="input-group terms-group">
+        <label>
+          <input type="checkbox" name="acepto" required /> Acepto los términos
+        </label>
+      </div>
+
+      <button class="btn" type="submit" [disabled]="signupForm.invalid">Registrarse</button>
+    </form>
+  </div>
+</div>

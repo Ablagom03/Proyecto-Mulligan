@@ -7,10 +7,9 @@ import com.muligan.cartas.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class UsuarioService {
-  
+
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
@@ -30,19 +29,27 @@ public class UsuarioService {
     }
 
     public Usuario updateUsuario(Long id, Usuario u) {
-      Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-      if (optionalUsuario.isPresent()) {
-        Usuario usuario = optionalUsuario.get();
-        usuario.setNombreUsr(u.getNombreUsr());
-        usuario.setEmail(u.getEmail());
-        usuario.setPasswd(u.getPasswd());
-        return usuarioRepository.save(usuario);
-      } else {
-        return null;
-      }
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        if (optionalUsuario.isPresent()) {
+            Usuario usuario = optionalUsuario.get();
+            usuario.setNombreUsr(u.getNombreUsr());
+            usuario.setEmail(u.getEmail());
+            usuario.setPasswd(u.getPasswd());
+            return usuarioRepository.save(usuario);
+        } else {
+            return null;
+        }
     }
 
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
+    }
+
+    public Usuario autenticar(String email, String passwd) {
+        Optional<Usuario> user = usuarioRepository.findByEmail(email);
+        if (user.isPresent() && user.get().getPasswd().equals(passwd)) {
+            return user.get();
+        }
+        return null;
     }
 }

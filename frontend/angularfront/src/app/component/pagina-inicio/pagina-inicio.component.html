@@ -1,42 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Mulligan</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/inicio.css">
+<div class="contenedor-grid">
+    <header>
+    </header>
+    <div class="main">
+        <h1>Mulligan</h1>
+        <input type="text" name="buscar" class="buscar"
+            placeholder="Buscar carta...">
 
-</head>
+        <div class="marcas">
+            <div class="marca"><a [routerLink]="['/marcas']"><img
+                        src="../../images/logosMarcas/Yugioh_Logo.webp"
+                        alt="Yu-Gi-Oh"></a></div>
 
-<body>
-    <div class="contenedor-grid">
-        <header>
-        </header>
-        <div class="main">
-            <h1>Mulligan</h1>
-            <input type="text" name="buscar" class="buscar" placeholder="Buscar carta...">
-
-            <div class="marcas">
-                <div class="marca"><a [routerLink]="['/marcas']"><img src="../../images/logosMarcas/Yugioh_Logo.webp"
-                            alt="Yu-Gi-Oh"></a></div>
-
-                <div class="marca"><a [routerLink]="['/marcas']"><img src="../../images/logosMarcas/Magic-The-Gathering-logo.png"
-                            alt="Magic: The Gathering"></a></div>
-                <div class="marca"><a [routerLink]="['/marcas']"><img
-                            src="../../images/logosMarcas/Pokémon_Trading_Card_Game_logo.svg.png"
-                            alt="Pokémon: Trading Card Games"></a></div>
-                <div class="marca"><a [routerLink]="['/marcas']"><img src="../../images/logosMarcas/invizimals.png"
-                            alt="Invizimals"></a></div>
-                <div class="marca"><a [routerLink]="['/marcas']"><img src="../../images/logosMarcas/marvelChampions.png"
-                            alt="Marvel Champions"></a></div>
-                <div class="marca"><a [routerLink]="['/marcas']"><img src="../../images/logosMarcas/lorcanalogo.png" alt="Lorcana"></a>
-                </div>
+            <div class="marca"><a [routerLink]="['/marcas']"><img
+                        src="../../images/logosMarcas/Magic-The-Gathering-logo.png"
+                        alt="Magic: The Gathering"></a></div>
+            <div class="marca"><a [routerLink]="['/marcas']"><img
+                        src="../../images/logosMarcas/Pokémon_Trading_Card_Game_logo.svg.png"
+                        alt="Pokémon: Trading Card Games"></a></div>
+            <div class="marca"><a [routerLink]="['/marcas']"><img
+                        src="../../images/logosMarcas/invizimals.png"
+                        alt="Invizimals"></a></div>
+            <div class="marca"><a [routerLink]="['/marcas']"><img
+                        src="../../images/logosMarcas/marvelChampions.png"
+                        alt="Marvel Champions"></a></div>
+            <div class="marca"><a [routerLink]="['/marcas']"><img
+                        src="../../images/logosMarcas/lorcanalogo.png"
+                        alt="Lorcana"></a>
             </div>
-
-            
         </div>
+
+    </div>
     <footer>
         <div class="redes-sociales">
             <p>Facebook</p>
@@ -45,8 +39,4 @@
         </div>
         <div class="contact">Contáctanos</div>
     </footer>
-    </div>
-
-</body>
-
-</html>
+</div>

@@ -1,6 +1,9 @@
 <h1>Cartas</h1>
 
-<div *ngFor="let carta of listadoCartas" style="border: 1px solid black; margin: 10px; padding: 10px;">
-  <h3>{{ carta.nombreCard }}</h3>
-  <p>Descripcion: {{ carta.descripcion }} | Empresa: {{ carta.empresa }}</p>
-</div> 
+    
+    @for (carta of listadoCartas ; track carta) {
+      <div style="border: 1px solid black; margin: 10px; padding: 10px;">
+        <h3>{{ carta.nombreCard }}</h3>
+        <p>Descripcion: {{ carta.descripcion }} | Empresa: {{ carta.empresa }}</p>
+      </div>
+    } 

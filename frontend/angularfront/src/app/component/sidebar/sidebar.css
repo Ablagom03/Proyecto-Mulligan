@@ -57,7 +57,9 @@ button.side-btn:hover {
     z-index: 999;
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 .overlay.activo {
     opacity: 1;
+    pointer-events: auto;
 }

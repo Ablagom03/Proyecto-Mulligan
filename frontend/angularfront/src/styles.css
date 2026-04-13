@@ -1,1 +1,121 @@
 /* You can add global styles to this file, and also import other style files */
+
+header {
+    background: #a538ff;
+    background: linear-gradient(0deg, rgba(165, 56, 255, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+header .sesion {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.sesion button {
+    border: 2px solid black;
+    background: skyblue;
+    color: black;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 0;
+    text-decoration: none;
+    text-shadow: none;
+    border-radius: 10px;
+    box-shadow: none;
+    transition: 0.25s;
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.sesion a {
+    text-decoration: none;
+}
+
+.sesion button:hover {
+    background-color: #db34a9c4;
+    cursor: pointer;
+    background-image: linear-gradient(180deg,
+            rgba(255, 255, 255, 0) 30%,
+            rgba(253, 142, 248, 0.8),
+            rgba(255, 255, 255, 0) 70%);
+    animation: brillo 3s infinite linear;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+@keyframes brillo {
+    0% {
+        left: -100px
+    }
+
+    20% {
+        left: 100%
+    }
+
+    100% {
+        left: 100%
+    }
+}
+
+.contenedor-grid {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+
+    gap: 10px;
+}
+
+header {
+    grid-area: header;
+    top: 0px;
+    left: 0px;
+    padding: 1em;
+}
+
+footer {
+    background: #4f2e9e;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    align-items: center;
+    vertical-align: bottom;
+    padding: 20px;
+}
+
+.redes-sociales {
+    justify-content: flex-start;
+}
+
+.contact {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+body {
+    background-color: rgb(235, 213, 255);
+    margin-left: 0px;
+    margin-top: 0px;
+    width: 100%;
+}
+
+
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.logo {
+    width: 100px;
+}
+
+.logo:hover {
+    transition: 0.25s;
+    transform: scale(1.15);
+}

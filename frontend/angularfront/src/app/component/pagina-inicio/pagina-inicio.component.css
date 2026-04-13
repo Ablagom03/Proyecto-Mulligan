@@ -22,30 +22,44 @@ input {
 
 .marca {
     border: 2px solid black;
-    border-radius: 12px;
     background-color: skyblue;
     width: 250px;
     height: 160px;
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    overflow: hidden; /* importante */
 }
 
 .marca:hover {
-    background-color: rgb(192, 76, 192);
-    background-image: linear-gradient(180deg,
-            rgba(255, 255, 255, 0) 30%,
-            rgba(255, 255, 255, 0.8),
-            rgba(255, 255, 255, 0) 70%);
-    animation: shine 3s infinite linear;
+    background-color: #6f4cbe;
+
+    background-image: linear-gradient(145deg,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0) 70%);
+
+    background-size: 200% 100%;
+    animation: shine 1s ease-in;
+    animation-iteration-count: 1;
+
     cursor: pointer;
     transform: scale(1.1);
-    transition: 0.25s;
+    transition: transform 0.25s;
 }
 
+@keyframes shine {
+    0% {
+        background-position: 300% 0;
+    }
+    100% {
+        background-position: -300% 0;
+    }
+}
 .marca:active {
-    background-color: rgb(148, 21, 148);
+    background-color: rgb(192, 76, 192);
     color: white;
     transform: scale(1.15);
     transition: 0.25s;
-
 }
 
 @media (max-width: 600px) {
@@ -58,8 +72,10 @@ input {
     width: 250px;
     align-self: auto;
 }
+
 .video {
     margin: 30px;
     display: flex;
     justify-content: center;
 }
+

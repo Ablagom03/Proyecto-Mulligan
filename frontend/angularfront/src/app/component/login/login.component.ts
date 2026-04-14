@@ -20,8 +20,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.auth.login({ email: this.email, passwd: this.passwd }).subscribe({
-      next: () => this.router.navigate(['/inicio']),
-      error: err => console.error('Login failed:', err)
+      next: () => {
+        this.auth.setLoggedIn(true);
+        this.router.navigate(['/inicio']);
+      },
+      error: err => console.error('Login fallido:', err)
     });
   }
 }

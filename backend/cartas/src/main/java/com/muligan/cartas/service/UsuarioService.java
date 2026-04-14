@@ -6,6 +6,8 @@ import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class UsuarioService {
@@ -45,9 +47,23 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    private String hashMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Algoritmo no encontrado", e);
+        }
+    }
+
     public Usuario autenticar(String email, String passwd) {
         Optional<Usuario> user = usuarioRepository.findByEmail(email);
-        if (user.isPresent() && user.get().getPasswd().equals(passwd)) {
+        if (user.isPresent() && user.get().getPasswd().equals(hashMD5(passwd))) {
             return user.get();
         }
         return null;

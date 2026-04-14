@@ -38,7 +38,7 @@ public class ImagenController {
 
         return ResponseEntity
                 .ok()
-                .contentType(MediaType.IMAGE_PNG) // o dinámico
+                .contentType(MediaType.IMAGE_PNG)
                 .body(img.getData());
     }
 

@@ -1,11 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
 header {
-    background: #a538ff;
-    background: linear-gradient(0deg, rgba(165, 56, 255, 1) 0%, rgba(252, 70, 107, 1) 100%);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    grid-area: header;
+    top: 0px;
+    left: 0px;
+    padding: 3rem;
 
 }
 
@@ -68,15 +70,7 @@ header .sesion {
         'header'
         'main'
         'footer';
-
-    gap: 10px;
-}
-
-header {
-    grid-area: header;
-    top: 0px;
-    left: 0px;
-    padding: 1em;
+    gap: 50px;
 }
 
 footer {
@@ -85,8 +79,12 @@ footer {
     justify-content: space-between;
     color: white;
     align-items: center;
-    vertical-align: bottom;
+    position: fixed;
+    width: 100%;
+    grid-area: footer;
     padding: 20px;
+    bottom: 0px;
+    left: 0px;
 }
 
 .redes-sociales {
@@ -96,7 +94,8 @@ footer {
 .contact {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    padding-right: 2.5rem;
+    
 }
 
 body {

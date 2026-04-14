@@ -17,6 +17,5 @@ export class App {
 
   abrirSide(){
     this.sidebarAbierto = !this.sidebarAbierto;
-    console.log('sidebarAbierto:', this.sidebarAbierto);
   }
 }

@@ -54,3 +54,11 @@ button.side-btn:hover {
 .nav-btn:hover {
     background-color: #777;
 }
+
+.logout-btn {
+    background-color: #db34a9;
+}
+
+.logout-btn:hover {
+    background-color: #c02395;
+}

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS usuario (
   usrId bigserial PRIMARY KEY,
   nombre_usr varchar(80),
-  email varchar(80),
+  email varchar(80) UNIQUE,
   reputacion int,
   passwd varchar(80)
 );

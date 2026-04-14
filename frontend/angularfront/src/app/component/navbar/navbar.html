@@ -7,7 +7,11 @@
 
     </div>
     <div class="nav-right">
-        <a [routerLink]="['/login']"><button class="nav-btn">Iniciar sesión</button></a>
-        <a [routerLink]="['/signIn']"><button class="nav-btn">Registrarse</button></a>
+        @if (isLoggedIn$ | async) {
+            <button class="nav-btn logout-btn" (click)="logout()">Cerrar sesión</button>
+        } @else {
+            <a [routerLink]="['/login']"><button class="nav-btn">Iniciar sesión</button></a>
+            <a [routerLink]="['/signIn']"><button class="nav-btn">Registrarse</button></a>
+        }
     </div>
 </nav>

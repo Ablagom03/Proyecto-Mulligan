@@ -19,7 +19,7 @@ public class ImagenService {
     }
 
     public Imagen obtenerImagenByNombre(String nombre) {
-        return imagenRepository.findBynombreImagen(nombre);
+        return imagenRepository.findByNombre(nombre);
     }
 
     public Imagen guardarImagen(Imagen img) {

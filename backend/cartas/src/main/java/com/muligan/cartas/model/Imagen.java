@@ -24,11 +24,12 @@ public class Imagen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idimg")
     private Long idImg;
 
+    @Column(name = "nombre")
     private String nombre;
 
-    @Lob
-    @Column(columnDefinition = "BYTEA")
+    @Column(name = "data", columnDefinition = "BYTEA")
     private byte[] data;
 }

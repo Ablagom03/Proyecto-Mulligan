@@ -1,0 +1,32 @@
+.mercancia {
+    border: black 5px solid;
+    padding: 10px;
+}
+
+.imagenMercancia {
+    height: 100px;
+}
+
+.cartavendiendo {
+    display: flex;
+    border: black 3px solid;
+    padding: 15px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.denunciar {
+    background-color: red;
+    color: ghostwhite;
+    border-radius: 3px;
+    font-size: larger;
+    transition: 0.5s;
+
+}
+
+.denunciar:hover {
+    cursor: pointer;
+    animation: brillo 3s infinite linear;
+    font-weight: bold;
+    transform: scale(1.05);
+}

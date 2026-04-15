@@ -7,7 +7,7 @@ header {
     grid-area: header;
     top: 0px;
     left: 0px;
-    padding: 3rem;
+    padding: 2rem;
 
 }
 
@@ -79,22 +79,24 @@ footer {
     justify-content: space-between;
     color: white;
     align-items: center;
-    position: fixed;
+    position: static;
     width: 100%;
     grid-area: footer;
-    padding: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     bottom: 0px;
     left: 0px;
 }
 
 .redes-sociales {
     justify-content: flex-start;
+    padding-left: 1.5rem;
 }
 
 .contact {
     display: flex;
     justify-content: flex-end;
-    padding-right: 2.5rem;
+    padding-right: 1.5rem;
     
 }
 

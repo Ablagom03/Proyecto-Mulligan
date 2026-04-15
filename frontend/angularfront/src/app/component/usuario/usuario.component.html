@@ -11,42 +11,13 @@
             </div>
             <div class="reputacion">Reputación: <b>50</b></div>
             <div class="cambiarModo">
-                <div><a href="usuario.html"><button>Mercancía</button></a></div>
-                <div><a
-                        href="usuarioComentarios.html"><button>Comentarios</button></a></div>
+                <div><button (click)="mostrarInventario()">Mercancía</button></div>
+                <div><button (click)="mostrarDeseados()">Deseados</button></div>
             </div>
         </div>
     </div>
-    <div class="mercancia">
-        <div class="cartavendiendo">
-            <img src="images/ace_of_spades.png" alt="mercancia1"
-                class="imagenMercancia">
-            <div><b>Nombre de carta</b></div>
-            <div><b>Definición de carta</b></div>
-            <div><b>Precio</b></div>
-        </div>
-        <div class="cartavendiendo">
-            <img src="images/ace_of_spades.png" alt="mercancia1"
-                class="imagenMercancia">
-            <div><b>Nombre de carta</b></div>
-            <div><b>Definición de carta</b></div>
-            <div><b>Precio</b></div>
-        </div>
-        <div class="cartavendiendo">
-            <img src="images/ace_of_spades.png" alt="mercancia1"
-                class="imagenMercancia">
-            <div><b>Nombre de carta</b></div>
-            <div><b>Definición de carta</b></div>
-            <div><b>Precio</b></div>
-        </div>
-        <div class="cartavendiendo">
-            <img src="images/ace_of_spades.png" alt="mercancia1"
-                class="imagenMercancia">
-            <div><b>Nombre de carta</b></div>
-            <div><b>Definición de carta</b></div>
-            <div><b>Precio</b></div>
-        </div>
-    </div>
+        <app-lista-inventario [hidden]="vistaActual !== 'inventario'"></app-lista-inventario>
+        <app-lista-deseados [hidden]="vistaActual !== 'deseados'"></app-lista-deseados>
     <footer>
         <div class="redes-sociales">
             <p>Facebook</p>

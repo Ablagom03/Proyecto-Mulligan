@@ -30,7 +30,8 @@ INSERT INTO imagenes(nombre,data) VALUES
 ('logoMagic',pg_read_binary_file('/images/logosMarcas/Magic-The-Gathering-logo.png')),
 ('logoMarvelC',pg_read_binary_file('/images/logosMarcas/marvelChampions.png')),
 ('logoPokTCG',pg_read_binary_file('/images/logosMarcas/Pokémon_Trading_Card_Game_logo.svg.png')),
-('logoYugioh',pg_read_binary_file('/images/logosMarcas/Yugioh_Logo.webp'))
+('logoYugioh',pg_read_binary_file('/images/logosMarcas/Yugioh_Logo.webp')),
+('logoMulligan',pg_read_binary_file('/images/logoMulligan.png'))
 ON CONFLICT (nombre) DO NOTHING;
 
 --No soy el mayor fan de usar DO NOTHING, pero por ahora funciona 16/04/2026

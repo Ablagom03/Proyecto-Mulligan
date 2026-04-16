@@ -7,26 +7,13 @@
         <input type="text" name="buscar" class="buscar"
             placeholder="Buscar carta...">
 
-        <div class="marcas">
-            <div class="marca"><a [routerLink]="['/marcas']"><img
-                        src="../../images/logosMarcas/Yugioh_Logo.webp"
-                        alt="Yu-Gi-Oh"></a></div>
-
-            <div class="marca"><a [routerLink]="['/marcas']"><img
-                        src="../../images/logosMarcas/Magic-The-Gathering-logo.png"
-                        alt="Magic: The Gathering"></a></div>
-            <div class="marca"><a [routerLink]="['/marcas']"><img
-                        src="../../images/logosMarcas/Pokémon_Trading_Card_Game_logo.svg.png"
-                        alt="Pokémon: Trading Card Games"></a></div>
-            <div class="marca"><a [routerLink]="['/marcas']"><img
-                        src="../../images/logosMarcas/invizimals.png"
-                        alt="Invizimals"></a></div>
-            <div class="marca"><a [routerLink]="['/marcas']"><img
-                        src="../../images/logosMarcas/marvelChampions.png"
-                        alt="Marvel Champions"></a></div>
-            <div class="marca"><a [routerLink]="['/marcas']"><img
-                        src="../../images/logosMarcas/lorcanalogo.png"
-                        alt="Lorcana"></a>
+            <div class="marcas">
+                <div class="marca"><a href="marca.html"><img [src]="'http://localhost:8080/imagenes/' + 'logoYugioh'" alt="Yu-Gi-Oh"></a></div>
+                <div class="marca"><a href="marca.html"><img [src]="'http://localhost:8080/imagenes/' + 'logoMagic'" alt="Magic: The Gathering"></a></div>
+                <div class="marca"><a href="marca.html"><img [src]="'http://localhost:8080/imagenes/' + 'logoPokTCG'" alt="Pokémon: The Trading Card Game"></a></div>
+                <div class="marca"><a href="marca.html"><img [src]="'http://localhost:8080/imagenes/' + 'logoInvizimals'"  alt="Invizimals"></a></div>
+                <div class="marca"><a href="marca.html"><img [src]="'http://localhost:8080/imagenes/' + 'logoMarvelC'" alt="Marvel Champions"></a></div>
+                <div class="marca"><a href="marca.html"><img [src]="'http://localhost:8080/imagenes/' + 'logoYugioh'"></a></div>
             </div>
         </div>
 
@@ -39,4 +26,3 @@
         </div>
         <div class="contact">Contáctanos</div>
     </footer>
-</div>

@@ -3,7 +3,7 @@ VALUES
 ('John Doe', 'johndoe@gmail.com', 0, md5('paswd')),
 ('Jane Doe', 'janedoe@gmail.com', 0 , md5('maswd')),
 ('Johnathan Dobee', 'johnathancomp@hotmail.com', 0, md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
-ON CONFLICT (email) DO NOTHING;
+ON CONFLICT (email) DO NOTHING;;
 
 INSERT INTO carta (nombreCard, descripcion, coleccion, empresa) 
 VALUES 
@@ -23,10 +23,23 @@ AND NOT EXISTS (
 );
 
 
-INSERT INTO imagenes(nombre,data) VALUES (
-    'logoInvizimals.png',
-    pg_read_binary_file('/images/logosMarcas/invizimals.png')
-); 
+-- Por ahora insertamos las imágenes manualmente, estamos planeando alguna manera de automatizarlo
+INSERT INTO imagenes(nombre,data) VALUES 
+('logoInvizimals',pg_read_binary_file('/images/logosMarcas/invizimals.png')),
+('logoLorcana',pg_read_binary_file('/images/logosMarcas/lorcanalogo.png')),
+('logoMagic',pg_read_binary_file('/images/logosMarcas/Magic-The-Gathering-logo.png')),
+('logoMarvelC',pg_read_binary_file('/images/logosMarcas/marvelChampions.png')),
+('logoPokTCG',pg_read_binary_file('/images/logosMarcas/Pokémon_Trading_Card_Game_logo.svg.png')),
+('logoYugioh',pg_read_binary_file('/images/logosMarcas/Yugioh_Logo.webp'))
+ON CONFLICT (nombre) DO NOTHING;
+
+--No soy el mayor fan de usar DO NOTHING, pero por ahora funciona 16/04/2026
+
+
+
+
+
+
 --
 --INSERT INTO inventario (usrId, cardId, valor, estado, copias)
 --SELECT * FROM (

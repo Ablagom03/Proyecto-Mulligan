@@ -1,18 +1,19 @@
 CREATE TABLE IF NOT EXISTS usuario (
   usrId bigserial PRIMARY KEY,
   nombre_usr varchar(80),
-  email varchar(80),
+  email varchar(80) UNIQUE,
   reputacion int,
   passwd varchar(80)
 );
 
 CREATE TABLE IF NOT EXISTS carta (
   cardId bigserial PRIMARY KEY,
-  nombreCard varchar(80),
+  nombreCard varchar(80) UNIQUE,
   descripcion varchar(80),
   coleccion varchar(80),
   empresa varchar(20)
 );
+
 CREATE TABLE IF NOT EXISTS inventario (
   invId bigserial PRIMARY KEY,
   usrId bigint,
@@ -28,6 +29,12 @@ CREATE TABLE IF NOT EXISTS inventario (
 
 CREATE TABLE IF NOT EXISTS imagenes (
   idImg bigserial PRIMARY KEY,
-  nombre varchar(30),
+  nombre varchar(30) UNIQUE,
   data BYTEA 
 );
+
+
+--Constraints
+--ALTER TABLE usuario ADD CONSTRAINT unique_email UNIQUE (email);
+--ALTER TABLE carta ADD CONSTRAINT unique_nombreCard UNIQUE (nombreCard);
+--ALTER TABLE imagenes ADD CONSTRAINT unique_nombre UNIQUE (nombre);

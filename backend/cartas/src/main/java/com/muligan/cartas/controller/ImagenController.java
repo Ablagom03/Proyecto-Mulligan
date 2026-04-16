@@ -28,7 +28,7 @@ public class ImagenController {
      * 
      * @return Imagen que tenga ese id
      */
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> verImagen(@PathVariable Long id) {
         Imagen img = imagenService.obtenerImagenById(id);
@@ -51,7 +51,7 @@ public class ImagenController {
                 .body(img.getData());
     }
     
-   
+*/   
     /**
      * Método Get
      * URL: localhost:8080/
@@ -59,13 +59,13 @@ public class ImagenController {
      * 
      * @return Imagen con ese nombre
      */
-    /*
+    
     @GetMapping("/{nombre}")
     public ResponseEntity<byte[]> verImagenNombre(@PathVariable String nombre) {
         Imagen img = imagenService.obtenerImagenByNombre(nombre);
 
                 if (img == null) {
-            System.out.println("Imagen no encontrada para id: " + nombre);
+            System.out.println("Imagen no encontrada con ese nombre: " + nombre);
             return ResponseEntity.notFound().build();
         }
 
@@ -81,5 +81,5 @@ public class ImagenController {
                 .contentType(MediaType.IMAGE_PNG)
                 .body(img.getData());
     }
-    */
+    
 }

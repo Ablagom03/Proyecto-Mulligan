@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,RouterModule, Params } from '@angular/router';
+import { CommonModule  } from '@angular/common';
 import { Carta } from '../../model/Carta';
 import { CartasService } from '../../service/cartas.service';
 
@@ -7,7 +8,7 @@ import { CartasService } from '../../service/cartas.service';
 @Component({
   selector: 'app-marca',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './marca.component.html',
   styleUrls: ['./marca.component.css']
 })
@@ -21,9 +22,10 @@ export class MarcaComponent implements OnInit {
     this.ar.queryParams.subscribe((entrada: Params) => {
 
       const marca = entrada['nombre'];
+      
       this.cargarCartasMarca(marca);
-      console.log(this.cargarCartasMarca(marca));
-
+      //Para debuguear, eliminar más tarde
+      console.log("Se ha buscado " + marca);
     }
   )
   }

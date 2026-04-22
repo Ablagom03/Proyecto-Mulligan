@@ -1,19 +1,19 @@
 export class Carta {
     cardId: bigint;
-    nombreCard: string;
+    nombrecard: string;
     descripcion: string;
     coleccion: string;
     empresa: string;
 
     constructor(
         cardId: bigint,
-        nombreCard: string,
+        nombrecard: string,
         descripcion: string,
         coleccion: string,
         empresa: string
     ) {
         this.cardId = cardId;
-        this.nombreCard = nombreCard;
+        this.nombrecard = nombrecard;
         this.descripcion = descripcion;
         this.coleccion = coleccion;
         this.empresa = empresa;
@@ -29,12 +29,12 @@ export class Carta {
     }
 
 
-    public getNombreCard(): string {
-        return this.nombreCard;
+    public getNombrecard(): string {
+        return this.nombrecard;
     }
 
-    public setNombreCard(nombreCard: string): void {
-        this.nombreCard = nombreCard;
+    public setNombrecard(nombrecard: string): void {
+        this.nombrecard = nombrecard;
     }
 
 

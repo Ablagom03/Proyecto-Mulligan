@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute,RouterModule, Params } from '@angular/router';
 import { Carta } from '../../model/Carta';
 import { CartasService } from '../../service/cartas.service';
 
@@ -15,13 +15,23 @@ import { CartasService } from '../../service/cartas.service';
 export class MarcaComponent implements OnInit {
 
   listadoCartas : Carta[] = [];
-  constructor(private cartasService : CartasService, private cdr : ChangeDetectorRef) { }
+  constructor(private cartasService : CartasService, private cdr : ChangeDetectorRef, private ar: ActivatedRoute) { }
 
   ngOnInit() {
+    this.ar.queryParams.subscribe((entrada: Params) => {
+
+      const marca = entrada['nombre'];
+      this.cargarCartasMarca(marca);
+      console.log(this.cargarCartasMarca(marca));
+
+    }
+  )
   }
 
-  cargarCartas(marca){
-    this.cartasService//...Está en WIP
+  cargarCartasMarca(marca: string) {
+    this.cartasService.getCartasPorMarca(marca).subscribe((cartas: Carta[]) => {
+      this.listadoCartas = cartas;
+    });
   }
 
 }

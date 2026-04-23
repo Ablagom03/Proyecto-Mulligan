@@ -8,8 +8,11 @@ ON CONFLICT (email) DO NOTHING;;
 INSERT INTO carta (nombreCard, descripcion, coleccion, empresa) 
 VALUES 
 ('Blue Eyes White Dragon', 'idk Kaiba used it a couple of times ig', 'OG', 'YugiOh'),
+('Pot of Greed', 'Lets the user draw 2 cards', 'OG', 'YugiOh'),
 ('Charizard Original Edition', 'People pay way too much for these', 'OG 1995', 'Pokemon'),
-('Forest', 'Green Grass Eat my a-', 'Basic Set', 'Magic: The Gathering')
+('Pikachu Original Edition', 'People pay way too much for these', 'OG 1995', 'Pokemon'),
+('Forest', 'Green Grass Eat my a-', 'Basic Set', 'Magic'),
+('Swamp', 'Swamp', 'Basic Set', 'Magic')
 ON CONFLICT (nombreCard) DO NOTHING;
 
 

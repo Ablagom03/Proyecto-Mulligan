@@ -1,5 +1,6 @@
 package com.muligan.cartas.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -55,6 +56,32 @@ public class CartaController {
         Carta carta = cartaService.getCartaById(id);
         if (carta != null) {
             return ResponseEntity.ok(carta);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+        /**
+     * Método: GET
+     * URL: localhost:8080/carta/marca/{empresa}
+     * Proposito: Devolver las cartas de una marca especificada
+     * 
+     * @param empresa de las cartas que se buscan
+     * @return lista de cartas de esa empresa
+     */
+    @GetMapping("/marca/{empresa}")
+    public ResponseEntity<List<Carta>> getCartaByEmpresa(@PathVariable String empresa){
+        List<Carta> todasCartas = cartaService.getAllCartas();
+        List<Carta> cartasFiltradas = new ArrayList<>(); 
+
+        for (Carta carta : todasCartas) {
+           if (carta.getEmpresa().equals(empresa)) {
+            cartasFiltradas.add(carta);
+           } 
+        }
+
+        if (cartasFiltradas.size() != 0) {
+            return ResponseEntity.ok(cartasFiltradas);
         } else {
             return ResponseEntity.notFound().build();
         }

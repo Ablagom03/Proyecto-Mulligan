@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,RouterModule, Params } from '@angular/router';
 import { CommonModule  } from '@angular/common';
+import { Observable } from 'rxjs';
 import { Carta } from '../../model/Carta';
 import { CartasService } from '../../service/cartas.service';
 
@@ -30,11 +31,11 @@ export class MarcaComponent implements OnInit {
   )
   }
 
-  cargarCartasMarca(marca: string) {
-    this.cartasService.getCartasPorMarca(marca).subscribe((cartas: Carta[]) => {
-      this.listadoCartas = cartas;
-    });
-  }
+  listadoCartas$!: Observable<Carta[]>;
+
+cargarCartasMarca(marca: string) {
+  this.listadoCartas$ = this.cartasService.getCartasPorMarca(marca);
+}
 
 }
 

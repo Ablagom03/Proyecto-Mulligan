@@ -66,3 +66,11 @@ button.side-btn:hover {
 .logout-btn:hover {
     background-color: #c02395;
 }
+
+.profile-btn {
+    background-color: #2a8f9d;
+}
+
+.profile-btn:hover {
+    background-color: #1f6a78;
+}

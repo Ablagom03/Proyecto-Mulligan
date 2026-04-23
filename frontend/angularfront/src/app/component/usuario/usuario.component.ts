@@ -1,22 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { ListaInventarioComponent } from './lista-inventario/lista-inventario.component';
-import { ListaDeseadosComponent } from './lista-deseados/lista-deseados.component'; 
+import { ListaDeseadosComponent } from './lista-deseados/lista-deseados.component';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../service/auth.service';
+import { Usuario } from '../../model/Usuario';
 
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
-  imports: [ListaInventarioComponent, ListaDeseadosComponent],
+  imports: [ListaInventarioComponent, ListaDeseadosComponent, CommonModule],
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+  currentUser: Usuario | null = null;
+  vistaActual: 'inventario' | 'deseados' = 'inventario';
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.loadCurrentUser();
   }
 
-  //Propiedad para comprobar la vista actual, cuál lista se ve
-  vistaActual: 'inventario' | 'deseados' = 'inventario';
+  loadCurrentUser() {
+    this.authService.getUsuarioEnUso().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      },
+      error: (err) => {
+        console.error('Error loading user:', err);
+        this.currentUser = null;
+      }
+    });
+  }
 
   mostrarInventario() {
     this.vistaActual = 'inventario';

@@ -68,6 +68,17 @@ a {
     margin: 0 auto;
 }
 
+.cambiarModo button.active {
+    background-color: #db34a9c4;
+    font-weight: bold;
+    transform: scale(1.05);
+    background-image: linear-gradient(180deg,
+            rgba(255, 255, 255, 0) 30%,
+            rgba(253, 142, 248, 0.8),
+            rgba(255, 255, 255, 0) 70%);
+    animation: brillo 3s infinite linear;
+}
+
 .cambiarModo button:hover,
 .fotoPerfUsuario:hover {
     font-size: larger;
@@ -90,4 +101,33 @@ a {
     background-color: skyblue;
     transition: 0.25s;
 
+}
+
+.contenedor-listas {
+    margin-top: 20px;
+}
+
+.seccion-inventario,
+.seccion-deseados {
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+}
+
+.seccion-inventario h2,
+.seccion-deseados h2 {
+    color: #1e1422;
+    margin-top: 0;
+}
+
+.no-usuario {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-top: 60px;
 }

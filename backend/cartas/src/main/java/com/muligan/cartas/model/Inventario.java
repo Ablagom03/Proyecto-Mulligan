@@ -44,5 +44,7 @@ public class Inventario {
     private String estado;
     private Integer copias;
 
+    private Enum<TipoOferta> tipo;
+
 }
 

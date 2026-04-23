@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
+import { Usuario } from '../../model/Usuario';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +11,30 @@ import { AuthService } from '../../service/auth.service';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
+export class Navbar implements OnInit {
   @Input() sidebarAbierto = false;
   @Output() toggleSidebar = new EventEmitter<void>();
 
   isLoggedIn$;
+  currentUser: Usuario | null = null;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private router: Router) {
     this.isLoggedIn$ = this.auth.Logeado$;
+  }
+
+  ngOnInit() {
+    this.loadCurrentUser();
+  }
+
+  loadCurrentUser() {
+    this.auth.getUsuarioEnUso().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      },
+      error: (err) => {
+        this.currentUser = null;
+      }
+    });
   }
 
   abrirSide() {
@@ -28,13 +45,11 @@ export class Navbar {
     this.auth.logout().subscribe({
       next: () => {
         this.auth.setLoggedIn(false);
+        this.currentUser = null;
         window.location.href = '/inicio';
       },
       error: err => console.error('Logout Fallido:', err)
     });
-  }
-
-  ngOnInit() {
   }
 }
 

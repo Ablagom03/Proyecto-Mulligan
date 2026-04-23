@@ -1,23 +1,39 @@
     <header>
-    </header>
+</header>
 <body>
-    <div class="informacion-usuario">
-        <div class="imagen-usuario"><img src="images/ace_of_spades.png"
-                alt="Usuario"></div>
-        <div class="no-imagen">
-            <div class="nombre-usuario">Nombre Usuario</div>
-            <div class="descripcion-usuario">
-                <div>Esta sería la descripcion del usuario</div>
-            </div>
-            <div class="reputacion">Reputación: <b>50</b></div>
-            <div class="cambiarModo">
-                <div><button (click)="mostrarInventario()">Mercancía</button></div>
-                <div><button (click)="mostrarDeseados()">Deseados</button></div>
+    @if (currentUser) {
+        <div class="informacion-usuario">
+            <div class="imagen-usuario"><img src="images/ace_of_spades.png"
+                    alt="Usuario"></div>
+            <div class="no-imagen">
+                <div class="nombre-usuario">{{ currentUser.nombre_usr }}</div>
+                <div class="descripcion-usuario">
+                    <div>Descripción de {{ currentUser.nombre_usr }}</div>
+                </div>
+                <div class="reputacion">Reputación: <b>{{ currentUser.reputacion }}</b></div>
+                <div class="cambiarModo">
+                    <div><button (click)="mostrarInventario()" [class.active]="vistaActual === 'inventario'">Vendo</button></div>
+                    <div><button (click)="mostrarDeseados()" [class.active]="vistaActual === 'deseados'">Compro</button></div>
+                </div>
             </div>
         </div>
-    </div>
-        <app-lista-inventario [hidden]="vistaActual !== 'inventario'"></app-lista-inventario>
-        <app-lista-deseados [hidden]="vistaActual !== 'deseados'"></app-lista-deseados>
+        <div class="contenedor-listas">
+            @if (vistaActual === 'inventario') {
+                <div class="seccion-inventario">
+                    <h2>Vendo</h2>
+                </div>
+            }
+            @if (vistaActual === 'deseados') {
+                <div class="seccion-deseados">
+                    <h2>Compro</h2>
+                </div>
+            }
+        </div>
+    } @else {
+        <div class="no-usuario">
+            <p>No deberias estar viendo esto... how?</p>
+        </div>
+    }
     <footer>
         <div class="redes-sociales">
             <p>Facebook</p>

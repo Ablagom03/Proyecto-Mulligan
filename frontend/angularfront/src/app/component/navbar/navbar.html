@@ -8,6 +8,12 @@
     </div>
     <div class="nav-right">
         @if (isLoggedIn$ | async) {
+            
+            <a [routerLink]="['/usuario/' + (currentUser?.nombre_usr || '')]">
+                <button class="nav-btn profile-btn" title="Mi perfil">
+                    {{ currentUser?.nombre_usr || 'Perfil' }}
+                </button>
+            </a>
             <button class="nav-btn logout-btn" (click)="logout()">Cerrar sesión</button>
         } @else {
             <a [routerLink]="['/login']"><button class="nav-btn">Iniciar sesión</button></a>

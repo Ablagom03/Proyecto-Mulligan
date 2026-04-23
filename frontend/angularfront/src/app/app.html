@@ -2,3 +2,12 @@
 <app-sidebar [abierto]="sidebarAbierto" (cerrarSidebar)="sidebarAbierto = $event"></app-sidebar>
 <app-navbar [sidebarAbierto]="sidebarAbierto" (toggleSidebar)="abrirSide()"></app-navbar>
 <router-outlet></router-outlet>
+<button class="fab" (click)="abrirModal()" aria-label="Añadir oferta">
+  +
+</button>
+
+<div *ngIf="modalAbierto" class="modal" (click)="cerrarModal()">
+  <div class="modal-contenido" (click)="$event.stopPropagation()">
+    <crear-oferta (cerrarModal)="cerrarModal()"></crear-oferta>
+  </div>
+</div>

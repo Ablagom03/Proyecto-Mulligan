@@ -19,5 +19,6 @@ export const routes: Routes = [
     { path: '404', component: NotFoundComponent },
     { path: 'usuario', component: UsuarioComponent },
     { path: 'signIn', component: SigninComponent },
-    { path: 'marca', component: MarcaComponent }
+    { path: 'marca', component: MarcaComponent },
+    { path: 'usuario/:username', component: UsuarioComponent}
 ];

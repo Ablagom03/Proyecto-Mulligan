@@ -63,6 +63,26 @@ public class UsuarioController {
         }
     }
 
+
+    /**
+     * Metodo: GET
+     * URL: localhost:8080/usuario/{nombre}
+     * Proposito: Devolver un usuario específico por su nombre
+     * 
+     * @param nombre del usuario
+     * @return usuario con el nombre especificado
+     */
+
+    @GetMapping("/nombre/{nombre}")    
+    public ResponseEntity<Usuario> getUsuarioByNombre(@PathVariable String nombre) {
+        Usuario usuario = usuarioService.getUsuarioByNombre(nombre);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
      /**
       * Metodo: POST
       * URL: localhost:8080/usuario/

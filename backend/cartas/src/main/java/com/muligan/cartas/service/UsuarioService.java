@@ -68,4 +68,8 @@ public class UsuarioService {
         }
         return null;
     }
+
+    public Usuario getUsuarioByNombre(String nombre) {
+        return usuarioRepository.findByNombreUsr(nombre);
+    }
 }

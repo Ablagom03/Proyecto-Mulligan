@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ListaInventarioComponent } from './lista-inventario/lista-inventario.component';
-import { ListaDeseadosComponent } from './lista-deseados/lista-deseados.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
 import { Usuario } from '../../model/Usuario';
@@ -8,7 +6,7 @@ import { Usuario } from '../../model/Usuario';
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
-  imports: [ListaInventarioComponent, ListaDeseadosComponent, CommonModule],
+  imports: [CommonModule],
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {

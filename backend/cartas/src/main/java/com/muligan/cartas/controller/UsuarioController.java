@@ -1,6 +1,7 @@
 package com.muligan.cartas.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -54,8 +55,8 @@ public class UsuarioController {
      * @return usuario con el id especificado
      */
     @GetMapping("/{id}")    
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
-        Usuario usuario = usuarioService.getUsuarioById(id);
+    public ResponseEntity<Optional<Usuario>> getUsuarioById(@PathVariable Long id) {
+        Optional<Usuario> usuario = usuarioService.getUsuarioById(id);
         if (usuario != null) {
             return ResponseEntity.ok(usuario);
         } else {
@@ -74,8 +75,8 @@ public class UsuarioController {
      */
 
     @GetMapping("/nombre/{nombre}")    
-    public ResponseEntity<Usuario> getUsuarioByNombre(@PathVariable String nombre) {
-        Usuario usuario = usuarioService.getUsuarioByNombre(nombre);
+    public ResponseEntity<Optional<Usuario>> getUsuarioByNombre(@PathVariable String nombre) {
+        Optional<Usuario> usuario = usuarioService.getUsuarioByNombre(nombre);
         if (usuario != null) {
             return ResponseEntity.ok(usuario);
         } else {

@@ -9,11 +9,11 @@ import com.muligan.cartas.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario,Long>{
 
-    Usuario findByUsrId(long usrId);
+    Optional<Usuario> findByUsrId(long usrId);
 
     Optional<Usuario> findByEmail(String email);
 
-    Usuario findByNombreUsr(String nombre);
+    Optional<Usuario> findByNombreUsr(String nombre);
 
     
 }

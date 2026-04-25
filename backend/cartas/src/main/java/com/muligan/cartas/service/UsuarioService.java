@@ -22,7 +22,7 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario getUsuarioById(Long usrId) {
+    public Optional<Usuario> getUsuarioById(Long usrId) {
         return usuarioRepository.findByUsrId(usrId);
     }
 
@@ -69,7 +69,7 @@ public class UsuarioService {
         return null;
     }
 
-    public Usuario getUsuarioByNombre(String nombre) {
+    public Optional<Usuario> getUsuarioByNombre(String nombre) {
         return usuarioRepository.findByNombreUsr(nombre);
     }
 }

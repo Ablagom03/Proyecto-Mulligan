@@ -1,31 +1,31 @@
 export class Carta {
-    cardId: bigint;
+    cardid: bigint;
     nombrecard: string;
     descripcion: string;
     coleccion: string;
     empresa: string;
 
     constructor(
-        cardId: bigint,
+        cardid: bigint,
         nombrecard: string,
         descripcion: string,
         coleccion: string,
         empresa: string
     ) {
-        this.cardId = cardId;
+        this.cardid = cardid;
         this.nombrecard = nombrecard;
         this.descripcion = descripcion;
         this.coleccion = coleccion;
         this.empresa = empresa;
     }
 
-    // Getter y Setter cardId
-    public getCardId(): bigint {
-        return this.cardId;
+    // Getter y Setter cardid
+    public getcardid(): bigint {
+        return this.cardid;
     }
 
-    public setCardId(cardId: bigint): void {
-        this.cardId = cardId;
+    public setcardid(cardid: bigint): void {
+        this.cardid = cardid;
     }
 
 

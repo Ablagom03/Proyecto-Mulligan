@@ -21,4 +21,8 @@ constructor(private http: HttpClient) {
   getCartasPorMarca(marca : string): Observable<Carta[]>  {
     return this.http.get<Carta[]>(`${this.url}/marca/${marca}`);
   }
+
+  getCartaPorId(id : bigint): Observable<Carta> {
+    return this.http.get<Carta>(`${this.url}/${id}`);
+  }
 }

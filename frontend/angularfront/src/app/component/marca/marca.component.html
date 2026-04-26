@@ -1,13 +1,16 @@
 <div class="contenedor-grid">
   <header></header>
   <div class="listado">
-    @for (carta of listadoCartas$ | async; track carta.cardId) {
+    @for (carta of listadoCartas$ | async; track carta.cardid) {
     <div class="carta">
       <div class="text">
         <h2>{{ carta.nombrecard }}</h2>
       </div>
       <div class="text">
         <p>{{ carta.descripcion}}</p>
+      </div>
+      <div>
+        <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">Ver carta</a>
       </div>
     </div>
     }
@@ -18,15 +21,3 @@
   <!--https://uiverse.io/musashi-13/great-robin-10 Voy a insertar aquí algunos enlaces, por si los usamos-->
   <!--https://uiverse.io/ElSombrero2/tricky-robin-67  -->
   <!--https://uiverse.io/kennyotsu/witty-deer-12 -->
-
-  <!-- <a class="prev" onclick="plusSlides(-1)">❮</a>
-  <a class="next" onclick="plusSlides(1)">❯</a> -->
-
-<!-- Habrá que ver lo que se hace con los slides... -->
-  <!-- <div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
-  </div> -->
-
-<!-- <script src="../../js/slide.js"></script> -->

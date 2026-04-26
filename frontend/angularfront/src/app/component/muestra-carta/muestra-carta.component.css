@@ -1,0 +1,16 @@
+.fullcarta {
+    padding-left: 1rem;
+    
+}
+
+.fullcarta div {
+    padding: 2rem;
+    border:1px solid;
+    border-bottom-width: 0;
+    border-right-width: 0;
+    background-color: lightgoldenrodyellow;
+}
+
+.fullcarta div:last-child {
+    border-bottom-width: 1px;
+}

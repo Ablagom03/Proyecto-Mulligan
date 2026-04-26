@@ -25,8 +25,8 @@ export class MarcaComponent implements OnInit {
       const marca = entrada['nombre'];
       
       this.cargarCartasMarca(marca);
-      //Para debuguear, eliminar más tarde
-      console.log("Se ha buscado " + marca);
+      //Para debuguear
+      //console.log("Se ha buscado " + marca);
     }
   )
   }

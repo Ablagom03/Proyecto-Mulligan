@@ -1,10 +1,15 @@
 .listado {
-    border: solid 3px black;
-    border-radius: 4px;
     padding: 1rem;
 }
 
 .carta {
-    border-bottom: double 1px black;
-    padding-top: 1rem
+    padding: 2rem;
+    border:1px solid;
+    border-bottom-width: 0;
+    border-right-width: 0;
+    background-color: lightsteelblue;
+}
+
+.listado .carta:last-child {
+    border-bottom-width: 1px;
 }

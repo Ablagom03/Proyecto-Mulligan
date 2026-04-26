@@ -1,0 +1,14 @@
+
+<div class="contenedor-grid">
+  <header></header>
+  <div class="fullcarta">
+
+  @if (cartaEncontrada$ | async; as carta) {
+  <div><h1>{{ carta.nombrecard }}</h1></div>
+  <div><h2>Descripción: {{ carta.descripcion }}</h2>
+  <h3>Colección: {{carta.coleccion}}</h3></div>
+  <div>Ventas</div>
+  }
+  </div>
+
+</div>

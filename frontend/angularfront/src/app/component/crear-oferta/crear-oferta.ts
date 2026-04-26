@@ -41,6 +41,16 @@ export class CrearOferta implements OnInit {
   }
 
   guardar() {
-    this.cerrarModal.emit();
+    if( this.ofertaForm.valid ) {
+      this.ofertaService.crearOferta(this.ofertaForm.value).subscribe({
+        next: () => {
+          alert('Oferta creada con éxito');
+          this.cerrarModal.emit();
+        },
+        error: () => alert('Error al crear la oferta')
+      });
+    } else {
+      alert('Por favor, completa todos los campos correctamente');
+    }
   }
 }

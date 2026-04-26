@@ -7,8 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Clase para las imagenes para importarlas
@@ -16,7 +17,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "imagenes")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Imagen {

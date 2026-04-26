@@ -1,8 +1,8 @@
 INSERT INTO usuario (nombre_usr, email, reputacion,passwd) 
 VALUES 
-('John Doe', 'johndoe@gmail.com', 0, md5('paswd')),
-('Jane Doe', 'janedoe@gmail.com', 0 , md5('maswd')),
-('Johnathan Dobee', 'johnathancomp@hotmail.com', 0, md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
+('JohnDoe', 'johndoe@gmail.com', 0, md5('paswd')),
+('JaneDoe', 'janedoe@gmail.com', 0 , md5('maswd')),
+('JohnathanDobee', 'johnathancomp@hotmail.com', 0, md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
 ON CONFLICT (email) DO NOTHING;;
 
 INSERT INTO carta (nombreCard, descripcion, coleccion, empresa) 

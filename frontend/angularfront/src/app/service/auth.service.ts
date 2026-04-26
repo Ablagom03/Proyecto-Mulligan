@@ -44,6 +44,12 @@ export class AuthService {
     });
   }
 
+  getUsuarioPorNombre(nombre: string): Observable<Usuario> {
+  return this.http.get<Usuario>(`${this.baseUrl}/usuario/nombre/${nombre}`, {
+    withCredentials: true
+  });
+}
+
   setLoggedIn(value: boolean) {
     this.isLoggedInSubject.next(value);
   }

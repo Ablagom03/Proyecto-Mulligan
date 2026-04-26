@@ -12,8 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Inventario 
@@ -21,7 +22,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "inventario")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Inventario {
@@ -30,12 +32,12 @@ public class Inventario {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usrid", referencedColumnName = "usrid")
+    @JoinColumn(name = "usrId", referencedColumnName = "usrId")
     @JsonProperty("usuario")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "cardid", referencedColumnName = "cardid")
+    @JoinColumn(name = "cardId", referencedColumnName = "cardId")
     @JsonProperty("carta")
     private Carta carta;
 
@@ -43,6 +45,16 @@ public class Inventario {
     private Integer valor;
     private String estado;
     private Integer copias;
+
+    @JsonProperty("usrId")
+    public Long getUsrId() {
+        return usuario != null ? usuario.getUsrId() : null;
+    }
+
+    @JsonProperty("cardId")
+    public Long getCardId() {
+        return carta != null ? carta.getCardId() : null;
+    }
 
     private Enum<TipoOferta> tipo;
 

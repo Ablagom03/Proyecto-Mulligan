@@ -1,4 +1,6 @@
 package com.muligan.cartas.controller;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +44,14 @@ public class AuthController {
   }
 
   @GetMapping("/me")
-  public ResponseEntity<Usuario> getCurrentUser(HttpServletRequest request) {
+  public ResponseEntity<Optional<Usuario>> getCurrentUser(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
         if ("SESSIONID".equals(cookie.getName())) {
           try {
             Long usrId = Long.parseLong(cookie.getValue());
-            Usuario usuario = usuarioService.getUsuarioById(usrId);
+            Optional<Usuario> usuario = usuarioService.getUsuarioById(usrId);
             if (usuario != null) {
               return ResponseEntity.ok(usuario);
             }

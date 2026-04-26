@@ -1,5 +1,6 @@
 <div class="contenedor-grid">
   <header></header>
+  
   <div class="listado">
     @for (carta of listadoCartas$ | async; track carta.cardid) {
     <div class="carta">
@@ -14,6 +15,11 @@
       </div>
     </div>
     }
+    @empty{
+    <div class="vacio">
+      <h1>No hay cartas de esta marca</h1>
+    </div>
+  }
   </div>
 
 </div>

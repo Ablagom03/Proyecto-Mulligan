@@ -1,22 +1,27 @@
+import { Imagen } from "./Imagen";
+
 export class Carta {
     cardid: bigint;
     nombrecard: string;
     descripcion: string;
     coleccion: string;
     empresa: string;
+    imagen: Imagen;
 
     constructor(
         cardid: bigint,
         nombrecard: string,
         descripcion: string,
         coleccion: string,
-        empresa: string
+        empresa: string,
+        imagen: Imagen
     ) {
         this.cardid = cardid;
         this.nombrecard = nombrecard;
         this.descripcion = descripcion;
         this.coleccion = coleccion;
         this.empresa = empresa;
+        this.imagen = imagen;
     }
 
     // Getter y Setter cardid
@@ -62,5 +67,13 @@ export class Carta {
 
     public setEmpresa(empresa: string): void {
         this.empresa = empresa;
+    }
+
+    public getImagen(): Imagen {
+        return this.imagen;
+    }
+
+    public setImagen(imagen: Imagen): void {
+        this.imagen = imagen;
     }
 }

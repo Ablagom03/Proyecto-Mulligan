@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.muligan.cartas.model.Carta;
 import com.muligan.cartas.service.CartaService;
+import com.muligan.cartas.model.Imagen;
 
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +44,7 @@ public class CartaController {
         return ResponseEntity.ok(cartas);
     }
 
+
     /**
      * Metodo: GET
      * URL: localhost:8080/carta/{id}
@@ -56,6 +58,23 @@ public class CartaController {
         Carta carta = cartaService.getCartaById(id);
         if (carta != null) {
             return ResponseEntity.ok(carta);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Método: GET
+     * URL: localhost:8080/carta/{id}/imagen
+     * Proposito: Devolver 
+     * @param id de la carta cuya imagen se quiere sacar
+     * @return imagen de la carta
+     */
+    @GetMapping("/carta/{id}/imagen")
+    public ResponseEntity<Imagen> getImagenFromCarta(@PathVariable Long id) {
+        Imagen imagen = cartaService.getCartaById(id).getImagen();
+        if (imagen != null) {
+            return ResponseEntity.ok(imagen);
         } else {
             return ResponseEntity.notFound().build();
         }

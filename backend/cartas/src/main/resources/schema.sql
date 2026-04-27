@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS imagenes (
+  idImg bigserial PRIMARY KEY,
+  nombre varchar(30) UNIQUE,
+  data BYTEA 
+);
+
 CREATE TABLE IF NOT EXISTS usuario (
   usrId bigserial PRIMARY KEY,
   nombre_usr varchar(80),
@@ -11,8 +17,11 @@ CREATE TABLE IF NOT EXISTS carta (
   nombreCard varchar(80) UNIQUE,
   descripcion varchar(80),
   coleccion varchar(80),
-  empresa varchar(20)
+  empresa varchar(20),
+  idimg bigserial, 
+  FOREIGN KEY (idimg) REFERENCES imagenes(idimg)
 );
+
 
 CREATE TABLE IF NOT EXISTS inventario (
   invId bigserial PRIMARY KEY,
@@ -27,11 +36,7 @@ CREATE TABLE IF NOT EXISTS inventario (
   FOREIGN KEY(cardId) REFERENCES carta(cardId)
 );
 
-CREATE TABLE IF NOT EXISTS imagenes (
-  idImg bigserial PRIMARY KEY,
-  nombre varchar(30) UNIQUE,
-  data BYTEA 
-);
+
 
 CREATE TABLE IF NOT EXISTS deseados (
   desId bigserial PRIMARY KEY,

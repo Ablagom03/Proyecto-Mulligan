@@ -1,17 +1,21 @@
 <div class="contenedor-grid">
   <header></header>
-  
+
   <div class="listado">
     @for (carta of listadoCartas$ | async; track carta.cardid) {
     <div class="carta">
-      <div class="text">
-        <h2>{{ carta.nombrecard }}</h2>
+      <div class="imagen"><img [src]="'http://localhost:8080/imagenes/' + carta.imagen.nombre" />
       </div>
-      <div class="text">
-        <p>{{ carta.descripcion}}</p>
-      </div>
-      <div>
-        <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">Ver carta</a>
+      <div class="texto">
+        <div class="text">
+          <h1>{{ carta.nombrecard }}</h1>
+        </div>
+        <div class="text">
+          <h2>{{ carta.descripcion }}</h2>
+        </div>
+        <div>
+          <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">Ver carta</a>
+        </div>
       </div>
     </div>
     }
@@ -19,11 +23,11 @@
     <div class="vacio">
       <h1>No hay cartas de esta marca</h1>
     </div>
-  }
+    }
   </div>
 
 </div>
 
-  <!--https://uiverse.io/musashi-13/great-robin-10 Voy a insertar aquí algunos enlaces, por si los usamos-->
-  <!--https://uiverse.io/ElSombrero2/tricky-robin-67  -->
-  <!--https://uiverse.io/kennyotsu/witty-deer-12 -->
+<!--https://uiverse.io/musashi-13/great-robin-10 Voy a insertar aquí algunos enlaces, por si los usamos-->
+<!--https://uiverse.io/ElSombrero2/tricky-robin-67  -->
+<!--https://uiverse.io/kennyotsu/witty-deer-12 -->

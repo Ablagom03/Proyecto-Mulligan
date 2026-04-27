@@ -51,5 +51,13 @@ export class Navbar implements OnInit {
       error: err => console.error('Logout Fallido:', err)
     });
   }
+
+  toggleDarkMode(event: any) {
+  if (event.target.checked) {
+    document.body.classList.add('body-modo-oscuro');
+  } else {
+    document.body.classList.remove('body-modo-oscuro');
+  }
+}
 }
 

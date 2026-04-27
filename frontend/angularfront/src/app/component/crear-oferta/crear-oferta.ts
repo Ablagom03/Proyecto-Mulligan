@@ -1,10 +1,11 @@
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Usuario } from '../../model/Usuario';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+
 import { AuthService } from '../../service/auth.service';
 import { OfertaService } from '../../service/oferta.service';
-
+import { Usuario } from '../../model/Usuario';
 @Component({
   selector: 'crear-oferta',
   imports: [CommonModule,ReactiveFormsModule],
@@ -14,14 +15,16 @@ import { OfertaService } from '../../service/oferta.service';
 })
 export class CrearOferta implements OnInit {
   @Output() cerrarModal = new EventEmitter<void>();
-  currentUser: Usuario | null = null;
+
+  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private ofertaService = inject(OfertaService);
+
+  currentUser$: Observable<Usuario | null> = this.authService.getUsuarioEnUso();
+
   ofertaForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private ofertaService: OfertaService,
-    private authService: AuthService
-  ) {
+  constructor() {
     this.ofertaForm = this.fb.group({
       tipo: ['venta', Validators.required],
       nombreCard: ['', Validators.required],
@@ -32,16 +35,12 @@ export class CrearOferta implements OnInit {
       copias: [1, [Validators.required, Validators.min(1)]]
     });
   }
-
-  ngOnInit() {
-    this.authService.getUsuarioEnUso().subscribe({
-      next: (user) => this.currentUser = user,
-      error: () => this.currentUser = null
-    });
+  ngOnInit():void  {
+    
   }
 
   guardar() {
-    if( this.ofertaForm.valid ) {
+    if (this.ofertaForm.valid) {
       this.ofertaService.crearOferta(this.ofertaForm.value).subscribe({
         next: () => {
           alert('Oferta creada con éxito');
@@ -49,8 +48,6 @@ export class CrearOferta implements OnInit {
         },
         error: () => alert('Error al crear la oferta')
       });
-    } else {
-      alert('Por favor, completa todos los campos correctamente');
     }
   }
 }

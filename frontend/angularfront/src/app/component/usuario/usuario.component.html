@@ -1,37 +1,45 @@
-    <header>
-</header>
-<body>
-    @if (currentUser) {
-        <div class="informacion-usuario">
-            <div class="imagen-usuario">
-                    alt="Usuario"></div>
-            <div class="no-imagen">
-                <div class="nombre-usuario">{{ currentUser.nombre_usr }}</div>
-                <div class="descripcion-usuario">
-                    <div>Descripción de {{ currentUser.nombre_usr }}</div>
+@if (currentUser$ | async; as user) {
+    <div class="informacion-usuario">
+        <div class="imagen-usuario">
+             <img src="assets/default-avatar.png" alt="Usuario">
+        </div>
+        
+        <div class="no-imagen">
+            <div class="nombre-usuario">{{ user.nombre_usr }}</div>
+            <div class="descripcion-usuario">
+                <div>Descripción de {{ user.nombre_usr }}</div>
+            </div>
+            <div class="reputacion">Reputación: <b>{{ user.reputacion }}</b></div>
+            
+            <div class="cambiarModo">
+                <div>
+                    <button (click)="mostrarInventario()" [class.active]="vistaActual === 'inventario'">
+                        Vendo
+                    </button>
                 </div>
-                <div class="reputacion">Reputación: <b>{{ currentUser.reputacion }}</b></div>
-                <div class="cambiarModo">
-                    <div><button (click)="mostrarInventario()" [class.active]="vistaActual === 'inventario'">Vendo</button></div>
-                    <div><button (click)="mostrarDeseados()" [class.active]="vistaActual === 'deseados'">Compro</button></div>
+                <div>
+                    <button (click)="mostrarDeseados()" [class.active]="vistaActual === 'deseados'">
+                        Compro
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="contenedor-listas">
-            @if (vistaActual === 'inventario') {
-                <div class="seccion-inventario">
-                    <h2>Vendo</h2>
-                </div>
-            }
-            @if (vistaActual === 'deseados') {
-                <div class="seccion-deseados">
-                    <h2>Compro</h2>
-                </div>
-            }
-        </div>
-    } @else {
-        <div class="no-usuario">
-            <p>No deberias estar viendo esto... how?</p>
-        </div>
-    }
-</body>
+    </div>
+
+    <div class="contenedor-listas">
+        @if (vistaActual === 'inventario') {
+            <div class="seccion-inventario">
+                <h2>Vendo</h2>
+            </div>
+        }
+        @if (vistaActual === 'deseados') {
+            <div class="seccion-deseados">
+                <h2>Compro</h2>
+            </div>
+        }
+    </div>
+} @else {
+    <div class="no-usuario">
+        <p>Cargando datos o el usuario no existe...</p>
+    </div>
+}

@@ -3,24 +3,38 @@
     </header>
     <div class="main">
         <h1>Mulligan</h1>
-        <input type="text" name="buscar" class="buscar"
-            placeholder="Buscar carta...">
-            <div class="marcas">
-                <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'YugiOh'}"><img [src]="'http://localhost:8080/imagenes/' + 'logoYugioh'" alt="Yu-Gi-Oh"></a></div>
-                <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Magic'}"><img [src]="'http://localhost:8080/imagenes/' + 'logoMagic'" alt="Magic: The Gathering"></a></div>
-                <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Pokemon'}"><img [src]="'http://localhost:8080/imagenes/' + 'logoPokTCG'" alt="Pokémon: The Trading Card Game"></a></div>
-                <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Invizimals'}"><img [src]="'http://localhost:8080/imagenes/' + 'logoInvizimals'"  alt="Invizimals"></a></div>
-                <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MarvelC'}"><img [src]="'http://localhost:8080/imagenes/' + 'logoMarvelC'" alt="Marvel Champions"></a></div>
-                <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Lorcana'}"><img [src]="'http://localhost:8080/imagenes/' + 'logoLorcana'"></a></div>
+        <div class="search-wrapper">
+            <input type="text" name="buscar" class="buscar" [(ngModel)]="busqueda" (input)="buscarCartas()"
+                (focus)="mostrar = true" (blur)="ocultar()" placeholder="Buscar carta...">
+            <div class="dropdown" *ngIf="mostrar && resultados.length > 0">
+                <div class="item" *ngFor="let carta of resultados" (click)="seleccionar(carta.nombrecard)">
+                    <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">{{ carta.nombrecard }}</a>
+                </div>
             </div>
         </div>
-
-    </div>
-    <footer>
-        <div class="redes-sociales">
-            <p>Facebook</p>
-            <p>Instagram</p>
-            <p>Youtube</p>
+        <div class="marcas">
+            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'YugiOh'}"><img
+                        [src]="'http://localhost:8080/imagenes/' + 'logoYugioh'" alt="Yu-Gi-Oh"></a></div>
+            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Magic'}"><img
+                        [src]="'http://localhost:8080/imagenes/' + 'logoMagic'" alt="Magic: The Gathering"></a></div>
+            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Pokemon'}"><img
+                        [src]="'http://localhost:8080/imagenes/' + 'logoPokTCG'"
+                        alt="Pokémon: The Trading Card Game"></a></div>
+            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Invizimals'}"><img
+                        [src]="'http://localhost:8080/imagenes/' + 'logoInvizimals'" alt="Invizimals"></a></div>
+            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MarvelC'}"><img
+                        [src]="'http://localhost:8080/imagenes/' + 'logoMarvelC'" alt="Marvel Champions"></a></div>
+            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Lorcana'}"><img
+                        [src]="'http://localhost:8080/imagenes/' + 'logoLorcana'"></a></div>
         </div>
-        <div class="contact">Contáctanos</div>
-    </footer>
+    </div>
+
+</div>
+<footer>
+    <div class="redes-sociales">
+        <p>Facebook</p>
+        <p>Instagram</p>
+        <p>Youtube</p>
+    </div>
+    <div class="contact">Contáctanos</div>
+</footer>

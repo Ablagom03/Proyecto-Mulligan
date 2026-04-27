@@ -1,17 +1,11 @@
 .main {
+    display:flex;
+    flex-direction: column;
+    align-items:center;
     text-align: center;
     font-size: xx-large;
 }
 
-input {
-    font-size: xx-large;
-    border-radius: 10px;
-    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.25);
-}
-
-.buscar {
-    margin: 20px;
-}
 
 .marcas {
     display: flex;
@@ -38,12 +32,12 @@ input {
     background-color: #6f4cbe;
 
     background-image: linear-gradient(145deg,
-        rgba(255, 255, 255, 0) 30%,
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0) 70%);
+            rgba(255, 255, 255, 0) 30%,
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0) 70%);
 
     background-size: 200% 100%;
-    animation: shine 2.5s cubic-bezier(.45,.63,.89,.87) infinite;
+    animation: shine 2.5s cubic-bezier(.45, .63, .89, .87) infinite;
     /*Un saludo a https://cubic-bezier.com/, buena página para animaciones*/
     cursor: pointer;
     transform: scale(1.1);
@@ -54,6 +48,7 @@ input {
     0% {
         background-position: 200% 0;
     }
+
     100% {
         background-position: -200% 0;
     }
@@ -64,7 +59,7 @@ input {
     color: white;
     transform: scale(1.15);
     transition: 0.25s;
-    
+
 }
 
 
@@ -77,4 +72,65 @@ input {
 .marca img {
     width: 250px;
     align-self: auto;
+}
+
+input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: xx-large;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.25);
+}
+.search-wrapper {
+    position: relative;
+    width: 400px;
+}
+
+.buscar {
+    width: 100%;
+    margin: 0;            
+    box-sizing: border-box;
+}
+
+input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: xx-large;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;              
+    width: 100%;
+    margin-top: 2px;      
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    /*Una pequeña animación para que quede mejor*/
+    animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.item {
+    padding: 10px;
+    cursor: pointer;
+    
+}
+
+.item:hover {
+    background-color: #f1f1f1;
+}
+
+a {
+    color: black;
+    text-decoration: none;
 }

@@ -13,14 +13,14 @@ ON CONFLICT (nombre) DO NOTHING;
 
 INSERT INTO carta (nombreCard, descripcion, coleccion, empresa, idimg) 
 VALUES 
-('Blue Eyes White Dragon', 'idk Kaiba used it a couple of times ig', 'OG', 'YugiOh',
+('Blue Eyes White Dragon', 'idk Kaiba used it a couple of times ig', 'OG', 'YUGIOH',
 (SELECT idimg FROM imagenes WHERE nombre = 'Blue Eyes White Dragon')),
-('Pot of Greed', 'Lets the user draw 2 cards', 'OG', 'YugiOh', 1),
-('Charizard Original Edition', 'People pay way too much for these', 'OG 1995', 'Pokemon', 
+('Pot of Greed', 'Lets the user draw 2 cards', 'OG', 'YUGIOH', 1),
+('Charizard Original Edition', 'People pay way too much for these', 'OG 1995', 'POKEMON', 
 (SELECT idimg FROM imagenes WHERE nombre = 'CharizardOriginal')),
-('Pikachu Original Edition', 'People pay way too much for these', 'OG 1995', 'Pokemon', 2),
-('Forest', 'Green Grass Eat my a-', 'Basic Set', 'Magic', 3),
-('Swamp', 'Swamp', 'Basic Set', 'Magic', 4)
+('Pikachu Original Edition', 'People pay way too much for these', 'OG 1995', 'POKEMON', 2),
+('Forest', 'Green Grass Eat my a-', 'Basic Set', 'MAGIC', 3),
+('Swamp', 'Swamp', 'Basic Set', 'MAGIC', 4)
 ON CONFLICT (nombreCard) DO NOTHING;
 
 INSERT INTO usuario (nombre_usr, email, reputacion,passwd) 

@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.muligan.cartas.model.Carta;
+import com.muligan.cartas.model.Empresa;
 import com.muligan.cartas.service.CartaService;
 import com.muligan.cartas.model.Imagen;
 
@@ -92,11 +93,12 @@ public class CartaController {
     public ResponseEntity<List<Carta>> getCartaByEmpresa(@PathVariable String empresa){
         List<Carta> todasCartas = cartaService.getAllCartas();
         List<Carta> cartasFiltradas = new ArrayList<>(); 
+        Empresa marca = Empresa.valueOf(empresa.toUpperCase());
 
         for (Carta carta : todasCartas) {
-           if (carta.getEmpresa().equals(empresa)) {
+           if (carta.getEmpresa() == marca) {
             cartasFiltradas.add(carta);
-           } 
+           }
         }
 
         if (cartasFiltradas.size() != 0) {

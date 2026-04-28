@@ -5,7 +5,7 @@ export class Carta {
     nombrecard: string;
     descripcion: string;
     coleccion: string;
-    empresa: string;
+    empresa: Empresa;
     imagen: Imagen;
 
     constructor(
@@ -13,7 +13,7 @@ export class Carta {
         nombrecard: string,
         descripcion: string,
         coleccion: string,
-        empresa: string,
+        empresa: Empresa,
         imagen: Imagen
     ) {
         this.cardid = cardid;
@@ -61,11 +61,11 @@ export class Carta {
     }
 
 
-    public getEmpresa(): string {
+    public getEmpresa(): Empresa {
         return this.empresa;
     }
 
-    public setEmpresa(empresa: string): void {
+    public setEmpresa(empresa: Empresa): void {
         this.empresa = empresa;
     }
 

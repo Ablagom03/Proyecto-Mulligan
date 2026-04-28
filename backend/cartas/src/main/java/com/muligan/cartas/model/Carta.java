@@ -2,6 +2,8 @@ package com.muligan.cartas.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,16 +32,20 @@ public class Carta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("cardid")
     private Long cardId;
-    
+
     @Column(name = "nombrecard")
     @JsonProperty("nombrecard")
     private String nombreCard;
     private String descripcion;
     private String coleccion;
-    private String empresa;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "empresa")
+    private Empresa empresa;
+    // private String empresa;
 
     @OneToOne
     @JoinColumn(name = "idimg")
     @JsonManagedReference
-    private Imagen imagen; 
+    private Imagen imagen;
 }

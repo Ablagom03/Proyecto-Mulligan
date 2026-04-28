@@ -10,6 +10,7 @@ import { LoginComponent } from './component/login/login.component';
 import { SigninComponent } from './component/signin/signin.component';
 
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import { AdminComponent } from './component/admin/admin.component';
 
 
 export const routes: Routes = [
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'signIn', component: SigninComponent },
     { path: 'marca', component: MarcaComponent },
     { path: 'carta', component: MuestraCartaComponent},
-    { path: 'usuario/:username', component: UsuarioComponent}
+    { path: 'usuario/:username', component: UsuarioComponent},
+    { path: 'admin', component: AdminComponent}
 ];

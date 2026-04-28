@@ -1,0 +1,8 @@
+<header></header>
+<h1>Inserción de carta</h1>
+
+<p><select name="empresa" id="empresa">
+  @for (empresa of listadoEmpresas$ | async; track $index) {
+    <option [value] = "empresa">{{ empresa }}</option>
+  }
+</select></p>

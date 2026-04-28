@@ -1,3 +1,4 @@
+import { Empresa } from "./Empresa";
 import { Imagen } from "./Imagen";
 
 export class Carta {

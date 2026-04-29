@@ -23,18 +23,27 @@ VALUES
 ('Swamp', 'Swamp', 'Basic Set', 'MAGIC', 4)
 ON CONFLICT (nombreCard) DO NOTHING;
 
-INSERT INTO usuario (nombre_usr, email, reputacion,passwd) 
+INSERT INTO usuario (nombre_usr, email, reputacion, passwd) 
 VALUES 
-('JohnDoe', 'johndoe@gmail.com', 0, md5('paswd')),
-('JaneDoe', 'janedoe@gmail.com', 0 , md5('maswd')),
-('JohnathanDobee', 'johnathancomp@hotmail.com', 0, md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
-ON CONFLICT (email) DO NOTHING;;
+-- Hash de Contraseña: paswd
+('JohnDoe', 'johndoe@gmail.com', 0, '6e8a990622dcd1027d2201e9f1400352'),
 
-INSERT INTO inventario (usrId, cardId, valor, estado, copias)
-SELECT u.usrId, c.cardId, 100, 'Perfecto', 1
+-- Hash de Contraseña: maswd
+('JaneDoe', 'janedoe@gmail.com', 0 , '85698b6460677465363ec0f4384d635f'),
+
+-- Hash de Contraseña: heydidyouknowyourcarbecomesmoreflammablewithgasinit
+('JohnathanDobee', 'johnathancomp@hotmail.com', 0, 'e1e77983696894c25674061a7a030097')
+ON CONFLICT (email) DO NOTHING;
+
+INSERT INTO inventario (usrId, cardId, valor, estado, copias, tipo)
+SELECT u.usrId, c.cardId, 100, 'Perfecto', 1, 'VENTA'
 FROM usuario u, carta c
-WHERE u.email = 'johndoe@gmail.com' AND c.nombreCard = 'Blue Eyes White Dragon'
-AND NOT EXISTS (
+WHERE u.email = 'johndoe@gmail.com' 
+  AND c.nombreCard = 'Blue Eyes White Dragon'
+  AND NOT EXISTS (
     SELECT 1 FROM inventario i 
-    WHERE i.usrId = u.usrId AND i.cardId = c.cardId AND i.estado = 'Perfecto'
-);
+    WHERE i.usrId = u.usrId 
+      AND i.cardId = c.cardId 
+      AND i.estado = 'Perfecto'
+      AND i.tipo = 'VENTA'
+  );

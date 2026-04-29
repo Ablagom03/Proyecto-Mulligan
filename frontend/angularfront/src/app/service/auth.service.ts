@@ -51,14 +51,9 @@ export class AuthService {
   }
 
   getUsuarioEnUso(): Observable<Usuario | null> {
-  return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { 
-    withCredentials: true 
-  }).pipe(
-    catchError(error => {
-      if (error.status !== 401) {
-        console.error('Error al verificar sesión:', error);
-      }
-      return of(null);
+  return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { withCredentials: true }).pipe(
+    catchError((error) => {
+      return of(null); 
     })
   );
 }

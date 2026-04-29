@@ -11,8 +11,6 @@ import org.springframework.http.MediaType;
 import com.muligan.cartas.model.Imagen;
 import com.muligan.cartas.service.ImagenService;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

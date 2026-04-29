@@ -1,21 +1,21 @@
 package com.muligan.cartas.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Usuario> getAllUsuarios() {
@@ -46,25 +46,14 @@ public class UsuarioService {
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
-
-    private String hashMD5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : messageDigest) {
-                sb.append(String.format("%02x", b));
+    public Usuario autenticar(String email, String passwdPlano) {
+        Optional<Usuario> userOpt = usuarioRepository.findByEmail(email);
+        
+        if (userOpt.isPresent()) {
+            Usuario usuario = userOpt.get();
+            if (passwordEncoder.matches(passwdPlano, usuario.getPasswd())) {
+                return usuario;
             }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Algoritmo no encontrado", e);
-        }
-    }
-
-    public Usuario autenticar(String email, String passwd) {
-        Optional<Usuario> user = usuarioRepository.findByEmail(email);
-        if (user.isPresent() && user.get().getPasswd().equals(hashMD5(passwd))) {
-            return user.get();
         }
         return null;
     }

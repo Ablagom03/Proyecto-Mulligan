@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Usuario } from '../model/Usuario';
+import { catchError, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = 'http://localhost:8080';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public Logeado$ = this.isLoggedInSubject.asObservable();
+  authService: any;
+  router: any;
 
   constructor(private http: HttpClient) {
     this.EstadoLogin();
@@ -15,7 +18,13 @@ export class AuthService {
 
   private EstadoLogin() {
     this.getUsuarioEnUso().subscribe({
-      next: () => this.isLoggedInSubject.next(true),
+      next: (user) => {
+        if (user) {
+          this.isLoggedInSubject.next(true);
+        } else {
+          this.isLoggedInSubject.next(false);
+        }
+      },
       error: () => this.isLoggedInSubject.next(false)
     });
   }
@@ -27,9 +36,12 @@ export class AuthService {
   }
 
   login(credenciales: { email: string; passwd: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/login`, credenciales, {
-      withCredentials: true
-    });
+  return this.http.post(`${this.baseUrl}/auth/login`, credenciales, {
+    withCredentials: true
+  });
+}
+  credenciales(credenciales: any) {
+    throw new Error('Method not implemented.');
   }
 
   logout(): Observable<any> {
@@ -38,17 +50,24 @@ export class AuthService {
     });
   }
 
-  getUsuarioEnUso(): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, {
+  getUsuarioEnUso(): Observable<Usuario | null> {
+  return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { 
+    withCredentials: true 
+  }).pipe(
+    catchError(error => {
+      if (error.status !== 401) {
+        console.error('Error al verificar sesión:', error);
+      }
+      return of(null);
+    })
+  );
+}
+
+  getUsuarioPorNombre(nombre: string): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.baseUrl}/usuario/nombre/${nombre}`, {
       withCredentials: true
     });
   }
-
-  getUsuarioPorNombre(nombre: string): Observable<Usuario> {
-  return this.http.get<Usuario>(`${this.baseUrl}/usuario/nombre/${nombre}`, {
-    withCredentials: true
-  });
-}
 
   setLoggedIn(value: boolean) {
     this.isLoggedInSubject.next(value);

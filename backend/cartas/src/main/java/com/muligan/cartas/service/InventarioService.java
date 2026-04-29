@@ -45,28 +45,33 @@ public class InventarioService {
     }
 
     @Transactional
-    public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
-        Usuario usuario = usuarioRepository.findByNombreUsr(nombreUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
+    
+    Usuario usuario = usuarioRepository.findByNombreUsr(nombreUsuario)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Carta carta = cartaRepository.findByNombreCard(request.getNombreCard())
-                .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
+    Carta carta = cartaRepository.findByNombreCard(request.getNombreCard())
+            .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
+    boolean existe = inventarioRepository.existsByUsuarioUsrIdAndCartaCardIdAndEstadoAndTipo(
+            usuario.getUsrId(), 
+            carta.getCardId(), 
+            request.getEstado(),
+            request.getTipo() 
+    );
 
-        boolean existe = inventarioRepository.existsByUsrIdAndCardIdAndEstado(
-                usuario.getUsrId(), carta.getCardId(), request.getEstado());
-        if (existe) {
-            throw new RuntimeException("Ya existe una oferta para esta carta en ese estado.");
-        }
-
-        Inventario inventario = new Inventario();
-        
-        inventario.setUsuario(usuario);
-        inventario.setCarta(carta);
-        inventario.setEstado(request.getEstado());
-        inventario.setCopias(request.getCopias());
-        inventario.setValor(request.getValor());
-        inventario.setTipo(request.getTipo());
-
-        return inventarioRepository.save(inventario);
+    if (existe) {
+        throw new RuntimeException("Ya existe una oferta de tipo " + request.getTipo() + " para esta carta en ese estado.");
     }
+
+    Inventario inventario = new Inventario();
+    
+    inventario.setUsuario(usuario);
+    inventario.setCarta(carta);
+    inventario.setEstado(request.getEstado());
+    inventario.setCopias(request.getCopias());
+    inventario.setValor(request.getValor());
+    inventario.setTipo(request.getTipo()); 
+
+    return inventarioRepository.save(inventario);
+}
 }

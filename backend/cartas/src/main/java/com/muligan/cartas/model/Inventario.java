@@ -1,5 +1,6 @@
 package com.muligan.cartas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -35,6 +36,7 @@ public class Inventario {
 
     @ManyToOne
     @JoinColumn(name = "usrid")
+    @JsonIgnoreProperties("ofertas")
     private Usuario usuario;
 
     @ManyToOne

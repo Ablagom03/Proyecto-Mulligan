@@ -40,14 +40,30 @@ export class CrearOferta implements OnInit {
   }
 
   guardar() {
-    if (this.ofertaForm.valid) {
-      this.ofertaService.crearOferta(this.ofertaForm.value).subscribe({
-        next: () => {
-          alert('Oferta creada con éxito');
-          this.cerrarModal.emit();
-        },
-        error: () => alert('Error al crear la oferta')
-      });
-    }
+  if (this.ofertaForm.valid) {
+   
+    this.authService.getUsuarioEnUso().subscribe(user => {
+      if (user && user.usrId) {
+       
+        const datosEnvio = {
+          ...this.ofertaForm.value,
+          usrId: user.usrId
+        };
+
+        this.ofertaService.crearOferta(datosEnvio).subscribe({
+          next: () => {
+            alert('Oferta creada con éxito');
+            this.cerrarModal.emit();
+          },
+          error: (err) => {
+            console.error('Error detalle:', err);
+            alert('Error al crear la oferta');
+          }
+        });
+      } else {
+        alert('No se pudo identificar al usuario. Reintenta loguearte.');
+      }
+    });
   }
+}
 }

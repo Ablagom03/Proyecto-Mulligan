@@ -19,12 +19,19 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
-    this.auth.login({ email: this.email, passwd: this.passwd }).subscribe({
-      next: () => {
-        this.auth.setLoggedIn(true);
-        this.router.navigate(['/inicio']);
-      },
-      error: err => console.error('Login fallido:', err)
-    });
-  }
+  // Creamos el objeto con las credenciales
+  const datos = { email: this.email, passwd: this.passwd };
+
+  this.auth.login(datos).subscribe({
+    next: () => {
+      console.log('Login OK');
+      this.auth.setLoggedIn(true);
+      this.router.navigate(['/']);
+    },
+    error: (err: any) => {
+      console.error('Login fallido:', err);
+      alert('Error al iniciar sesión. Revisa tus credenciales.');
+    }
+  });
+}
 }

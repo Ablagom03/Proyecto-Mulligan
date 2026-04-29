@@ -13,6 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PeticionOferta {
     private String nombreCard;
+    private String coleccion;
+    private String empresa;
     private Double valor;
     private String estado;
     private Integer copias;

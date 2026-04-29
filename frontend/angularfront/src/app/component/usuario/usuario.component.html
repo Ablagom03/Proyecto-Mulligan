@@ -34,14 +34,40 @@
     </div>
 
     <div class="contenedor-listas">
+        
         @if (vistaActual === 'inventario') {
             <div class="seccion-inventario card-container">
                 <h2>Cartas en Venta</h2>
+                
+                <div class="grid-ofertas">
+                    @for (oferta of ofertasVenta$ | async; track oferta.id) {
+                        <div class="oferta-item">
+                            <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
+                            <p>Precio: {{ oferta.valor }} €</p>
+                        </div>
+                    } @empty {
+                        <p class="mensaje-vacio">Este usuario no tiene cartas a la venta.</p>
+                    }
+                </div>
+
             </div>
         }
+
         @if (vistaActual === 'deseados') {
             <div class="seccion-deseados card-container">
                 <h2>Cartas que Compro</h2>
+                
+                <div class="grid-ofertas">
+                    @for (oferta of ofertasCompra$ | async; track oferta.id) {
+                        <div class="oferta-item">
+                            <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
+                            <p>Pago: {{ oferta.valor }} €</p>
+                        </div>
+                    } @empty {
+                        <p class="mensaje-vacio">Este usuario no está buscando ninguna carta.</p>
+                    }
+                </div>
+
             </div>
         }
     </div>

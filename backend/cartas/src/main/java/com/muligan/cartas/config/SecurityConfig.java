@@ -41,9 +41,9 @@ public class SecurityConfig {
                         .securityContextRepository(new HttpSessionSecurityContextRepository()))
 
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/auth/usuarios/**").permitAll()
-                        .requestMatchers("/usuarios/**").permitAll()
-                        .requestMatchers("/cartas/**").permitAll()
+                        .requestMatchers("/auth/usuario/**").permitAll()
+                        .requestMatchers("/usuario/**").permitAll()
+                        .requestMatchers("/carta/**").permitAll()
                         .requestMatchers("/ofertas/**").permitAll()
                         .requestMatchers("/imagenes/**").permitAll()
 

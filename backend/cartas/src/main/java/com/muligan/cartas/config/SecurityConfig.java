@@ -41,11 +41,12 @@ public class SecurityConfig {
                         .securityContextRepository(new HttpSessionSecurityContextRepository()))
 
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/auth/usuario/**").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
                         .requestMatchers("/carta/**").permitAll()
                         .requestMatchers("/ofertas/**").permitAll()
                         .requestMatchers("/imagenes/**").permitAll()
+                        .requestMatchers("/empresa/**").permitAll()
 
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

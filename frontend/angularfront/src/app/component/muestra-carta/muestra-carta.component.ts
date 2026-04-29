@@ -30,6 +30,7 @@ export class MuestraCartaComponent implements OnInit {
       const id = entrada['id'];
       if (id) {
         this.cargarDatos(id);
+        console.log(id);
       }
     });
   }

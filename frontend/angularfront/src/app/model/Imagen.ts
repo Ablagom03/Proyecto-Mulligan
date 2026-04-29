@@ -1,9 +1,9 @@
 export class Imagen {
-  idImg: number;
   nombre: string;
+  img: string;
 
-  constructor(idImg: number, nombre: string) {
-    this.idImg = idImg;
+  constructor(nombre: string, img: string) {
     this.nombre = nombre;
+    this.img = img;
   }
 }

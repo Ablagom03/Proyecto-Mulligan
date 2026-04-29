@@ -5,9 +5,9 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: #8400ff;
+  background-color: #af3264;
   color: white;
-  border: none;
+  border: solid #1c4be6 1px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
@@ -23,6 +23,7 @@
   background-color: #f50066;
   transform: translateY(-1px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  color: black;
 }   
 .modal {
   position: fixed;

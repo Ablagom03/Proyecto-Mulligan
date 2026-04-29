@@ -23,7 +23,6 @@ export class AdminComponent implements OnInit {
     this.cargarEmpresas();
   }
 
-  
   listadoCartas$!: Observable<Carta[]>;
 
   cargarCartas() {

@@ -30,9 +30,6 @@ VALUES
 ('JohnathanDobee', 'johnathancomp@hotmail.com', 0, md5('heydidyouknowyourcarbecomesmoreflammablewithgasinit'))
 ON CONFLICT (email) DO NOTHING;;
 
-
-
-
 INSERT INTO inventario (usrId, cardId, valor, estado, copias)
 SELECT u.usrId, c.cardId, 100, 'Perfecto', 1
 FROM usuario u, carta c
@@ -41,8 +38,3 @@ AND NOT EXISTS (
     SELECT 1 FROM inventario i 
     WHERE i.usrId = u.usrId AND i.cardId = c.cardId AND i.estado = 'Perfecto'
 );
-
-
-
-
---No soy el mayor fan de usar DO NOTHING, pero por ahora funciona 16/04/2026

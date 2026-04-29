@@ -1,11 +1,10 @@
 .navbar {
-
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     max-width: 100%;
-    background-color: #1e1422;
+    background-color: #a947d6;
     padding: 0 1rem;
     z-index: 1002;
     display: flex;
@@ -166,4 +165,82 @@ button.side-btn:hover {
 .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
   opacity: 1;
   transform: translate(2em, 2em) rotate(-15deg);
+}
+
+/* From Uiverse.io by zenonaiden_3341 */ 
+.toggleSwitch {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  border-radius: 50%;
+  position: relative;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  line-height: 1;
+  overflow: hidden;
+}
+
+#checkboxInput {
+  display: none;
+}
+
+.icon {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+  width: 80%;
+  height: 80%;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  transform-origin: center center;
+  transition:
+    transform 500ms ease,
+    opacity 300ms ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.icon--moon {
+  color: #212121;
+  background-color: #e8e8e8;
+  border-radius: 50%;
+}
+.icon--sun {
+  color: #e8e8e8;
+  background-color: #212121;
+  border-radius: 50%;
+}
+
+.icon--moon,
+.icon--sun {
+  transform: rotate(0deg) scale(0);
+  opacity: 0;
+}
+
+#checkboxInput:not(:checked) + .toggleSwitch .icon--sun {
+  transform: rotate(360deg) scale(1);
+  opacity: 1;
+}
+
+#checkboxInput:not(:checked) + .toggleSwitch .icon--moon {
+  transform: rotate(0deg) scale(0);
+  opacity: 0;
+}
+
+#checkboxInput:checked + .toggleSwitch .icon--moon {
+  transform: rotate(360deg) scale(1);
+  opacity: 1;
+}
+
+#checkboxInput:checked + .toggleSwitch .icon--sun {
+  transform: rotate(0deg) scale(0);
+  opacity: 0;
+}
+
+#checkboxInput:active + .toggleSwitch {
+  transform: scale(0.94);
+}
+.icon svg {
+  fill: currentColor !important;
 }

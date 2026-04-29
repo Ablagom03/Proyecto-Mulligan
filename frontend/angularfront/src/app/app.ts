@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { Sidebar } from './component/sidebar/sidebar';
 import { Navbar } from './component/navbar/navbar';
 import { CrearOferta } from './component/crear-oferta/crear-oferta';
+import { FooterComponent } from './component/footer/footer.component';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar, Navbar, CommonModule, CrearOferta],
+  imports: [RouterOutlet, Sidebar, Navbar, CommonModule, CrearOferta, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

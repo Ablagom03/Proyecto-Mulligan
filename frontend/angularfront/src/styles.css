@@ -97,37 +97,43 @@ footer {
     display: flex;
     justify-content: flex-end;
     padding-right: 1.5rem;
-    
+
 }
-/* From Uiverse.io by kandalgaonkarshubham */ 
+
+/* From Uiverse.io by kandalgaonkarshubham */
 body {
-  width: 100%;
-  height: 100%;
-  --s: 37px; /* control the size */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    --s: 37px;
+    /* control the size */
 
-  --c: #0000, rgb(255, 213, 248) 0.5deg 119.5deg, #0000 120deg;
-  --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
-  --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
-  --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));
-  background: var(--g1), var(--g1) var(--s) calc(1.73 * var(--s)), var(--g2),
-    var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
-    var(--g3) 0 calc(1.73 * var(--s)) rgb(243, 195, 241);
-  background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
+    --c: #0000, rgb(255, 213, 248) 0.5deg 119.5deg, #0000 120deg;
+    --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
+    --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
+    --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));
+    background: var(--g1), var(--g1) var(--s) calc(1.73 * var(--s)), var(--g2),
+        var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
+        var(--g3) 0 calc(1.73 * var(--s)) rgb(243, 195, 241);
+    background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
 }
 
-.body-modo-oscuro{
-  width: 100%;
-  height: 100%;
-  --s: 37px; /* control the size */
+.body-modo-oscuro {
+    width: 100%;
+    height: 100%;
+    --s: 37px;
+    /* control the size */
 
-  --c: #0000, #9b5dad 0.5deg 119.5deg, #0000 120deg;
-  --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
-  --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
-  --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));
-  background: var(--g1), var(--g1) var(--s) calc(1.73 * var(--s)), var(--g2),
-    var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
-    var(--g3) 0 calc(1.73 * var(--s)) #72477e;
-  background-size: calc(2 * var(--s)) calc(3.46 * var(--s));    
+    --c: #0000, #9b5dad 0.5deg 119.5deg, #0000 120deg;
+    --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
+    --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
+    --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));
+    background: var(--g1), var(--g1) var(--s) calc(1.73 * var(--s)), var(--g2),
+        var(--g2) var(--s) calc(1.73 * var(--s)), var(--g3) var(--s) 0,
+        var(--g3) 0 calc(1.73 * var(--s)) #72477e;
+    background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
 }
 
 * {
@@ -141,4 +147,46 @@ body {
 .logo:hover {
     transition: 0.25s;
     transform: scale(1.15);
+}
+
+main,
+.main-content {
+    margin-top: 70px;
+    padding: 20px;
+    min-height: calc(100vh - 70px);
+}
+
+.vista-principal {
+    padding-top: 80px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.contenedor-principal {
+    width: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }

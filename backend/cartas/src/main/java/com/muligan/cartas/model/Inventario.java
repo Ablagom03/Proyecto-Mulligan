@@ -2,9 +2,10 @@ package com.muligan.cartas.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Inventario 
+ * Inventario
  */
 
 @Entity
@@ -29,22 +30,23 @@ import lombok.Setter;
 public class Inventario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invid")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usrId", referencedColumnName = "usrId")
-    @JsonProperty("usuario")
+    @JoinColumn(name = "usrid")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "cardId", referencedColumnName = "cardId")
-    @JsonProperty("carta")
+    @JoinColumn(name = "cardid")
     private Carta carta;
 
-    @Column(name = "valor")
-    private Integer valor;
+    private Double valor;
     private String estado;
     private Integer copias;
+
+    @Enumerated(EnumType.STRING)
+    private TipoOferta tipo;
 
     @JsonProperty("usrId")
     public Long getUsrId() {
@@ -55,8 +57,4 @@ public class Inventario {
     public Long getCardId() {
         return carta != null ? carta.getCardId() : null;
     }
-
-    private Enum<TipoOferta> tipo;
-
 }
-

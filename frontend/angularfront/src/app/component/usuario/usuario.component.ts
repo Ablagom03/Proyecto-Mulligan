@@ -18,24 +18,20 @@ export class UsuarioComponent {
 
   vistaActual: 'inventario' | 'deseados' = 'inventario';
 
-  currentUser$: Observable<Usuario | null> = this.route.paramMap.pipe(
-    switchMap((p) => {
-      const u = p.get('usuario');
-
-      if (u) {
-        return this.authService
-          .getUsuarioPorNombre(u)
-          .pipe(catchError(() => this.authService.getUsuarioEnUso()));
-      }
-
-      return this.authService.getUsuarioEnUso();
-    }),
-
-    catchError((err) => {
-      console.error('Error al obtener el usuario: ', err);
-      return of(null);
-    }),
-  );
+ currentUser$ = this.route.paramMap.pipe(
+  switchMap((p) => {
+    const u = p.get('usuario');
+    
+   
+    return u 
+      ? this.authService.getUsuarioPorNombre(u) 
+      : this.authService.getUsuarioEnUso();
+  }),
+  catchError((err) => {
+    console.error('Error en el flujo de usuario:', err);
+    return of(null);
+  })
+);
 
   mostrarInventario() {
     this.vistaActual = 'inventario';

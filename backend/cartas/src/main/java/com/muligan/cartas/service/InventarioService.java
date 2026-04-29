@@ -64,6 +64,8 @@ public class InventarioService {
         inventario.setCarta(carta);
         inventario.setEstado(request.getEstado());
         inventario.setCopias(request.getCopias());
+        inventario.setValor(request.getValor());
+        inventario.setTipo(request.getTipo());
 
         return inventarioRepository.save(inventario);
     }

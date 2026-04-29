@@ -1,45 +1,52 @@
 @if (currentUser$ | async; as user) {
     <div class="informacion-usuario">
         <div class="imagen-usuario">
-             <img src="assets/default-avatar.png" alt="Usuario">
+            <img src="assets/default-avatar.png" 
+                 alt="Avatar de {{ user.nombre_usr }}"
+                 onerror="this.src='https://ui-avatars.com/api/?name=User'">
         </div>
         
         <div class="no-imagen">
-            <div class="nombre-usuario">{{ user.nombre_usr }}</div>
+            <h1 class="nombre-usuario">{{ user.nombre_usr }}</h1>
+            
             <div class="descripcion-usuario">
-                <div>Descripción de {{ user.nombre_usr }}</div>
+                <p>Descripción de {{ user.nombre_usr }}</p>
             </div>
-            <div class="reputacion">Reputación: <b>{{ user.reputacion }}</b></div>
+
+            <div class="reputacion">
+                Reputación: <span class="badge-reputacion">{{ user.reputacion }}</span>
+            </div>
             
             <div class="cambiarModo">
-                <div>
-                    <button (click)="mostrarInventario()" [class.active]="vistaActual === 'inventario'">
-                        Vendo
-                    </button>
-                </div>
-                <div>
-                    <button (click)="mostrarDeseados()" [class.active]="vistaActual === 'deseados'">
-                        Compro
-                    </button>
-                </div>
+                <button (click)="mostrarInventario()" 
+                        [class.active]="vistaActual === 'inventario'"
+                        class="btn-tab">
+                    Vendo
+                </button>
+                <button (click)="mostrarDeseados()" 
+                        [class.active]="vistaActual === 'deseados'"
+                        class="btn-tab">
+                    Compro
+                </button>
             </div>
         </div>
     </div>
 
     <div class="contenedor-listas">
         @if (vistaActual === 'inventario') {
-            <div class="seccion-inventario">
-                <h2>Vendo</h2>
-            </div>
+            <div class="seccion-inventario card-container">
+                <h2>Cartas en Venta</h2>
+                </div>
         }
         @if (vistaActual === 'deseados') {
-            <div class="seccion-deseados">
-                <h2>Compro</h2>
-            </div>
+            <div class="seccion-deseados card-container">
+                <h2>Cartas que Compro</h2>
+                </div>
         }
     </div>
 } @else {
-    <div class="no-usuario">
-        <p>Cargando datos o el usuario no existe...</p>
+    <div class="no-usuario-card">
+        <div class="spinner"></div>
+        <p>Buscando perfil del usuario...</p>
     </div>
 }

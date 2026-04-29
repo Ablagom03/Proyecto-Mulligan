@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS inventario (
   valor float(5),
   estado varchar(20),
   copias int,
+  tipo varchar(20),
   CONSTRAINT fk_invusr
   FOREIGN KEY(usrId) REFERENCES usuario(usrId),
   CONSTRAINT fk_invcard

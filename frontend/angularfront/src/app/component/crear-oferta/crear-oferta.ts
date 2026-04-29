@@ -26,7 +26,7 @@ export class CrearOferta implements OnInit {
 
   constructor() {
     this.ofertaForm = this.fb.group({
-      tipo: ['venta', Validators.required],
+      tipo: ['VENTA', Validators.required],
       nombreCard: ['', Validators.required],
       coleccion: ['', Validators.required],
       empresa: ['', Validators.required],

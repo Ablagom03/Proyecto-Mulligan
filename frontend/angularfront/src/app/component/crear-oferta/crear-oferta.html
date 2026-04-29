@@ -1,49 +1,55 @@
 @if (currentUser$ | async; as user) {
 
-  <form [formGroup]="ofertaForm" (ngSubmit)="guardar()">
-    <div>
-      <label for="tipo">Compra/venta</label>
-      <select class="form-control" id="tipo" formControlName="tipo">
-        <option value="compra">Compra</option>
-        <option value="venta">Venta</option>
-      </select>
-    </div>
+<form [formGroup]="ofertaForm" (ngSubmit)="guardar()">
+  <div>
+    <label for="tipo">Compra/venta</label>
+    <select class="form-control" id="tipo" formControlName="tipo">
+      <option value="VENTA">Venta</option>
+      <option value="COMPRA">Compra</option>
+    </select>
+  </div>
 
-    <div>
-      <label for="nombreCard">Nombre de la Carta</label>
-      <input type="text" class="form-control" id="nombreCard" formControlName="nombreCard">
-    </div>
+  <div>
+    <label for="nombreCard">Nombre de la Carta</label>
+    <input type="text" class="form-control" id="nombreCard"
+      formControlName="nombreCard">
+  </div>
 
-    <div>
-      <label for="coleccion">Colección</label>
-      <input type="text" class="form-control" id="coleccion" formControlName="coleccion">
-    </div>
+  <div>
+    <label for="coleccion">Colección</label>
+    <input type="text" class="form-control" id="coleccion"
+      formControlName="coleccion">
+  </div>
 
-    <div>
-      <label for="empresa">Empresa</label>
-      <input type="text" class="form-control" id="empresa" formControlName="empresa">
-    </div>
+  <div>
+    <label for="empresa">Empresa</label>
+    <input type="text" class="form-control" id="empresa"
+      formControlName="empresa">
+  </div>
 
-    <div>
-      <label for="valor">Valor</label>
-      <input type="number" class="form-control" id="valor" formControlName="valor" step="0.01">
-    </div>
+  <div>
+    <label for="valor">Valor</label>
+    <input type="number" class="form-control" id="valor" formControlName="valor"
+      step="0.01">
+  </div>
 
-    <div>
-      <label for="estado">Estado</label>
-      <input type="text" class="form-control" id="estado" formControlName="estado">
-    </div>
+  <div>
+    <label for="estado">Estado</label>
+    <input type="text" class="form-control" id="estado"
+      formControlName="estado">
+  </div>
 
-    <div>
-      <label for="copias">Cantidad</label>
-      <input type="number" class="form-control" id="copias" formControlName="copias">
-    </div>
+  <div>
+    <label for="copias">Cantidad</label>
+    <input type="number" class="form-control" id="copias"
+      formControlName="copias">
+  </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="ofertaForm.invalid">
-      Crear Oferta
-    </button>
-  </form>
+  <button type="submit" class="btn btn-primary" [disabled]="ofertaForm.invalid">
+    Crear Oferta
+  </button>
+</form>
 
 } @else {
-  <p>Debes iniciar sesión para crear una oferta.</p>
+<p>Debes iniciar sesión para crear una oferta.</p>
 }

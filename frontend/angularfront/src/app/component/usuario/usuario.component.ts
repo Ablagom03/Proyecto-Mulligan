@@ -18,26 +18,23 @@ export class UsuarioComponent {
 
   vistaActual: 'inventario' | 'deseados' = 'inventario';
 
- currentUser$ = this.route.paramMap.pipe(
-  switchMap((p) => {
-    const u = p.get('usuario');
-    
-   
-    return u 
-      ? this.authService.getUsuarioPorNombre(u) 
-      : this.authService.getUsuarioEnUso();
-  }),
-  catchError((err) => {
-    console.error('Error en el flujo de usuario:', err);
-    return of(null);
-  })
-);
+  perfilPublico$: Observable<Usuario | null> = this.route.paramMap.pipe(
+    switchMap((p) => {
 
-  mostrarInventario() {
-    this.vistaActual = 'inventario';
-  }
+      const nombreUrl = p.get('usuario');
+      console.log("Intentando cargar perfil de:", nombreUrl);
+      if (nombreUrl) {
+        return this.authService.getUsuarioPorNombre(nombreUrl);
+      } else {
+        return this.authService.getUsuarioEnUso();
+      }
+    }),
+    catchError((err) => {
+      console.error('Error cargando el perfil:', err);
+      return of(null);
+    })
+  );
 
-  mostrarDeseados() {
-    this.vistaActual = 'deseados';
-  }
+  mostrarInventario() { this.vistaActual = 'inventario'; }
+  mostrarDeseados() { this.vistaActual = 'deseados'; }
 }

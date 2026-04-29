@@ -1,16 +1,17 @@
-@if (currentUser$ | async; as user) {
+@if (perfilPublico$ | async; as user) {
     <div class="informacion-usuario">
         <div class="imagen-usuario">
             <img src="assets/default-avatar.png" 
                  alt="Avatar de {{ user.nombre_usr }}"
-                 onerror="this.src='https://ui-avatars.com/api/?name=User'">
+                 #imgAvatar
+                 (error)="imgAvatar.src='https://ui-avatars.com/api/?name=' + user.nombre_usr">
         </div>
         
         <div class="no-imagen">
             <h1 class="nombre-usuario">{{ user.nombre_usr }}</h1>
             
             <div class="descripcion-usuario">
-                <p>Descripción de {{ user.nombre_usr }}</p>
+                <p>Perfil de {{ user.nombre_usr }}</p>
             </div>
 
             <div class="reputacion">
@@ -36,17 +37,17 @@
         @if (vistaActual === 'inventario') {
             <div class="seccion-inventario card-container">
                 <h2>Cartas en Venta</h2>
-                </div>
+            </div>
         }
         @if (vistaActual === 'deseados') {
             <div class="seccion-deseados card-container">
                 <h2>Cartas que Compro</h2>
-                </div>
+            </div>
         }
     </div>
 } @else {
     <div class="no-usuario-card">
         <div class="spinner"></div>
-        <p>Buscando perfil del usuario...</p>
+        <p>Buscando perfil del usuario o usuario no encontrado...</p>
     </div>
 }

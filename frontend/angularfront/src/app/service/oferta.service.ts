@@ -13,4 +13,8 @@ export class OfertaService {
   crearOferta(oferta: any): Observable<any> {
     return this.http.post(this.apiUrl, oferta, { withCredentials: true });
   }
+
+  getOfertasPorCarta(idCarta: bigint): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/carta/${idCarta}`);
+}
 }   

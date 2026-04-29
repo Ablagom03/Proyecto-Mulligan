@@ -24,6 +24,6 @@ export const routes: Routes = [
     { path: 'signIn', component: SigninComponent },
     { path: 'marca', component: MarcaComponent },
     { path: 'carta', component: MuestraCartaComponent},
-    { path: 'usuario/:username', component: UsuarioComponent},
+    { path: 'usuario/:usuario', component: UsuarioComponent },
     { path: 'admin', component: AdminComponent}
 ];

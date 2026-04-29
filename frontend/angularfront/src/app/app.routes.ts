@@ -13,6 +13,7 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import { AdminComponent } from './component/admin/admin.component';
 
 
+
 export const routes: Routes = [
     { path: '', redirectTo: '/inicio', pathMatch: 'full' },
     { path: 'inicio', component: PaginaInicioComponent },

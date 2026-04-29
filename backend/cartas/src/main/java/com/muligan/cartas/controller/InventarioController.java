@@ -3,6 +3,8 @@ package com.muligan.cartas.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Inventario;
+import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.service.InventarioService;
 
-import jakarta.servlet.http.HttpSession;
+
 
 @RestController
 @RequestMapping("/inventario")
@@ -51,11 +54,11 @@ public class InventarioController {
      */
 
     @PostMapping("/agregar")
-    public ResponseEntity<String> agregarCarta(@RequestBody PeticionOferta request, HttpSession session) {
-        String nombreUsuario = (String) session.getAttribute("usuarioNombre");
-        if (nombreUsuario == null) {
-            return ResponseEntity.status(401).body("No autorizado. Inicie sesión.");
-        }
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> agregarCarta(@RequestBody PeticionOferta request, Authentication auth) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        String nombreUsuario = usuario.getNombreUsr();
 
         try {
             inventarioService.crearOferta(request, nombreUsuario);

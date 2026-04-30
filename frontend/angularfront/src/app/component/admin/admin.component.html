@@ -1,33 +1,49 @@
 <h1>Inserción de carta</h1>
 
-<h2>Nombre de carta: <input type="text" name="nombrecard" required></h2>
-<h2>Descripción de carta: <input type="text" name="descripcion" required></h2>
-<h2>Colección: <input type="text" name="nombrecard" required></h2>
+<form (ngSubmit)="guardarCarta()">
 
-<h1>Imagen</h1>
-<h2>Nombre: <input type="text" name="nombreimg"></h2>
-<h2>Inserte la imagen: <input type="file" name="imagenSubir" accept="image/*"></h2>
-<!-- <p>Preview: </p>
-<img id="preview"> -->
+  <h2>
+    Nombre de carta:
+    <input type="text" [(ngModel)]="carta.nombreCard" name="nombreCard" required>
+  </h2>
 
-<p><select name="empresa" id="empresa">
-    @for (empresa of listadoEmpresas$ | async; track $index) {
-    <option [value]="empresa">{{ empresa }}</option>
-    }
-  </select></p>
+  <h2>
+    Descripción:
+    <input type="text" [(ngModel)]="carta.descripcion" name="descripcion" required>
+  </h2>
 
-<script>
-  document.getElementById('imagenSubir').addEventListener('change', function () {
-    let file = this.files[0];
-    let reader = new FileReader();
+  <h2>
+    Colección:
+    <input type="text" [(ngModel)]="carta.coleccion" name="coleccion" required>
+  </h2>
 
-    reader.onload = function (event) {
-      let base64String = event.target.result;
-      //document.getElementById('preview').src = base64String;
-      //document.getElementById('preview').style.display = 'block';
-      console.log(base64String);
-    };
+  <h2>
+    Empresa:
+    <select [(ngModel)]="carta.empresa" name="empresa">
+      <option *ngFor="let empresa of listadoEmpresas$ | async" [value]="empresa">
+        {{ empresa }}
+      </option>
+    </select>
+  </h2>
 
-    reader.readAsDataURL(file);
-  });
-</script>
+  <h1>Imagen</h1>
+
+  <h2>
+    Nombre imagen:
+    <input type="text" [(ngModel)]="nombreImagen" name="nombreImagen">
+  </h2>
+
+  <h2>
+    Subir imagen:
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
+  </h2>
+
+  <div *ngIf="preview">
+    <p>Preview:</p>
+    <img [src]="preview" width="200">
+  </div>
+
+  <br>
+  <button type="submit">Guardar carta</button>
+
+</form>

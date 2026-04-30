@@ -5,5 +5,6 @@ public enum Empresa {
     MAGIC,
     POKEMON,
     LORCANA,
-    MARVELC
+    MARVELC,
+    INVIZIMALS
 }

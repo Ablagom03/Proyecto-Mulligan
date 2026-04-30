@@ -25,4 +25,8 @@ constructor(private http: HttpClient) {
   getCartaPorId(id : bigint): Observable<Carta> {
     return this.http.get<Carta>(`${this.url}/${id}`);
   }
+
+  insertCarta(carta: any): Observable<Carta> {
+  return this.http.post<Carta>(this.url, carta);
+}
 }

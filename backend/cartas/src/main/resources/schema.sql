@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS imagenes (
 
 CREATE TABLE IF NOT EXISTS usuario (
   usrId bigserial PRIMARY KEY,
-  nombre_usr varchar(80),
+  nombre_usr varchar(50),
   email varchar(80) UNIQUE,
   reputacion int,
   passwd varchar(80)
@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS usuario (
 CREATE TABLE IF NOT EXISTS carta (
   cardId bigserial PRIMARY KEY,
   nombreCard varchar(80) UNIQUE,
-  descripcion varchar(80),
-  coleccion varchar(80),
-  empresa varchar(20),
+  descripcion varchar(800),
+  coleccion varchar(50),
+  empresa varchar(10),
   idimg bigserial, 
   FOREIGN KEY (idimg) REFERENCES imagenes(idimg)
 );

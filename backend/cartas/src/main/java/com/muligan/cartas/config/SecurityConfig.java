@@ -74,6 +74,6 @@ public class SecurityConfig {
     @Bean
 
     public PasswordEncoder passwordEncoder() {
-        return new MessageDigestPasswordEncoder("MD5");
+        return new MessageDigestPasswordEncoder("SHA-512");
     }
 }

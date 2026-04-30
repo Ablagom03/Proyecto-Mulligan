@@ -119,7 +119,6 @@ public class CartaController {
     @PostMapping
     public ResponseEntity<Carta> createCarta(@RequestBody Carta carta) {
         Carta createdCarta = cartaService.createCarta(carta);
-        System.out.println(carta.getImagen().getData());
         return ResponseEntity.ok(createdCarta);
     }
 

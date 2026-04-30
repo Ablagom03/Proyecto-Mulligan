@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS usuario (
   nombre_usr varchar(50),
   email varchar(80) UNIQUE,
   reputacion int,
-  passwd varchar(80)
+  passwd varchar(80),
+  rol varchar(50)
 );
 
 CREATE TABLE IF NOT EXISTS carta (

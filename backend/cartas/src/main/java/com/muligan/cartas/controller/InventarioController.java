@@ -17,8 +17,6 @@ import com.muligan.cartas.model.Inventario;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.service.InventarioService;
 
-
-
 @RestController
 @RequestMapping("/inventario")
 public class InventarioController {
@@ -31,12 +29,23 @@ public class InventarioController {
 
     /**
      * Metodo: GET
+     * URL: localhost:8080/inventario
+     * Proposito: Devolver todos los inventarios
+     * @return los inventarios
+     */
+    @GetMapping
+    public ResponseEntity<List<Inventario>> getInventarios() {
+        List<Inventario> inventarios = inventarioService.getAllInventario();
+        return ResponseEntity.ok(inventarios);
+    }
+
+    /**
+     * Metodo: GET
      * URL: localhost:8080/inventario/usuario/{usrid}
-     * Proposito: Devolver todas las cartas de un usuario
+     * Proposito: Devolver las ofertas de un usuario
      * 
-     * @param usrid del usuario a devolver sus cartas
-     * 
-     * @return lista de cartas del inventario
+     * @param usrid del usuario cuyas ofertas queremos
+     * @return lista de ofertas del usuario
      */
     @GetMapping("/usuario/{usrId}")
     public ResponseEntity<List<Inventario>> getInventarioByUsuario(@PathVariable Long usrId) {
@@ -45,11 +54,19 @@ public class InventarioController {
     }
 
     /**
+     * Metodo: GET
+     * URL: localhost:8080/inventario/carta/{cardid}
+     * Proposito: Del
+     * 
+     * /
+
+    /**
      * Metodo: POST
      * URL: localhost:8080/inventario/agregar
      * Proposito: Agregar una carta al inventario de un usuario
      * 
-     * @param inventario con los datos de la carta a agregar
+     * @param request oferta que se hace
+     * @param auth autenticación del usuario
      * @return mensaje de éxito o error
      */
 

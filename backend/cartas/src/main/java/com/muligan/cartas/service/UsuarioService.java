@@ -3,6 +3,7 @@ package com.muligan.cartas.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.muligan.cartas.model.TipoUsuario;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.UsuarioRepository;
 import java.util.List;
@@ -27,6 +28,7 @@ public class UsuarioService {
     }
 
     public Usuario saveUsuario(Usuario usuario) {
+        usuario.setPasswd(passwordEncoder.encode(usuario.getPasswd()));
         return usuarioRepository.save(usuario);
     }
 
@@ -60,5 +62,31 @@ public class UsuarioService {
 
     public Optional<Usuario> getUsuarioByNombre(String nombre) {
         return usuarioRepository.findByNombreUsr(nombre);
+    }
+
+    public void crearUsuarioDefault(){
+        try {
+
+                    Usuario defNorm = new Usuario();
+        defNorm.setNombreUsr("JohnDoe");
+        defNorm.setEmail("johndoe@gmail.com");
+        defNorm.setReputacion(0);
+        defNorm.setPasswd("paswd");
+        defNorm.setTipo(TipoUsuario.USR);
+
+        Usuario defAdmin = new Usuario();
+        defAdmin.setNombreUsr("Admin");
+        defAdmin.setEmail("admin@gmail.com");
+        defAdmin.setReputacion(99);
+        defAdmin.setPasswd("coolassadmin");
+        defAdmin.setTipo(TipoUsuario.ADMIN);
+
+        saveUsuario(defAdmin);
+        saveUsuario(defNorm);
+
+        } catch(Exception e) {
+            System.out.println("Los usuarios ya estaban creados.");
+        }
+
     }
 }

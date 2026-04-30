@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CartasApplication<cartas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.muligan.cartas.CartasApplication",
+            "projectName": "cartas",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

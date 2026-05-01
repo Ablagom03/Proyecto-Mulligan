@@ -16,6 +16,8 @@ import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Inventario;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.service.InventarioService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/inventario")
@@ -56,9 +58,17 @@ public class InventarioController {
     /**
      * Metodo: GET
      * URL: localhost:8080/inventario/carta/{cardid}
-     * Proposito: Del
+     * Proposito: Devolver las ofertas de una carta
      * 
-     * /
+     * @param cardid de la carta cuyas ofertas queremos ver
+     * @return lista de ofertas de esa carta
+     */
+    @GetMapping("/carta/{cardid}")
+    public ResponseEntity<List<Inventario>> getMethodName(@RequestParam Long cardid) {
+        List<Inventario> inventario = inventarioService.getInventarioByCarta(cardid);
+        return ResponseEntity.ok(inventario);
+    }
+    
 
     /**
      * Metodo: POST
@@ -79,7 +89,7 @@ public class InventarioController {
 
         try {
             inventarioService.crearOferta(request, nombreUsuario);
-            return ResponseEntity.status(201).body("Carta agregada al inventario");
+            return ResponseEntity.status(201).build();
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

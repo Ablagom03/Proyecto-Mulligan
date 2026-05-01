@@ -35,6 +35,10 @@ public class InventarioService {
         return inventarioRepository.findByUsuarioUsrId(usrId);
     }
 
+    public List<Inventario> getInventarioByCarta(Long cardid) {
+        return inventarioRepository.findByCardId(cardid);
+    }
+
     public Inventario saveInventario(Inventario inventario) {
         return inventarioRepository.save(inventario);
     }

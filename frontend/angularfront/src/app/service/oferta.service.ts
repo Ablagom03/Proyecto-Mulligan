@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OfertaService {
-  private apiUrl = 'http://localhost:8080/inventario/agregar';
+  private apiUrl = 'http://localhost:8080/inventario/';
 
   constructor(private http: HttpClient) { }
 
@@ -15,6 +15,6 @@ export class OfertaService {
   }
 
   getOfertasPorCarta(idCarta: bigint): Observable<any[]> {
-  return this.http.get<any[]>(`${this.apiUrl}/carta/${idCarta}`);
+  return this.http.get<any[]>(`${this.apiUrl}carta/${idCarta}`);
 }
 }   

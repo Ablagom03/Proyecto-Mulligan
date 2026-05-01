@@ -35,9 +35,9 @@ export class PaginaInicioComponent implements OnInit {
     this.mostrar = true;
 
     //Para debuguear
-    console.log("Busqueda: ", this.busqueda);
-    console.log("Datos: ", this.datos);
-    console.log("Resultado: ", this.resultados);
+    //console.log("Busqueda: ", this.busqueda);
+    //console.log("Datos: ", this.datos);
+    //console.log("Resultado: ", this.resultados);
   }
 
   //Para el dropdown

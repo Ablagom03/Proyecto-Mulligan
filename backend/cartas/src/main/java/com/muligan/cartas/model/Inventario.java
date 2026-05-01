@@ -43,6 +43,7 @@ public class Inventario {
     @JoinColumn(name = "cardid")
     private Carta carta;
 
+    @Column
     private Double valor;
     private String estado;
     private Integer copias;
@@ -58,5 +59,9 @@ public class Inventario {
     @JsonProperty("cardId")
     public Long getCardId() {
         return carta != null ? carta.getCardId() : null;
+    }
+
+    public Double getValor() {
+        return Math.round(valor * 100.0) / 100.0;
     }
 }

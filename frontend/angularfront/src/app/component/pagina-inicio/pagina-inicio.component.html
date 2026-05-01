@@ -6,7 +6,7 @@
                 (focus)="mostrar = true" (blur)="ocultar()" placeholder="Buscar carta...">
             <div class="dropdown" *ngIf="mostrar && resultados.length > 0">
                 <div class="item" *ngFor="let carta of resultados" (click)="seleccionar(carta.nombrecard)">
-                    <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">{{ carta.nombrecard }}</a>
+                    <a [routerLink]="['/carta']" [queryParams]="{id: carta.cardid}">{{ carta.nombrecard }}</a>
                 </div>
             </div>
         </div>

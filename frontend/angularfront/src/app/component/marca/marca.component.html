@@ -2,17 +2,23 @@
   <div class="listado">
     @for (carta of listadoCartas$ | async; track carta.cardid) {
     <div class="carta">
-      <div class="imagen"><img [src]="'http://localhost:8080/imagenes/' + carta.imagen.nombre" />
-      </div>
+      <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">
+        <div class="imagen"><img [src]="'http://localhost:8080/imagenes/' + carta.imagen.nombre" />
+        </div>
+      </a>
+
       <div class="texto">
         <div class="text">
-          <h1>{{ carta.nombrecard }}</h1>
+          <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">
+            <h1>{{ carta.nombrecard }}</h1>
+          </a>
+
         </div>
         <div class="text">
           <h2>{{ carta.descripcion }}</h2>
         </div>
         <div>
-          <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">Ver carta</a>
+
         </div>
       </div>
     </div>
@@ -25,7 +31,3 @@
   </div>
 
 </div>
-
-<!--https://uiverse.io/musashi-13/great-robin-10 Voy a insertar aquí algunos enlaces, por si los usamos-->
-<!--https://uiverse.io/ElSombrero2/tricky-robin-67  -->
-<!--https://uiverse.io/kennyotsu/witty-deer-12 -->

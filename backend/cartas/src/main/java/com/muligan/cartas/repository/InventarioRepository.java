@@ -10,6 +10,7 @@ import com.muligan.cartas.model.TipoOferta;
 public interface InventarioRepository extends JpaRepository<Inventario, Long> {
 
     List<Inventario> findByUsuarioUsrId(Long usrId);
+    List<Inventario> findByCardId(Long cardId);
 
     boolean existsByUsuarioUsrIdAndCartaCardIdAndEstadoAndTipo(
         Long usrId, 

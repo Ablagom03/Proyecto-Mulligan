@@ -9,13 +9,8 @@
     </select>
   </div>
 
-  <!-- <div>
-    <label for="nombreCard">Nombre de la Carta</label>
-    <input type="text" class="form-control" id="nombreCard"
-      formControlName="nombreCard">
-  </div> -->
-
   <div class="search-wrapper">
+    Carta: 
     <input type="text" name="buscar" class="buscar" formControlName="nombreCard" [(ngModel)]="busqueda"
       (input)="buscarCartas()" (focus)="mostrar = true" (blur)="ocultar()" placeholder="Buscar carta...">
     <div div class="dropdown" *ngIf="mostrar && resultados.length > 0">
@@ -26,27 +21,27 @@
   </div>
 
   <div>
-    <label for="coleccion">Colección</label>
+    <label for="coleccion">Colección: </label>
     <input type="text" class="form-control" id="coleccion" formControlName="coleccion" readonly>
   </div>
 
   <div>
-    <label for="empresa">Empresa</label>
+    <label for="empresa">Empresa: </label>
     <input type="text" class="form-control" id="empresa" formControlName="empresa" readonly>
   </div>
 
   <div>
-    <label for="valor">Valor</label>
+    <label for="valor">Valor: </label>
     <input type="number" class="form-control" id="valor" formControlName="valor" step="0.01" min="0">
   </div>
 
   <div>
-    <label for="estado">Estado</label>
+    <label for="estado">Estado: </label>
     <input type="text" class="form-control" id="estado" formControlName="estado">
   </div>
 
   <div>
-    <label for="copias">Cantidad</label>
+    <label for="copias">Cantidad: </label>
     <input type="number" class="form-control" id="copias" formControlName="copias">
   </div>
 

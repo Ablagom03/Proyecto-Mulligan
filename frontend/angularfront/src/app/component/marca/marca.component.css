@@ -9,7 +9,7 @@
     padding-left: 1rem;
     display: flex;
     gap: 22px;
-    background-color: lightsteelblue;
+    background-color: var(--fondo-card);
     border: 3px solid black;
 }
 

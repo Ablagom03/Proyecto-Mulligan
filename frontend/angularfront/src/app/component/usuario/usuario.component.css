@@ -13,11 +13,11 @@
     justify-content: left;
     gap: 20px;
     border: 3px solid black;
+    background-color: var(--ofertas);
 }
 
 .descripcion-usuario {
     padding: 10px;
-
 }
 
 .no-imagen {
@@ -25,6 +25,7 @@
     justify-content: space-around;
     flex-direction: column;
     font-size: larger;
+    
 }
 
 .nombre-usuario {
@@ -112,12 +113,12 @@ a {
     padding: 20px;
     border: 2px solid black;
     border-radius: 8px;
-    background-color: #f5f5f5;
+    background-color: var(--ofertas);
 }
 
 .seccion-inventario h2,
 .seccion-deseados h2 {
-    color: #1e1422;
+    color: var(--text-color);
     margin-top: 0;
 }
 
@@ -130,4 +131,9 @@ a {
     border-radius: 8px;
     background-color: #f9f9f9;
     margin-top: 60px;
+}
+
+h2 {
+    font-weight: normal;
+    color: red;
 }

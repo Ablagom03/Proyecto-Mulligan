@@ -9,7 +9,7 @@
     align-items: stretch;
     align-content: stretch;
     gap: 22px;
-    background-color: lightgoldenrodyellow; 
+    background-color: var(--desc-card); 
     border: 3px solid black;
     border-radius: 4px;
 }

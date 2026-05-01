@@ -42,27 +42,33 @@ button.side-btn:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 0;
 }
 
 .nav-right {
     display: flex;
     gap: 0.75rem;
     margin-right: 5rem;
-    flex-shrink: 1;
-
+    flex-shrink: 0;
+    align-items: center;
 
 }
 .nav-btn {
-    background-color: #555;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
     border: none;
     color: white;
     padding: 0.5rem 1rem;
     
     cursor: pointer;
     border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 .nav-btn:hover {
     background-color: #777;
+    filter: brightness(1.2);
+    
 }
 
 .logout-btn {
@@ -179,6 +185,7 @@ button.side-btn:hover {
   transition: transform 0.2s ease;
   line-height: 1;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 #checkboxInput {
@@ -243,4 +250,9 @@ button.side-btn:hover {
 }
 .icon svg {
   fill: currentColor !important;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }

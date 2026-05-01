@@ -4,7 +4,7 @@
     left: -250px;
     width: 250px;
     height: 100%;
-    background-color: #120022;
+    background-color: #4d068b;
     transition: left 0.3s ease;
     z-index: 1001;
     padding-top: 1rem;
@@ -27,7 +27,7 @@
     z-index: 1001;
 }
 button.side-btn:hover {
-    color: #555;
+    color: #6a1ab1;
 }
 
 .sidebar ul {
@@ -42,7 +42,7 @@ button.side-btn:hover {
     display: block;
 }
 .sidebar li a:hover {
-    background-color: #555;
+    background-color: #6a1ab1;
 }
 
 .overlay {

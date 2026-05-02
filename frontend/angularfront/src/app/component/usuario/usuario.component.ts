@@ -74,7 +74,6 @@ export class UsuarioComponent {
   }
 
   editarOferta(id: number) {
-    // Redirige a tu componente de formulario de edición
     this.router.navigate(['/editar-oferta', id]);
   }
 

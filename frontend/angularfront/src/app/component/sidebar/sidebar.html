@@ -1,10 +1,17 @@
-
-
 <div class="sidebar" [class.abierto]="abierto">
     <nav>
         <ul>
             <li><a [routerLink]="'/inicio'">Inicio</a></li>
-            <!-- <li><a [routerLink]="'/marcas'">Marcas</a></li> -->
+            <li>
+                <ul class="marcas">
+                    <li><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'YUGIOH'}">Yugioh</a></li>
+                    <li><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MAGIC'}">Magic</a></li>
+                    <li><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'POKEMON'}">Pokemon</a></li>
+                    <li><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Invizimals'}">Invizimals</a></li>
+                    <li><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MARVELC'}">Marvel Champions</a></li>
+                    <li><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'LORCANA'}">Lorcana</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>

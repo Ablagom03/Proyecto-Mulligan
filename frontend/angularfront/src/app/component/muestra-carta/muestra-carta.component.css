@@ -1,32 +1,116 @@
 .fullcarta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
     padding: 2rem;
     margin: 1rem;
-    padding-left: 1rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: stretch;
-    align-content: stretch;
-    gap: 22px;
-    background-color: var(--desc-card); 
-    border: 3px solid black;
-    border-radius: 4px;
+
+    background-color: var(--desc-card);
+    border: 1px solid #ddd;
+    border-radius: 16px;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
+
 .texto {
     align-self: flex-start;
 }
 
 .imagen {
-    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 1rem;
-    background-color: lightblue;
-    border: 3px black solid
+    background-color: #f0f4f8;
+    border-radius: 12px;
+
+    border: 1px solid #ccc;
+}
+
+#card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+    display: block;
 }
 
 img {
     width: 95%;
     height: 95%;  
+}
+
+.texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.texto h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.texto h2 {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #555;
+    margin: 0;
+}
+
+.texto h3 {
+    font-size: 0.95rem;
+    color: #777;
+    margin: 0;
+}
+
+.contenedor-ventas {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.tabla-ofertas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.tabla-ofertas th {
+    text-align: left;
+    padding: 0.75rem;
+    background-color: var(--navbar-bg);
+    font-weight: 600;
+}
+
+.tabla-ofertas td {
+    padding: 0.75rem;
+    border-top: 1px solid #eee;
+    background-color: var(--navbar-bg);
+}
+
+.tabla-ofertas tr:hover {
+    background-color: var(--btn-text);
+}
+
+.btn-comprar {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: none;
+
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-comprar:hover {
+    background-color: #43a047;
+    transform: translateY(-1px);
 }
 
 /* From Uiverse.io by kennyotsu */ 
@@ -345,4 +429,26 @@ img {
   user-select: none;
    /* Non-prefixed version, currently
 									supported by Chrome, Edge, Opera and Firefox */
+}
+
+@media (max-width: 768px) {
+    .fullcarta {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .texto {
+        align-items: center;
+    }
+
+    .container {
+        width: 160px;
+        height: 220px;
+    }
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
 }

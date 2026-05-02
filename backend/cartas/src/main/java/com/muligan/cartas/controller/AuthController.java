@@ -1,8 +1,6 @@
 package com.muligan.cartas.controller;
 
-
 import java.util.List;
-
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +31,6 @@ public class AuthController {
 
   private final UsuarioService usuarioService;
   private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
-  
 
   public AuthController(UsuarioService usuarioService) {
     this.usuarioService = usuarioService;
@@ -41,31 +38,29 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody PeticionLogin peticion,
+  public ResponseEntity<?> login(@RequestBody PeticionLogin peticion,
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    
     Usuario usuario = usuarioService.autenticar(peticion.getEmail(), peticion.getPasswd());
 
     if (usuario != null) {
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                usuario, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+      UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+          usuario, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
 
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(auth);
-        SecurityContextHolder.setContext(context);
+      SecurityContext context = SecurityContextHolder.createEmptyContext();
+      context.setAuthentication(auth);
+      SecurityContextHolder.setContext(context);
 
-        
-        HttpSession session = request.getSession(true);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
-        securityContextRepository.saveContext(context, request, response);
+      HttpSession session = request.getSession(true);
+      session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
+      securityContextRepository.saveContext(context, request, response);
 
-        return ResponseEntity.ok(usuario);
+      return ResponseEntity.ok(usuario);
     }
 
     return ResponseEntity.status(401).body("Credenciales incorrectas");
-}
+  }
 
   @GetMapping("/me")
   public ResponseEntity<?> getCurrentUser(Authentication auth) {

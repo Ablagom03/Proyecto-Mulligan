@@ -3,7 +3,7 @@
     @for (carta of listadoCartas$ | async; track carta.cardid) {
     <div class="carta">
       <a [routerLink]="['/carta']" [queryParams]="{ id: carta.cardid}">
-        <div class="imagen"><img [src]="'http://localhost:8080/imagenes/' + carta.imagen.nombre" />
+        <div class="imagen"><img [src]="'/api/imagenes/' + carta.imagen.nombre" />
         </div>
       </a>
 

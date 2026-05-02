@@ -6,7 +6,7 @@ import { catchError, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = '/api';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public Logeado$ = this.isLoggedInSubject.asObservable();
   authService: any;

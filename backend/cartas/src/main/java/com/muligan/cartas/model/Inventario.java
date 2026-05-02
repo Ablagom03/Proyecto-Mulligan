@@ -64,4 +64,18 @@ public class Inventario {
     public Double getValor() {
         return Math.round(valor * 100.0) / 100.0;
     }
+
+    @JsonProperty("nombreVendedor")
+    public String getNombreVendedor() {
+        if (this.usuario == null)
+            return "Desconocido";
+        return this.usuario.getNombreUsr();
+    }
+
+    @JsonProperty("slugVendedor")
+    public String getSlugVendedor() {
+        if (this.usuario == null)
+            return "vendedor-anonimo";
+        return this.usuario.getNombreUsr();
+    }
 }

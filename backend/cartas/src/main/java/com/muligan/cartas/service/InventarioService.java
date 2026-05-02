@@ -36,7 +36,7 @@ public class InventarioService {
     }
 
     public List<Inventario> getInventarioByCarta(Long cardid) {
-        return inventarioRepository.findByCardId(cardid);
+        return inventarioRepository.findByCartaCardId(cardid);
     }
 
     public Inventario saveInventario(Inventario inventario) {

@@ -50,6 +50,12 @@ public class Usuario implements UserDetails {
     @JsonIgnoreProperties("usuario")
     private List<Inventario> ofertas = new ArrayList<>();
 
+    
+
+    public String getNombreUsr() {
+        return nombreUsr;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

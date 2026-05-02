@@ -33,7 +33,8 @@
           <div class="tracker tr-24"></div>
           <div class="tracker tr-25"></div>
           <div id="card">
-            <div class="title"><img [src]="'http://localhost:8080/imagenes/' + carta.imagen.nombre" /></div>
+            <div class="title"><img
+                [src]="'http://localhost:8080/imagenes/' + carta.imagen.nombre" /></div>
           </div>
         </div>
       </div>
@@ -48,15 +49,49 @@
       </div>
     </div>
 
-    <div>Ventas</div>
-    @if (ofertasVenta$ | async; as ofertas) {
-    @for (oferta of ofertas; track oferta.id) {
-    <div>{{ oferta.valor }} € - {{ oferta.usuario.nombre_usr }}</div>
-    } @empty {
-    <p>No hay ofertas de venta para esta carta.</p>
-    }
-    }
-    }
-  </div>
+    <div class="contenedor-ventas">
+      <h3>Ventas Disponibles</h3>
 
-</div>
+      <table class="tabla-ofertas">
+        <thead>
+          <tr>
+            <th>Vendedor</th>
+            <th>Reputación</th>
+            <th>Precio Unitario</th>
+            <th>Cantidad</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (ofertasVenta$ | async; as ofertas) {
+          @for (oferta of ofertas; track oferta.invId) {
+          <tr>
+            <td class="usuario-info">
+              <a [routerLink]="['/usuario', oferta.usernameVendedor]">
+                {{ oferta.nombreVendedor }}
+              </a>
+            </td>
+            <td class="reputacion">
+              {{ oferta.usuario.reputacion }}
+            </td>
+            <td class="precio">
+              {{ oferta.valor }} €
+            </td>
+            <td class="cantidad">
+              {{ oferta.copias }} ud.
+            </td>
+            <td>
+              <button class="btn-comprar">Comprar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="5" class="sin-ofertas">No hay ofertas de venta para
+              esta carta.</td>
+          </tr>
+          }
+          }
+        </tbody>
+      </table>
+    </div>
+    }

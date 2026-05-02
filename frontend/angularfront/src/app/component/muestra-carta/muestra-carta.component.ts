@@ -34,12 +34,15 @@ export class MuestraCartaComponent implements OnInit {
       }
     });
   }
-  cargarDatos(id: bigint) {
-    this.cartaEncontrada$ = this.cartasService.getCartaPorId(id);
-    
-    this.ofertasVenta$ = this.ofertaService.getOfertasPorCarta(id).pipe(
-      map(ofertas => ofertas.filter(o => o.tipo === 'VENTA'))
-    );
-  }
+  cargarDatos(id: bigint) { 
+  this.cartaEncontrada$ = this.cartasService.getCartaPorId(id);
+  
+  this.ofertasVenta$ = this.ofertaService.getOfertasPorCarta(id).pipe(
+    map(ofertas => {
+      console.log('Ofertas recibidas:', ofertas);
+      return ofertas.filter(o => o.tipo === 'VENTA');
+    })
+  );
+}
 
 }

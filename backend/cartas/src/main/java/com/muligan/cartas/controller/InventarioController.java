@@ -16,7 +16,6 @@ import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Inventario;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.service.InventarioService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -64,7 +63,7 @@ public class InventarioController {
      * @return lista de ofertas de esa carta
      */
     @GetMapping("/carta/{cardid}")
-    public ResponseEntity<List<Inventario>> getMethodName(@RequestParam Long cardid) {
+    public ResponseEntity<List<Inventario>> getMethodName(@PathVariable Long cardid) {
         List<Inventario> inventario = inventarioService.getInventarioByCarta(cardid);
         return ResponseEntity.ok(inventario);
     }

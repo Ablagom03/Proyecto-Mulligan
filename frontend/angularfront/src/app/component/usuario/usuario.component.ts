@@ -1,9 +1,8 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { AuthService } from '../../service/auth.service';
-import { switchMap, catchError } from 'rxjs/operators';
-import { BehaviorSubject, of } from 'rxjs';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, of, combineLatest } from 'rxjs'; 
 import { InventarioService } from '../../service/inventario.service';
-import { map } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -14,15 +13,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './usuario.component.css',
   imports: [CommonModule],
 })
-
 export class UsuarioComponent {
   private authService = inject(AuthService);
   private inventarioService = inject(InventarioService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private refresh$ = new BehaviorSubject<void>(undefined);
 
   vistaActual: 'inventario' | 'deseados' = 'inventario';
 
+  // Obtiene el perfil que se está visitando
   perfilPublico$ = this.route.paramMap.pipe(
     switchMap(p => {
       const nombre = p.get('usuario');
@@ -31,6 +31,15 @@ export class UsuarioComponent {
     catchError(() => of(null))
   );
 
+  // Comprueba si el usuario logueado es el mismo que el del perfil
+  esPropioPerfil$ = combineLatest([
+    this.perfilPublico$,
+    this.authService.getUsuarioEnUso()
+  ]).pipe(
+    map(([perfil, usuarioLogueado]) => {
+      return !!perfil && !!usuarioLogueado && perfil.usrId === usuarioLogueado.usrId;
+    })
+  );
 
   private inventarioCompleto$ = this.refresh$.pipe(
     switchMap(() => this.perfilPublico$),
@@ -52,6 +61,22 @@ export class UsuarioComponent {
     this.refresh$.next();
   }
 
+  // Métodos de acción
+  eliminarOferta(id: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta oferta?')) {
+      this.inventarioService.deleteInventario(id).subscribe({
+        next: () => {
+          this.recargarDatos();
+        },
+        error: (err: any) => alert('Error al eliminar: ' + err.message)
+      });
+    }
+  }
+
+  editarOferta(id: number) {
+    // Redirige a tu componente de formulario de edición
+    this.router.navigate(['/editar-oferta', id]);
+  }
 
   mostrarInventario() { this.vistaActual = 'inventario'; }
   mostrarDeseados() { this.vistaActual = 'deseados'; }

@@ -21,7 +21,8 @@ public class InventarioService {
     private final CartaRepository cartaRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public InventarioService(InventarioRepository inventarioRepository, CartaRepository cartaRepository, UsuarioRepository usuarioRepository) {
+    public InventarioService(InventarioRepository inventarioRepository, CartaRepository cartaRepository,
+            UsuarioRepository usuarioRepository) {
         this.inventarioRepository = inventarioRepository;
         this.cartaRepository = cartaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -43,39 +44,49 @@ public class InventarioService {
         return inventarioRepository.save(inventario);
     }
 
-
     public void deleteInventario(Long id) {
         inventarioRepository.deleteById(id);
     }
 
     @Transactional
-public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
-    
-    Usuario usuario = usuarioRepository.findByNombreUsr(nombreUsuario)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
 
-    Carta carta = cartaRepository.findByNombreCard(request.getNombreCard())
-            .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
-    boolean existe = inventarioRepository.existsByUsuarioUsrIdAndCartaCardIdAndEstadoAndTipo(
-            usuario.getUsrId(), 
-            carta.getCardId(), 
-            request.getEstado(),
-            request.getTipo() 
-    );
+        Usuario usuario = usuarioRepository.findByNombreUsr(nombreUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-    if (existe) {
-        throw new RuntimeException("Ya existe una oferta de tipo " + request.getTipo() + " para esta carta en ese estado.");
+        Carta carta = cartaRepository.findByNombreCard(request.getNombreCard())
+                .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
+        boolean existe = inventarioRepository.existsByUsuarioUsrIdAndCartaCardIdAndEstadoAndTipo(
+                usuario.getUsrId(),
+                carta.getCardId(),
+                request.getEstado(),
+                request.getTipo());
+
+        if (existe) {
+            throw new RuntimeException(
+                    "Ya existe una oferta de tipo " + request.getTipo() + " para esta carta en ese estado.");
+        }
+
+        Inventario inventario = new Inventario();
+
+        inventario.setUsuario(usuario);
+        inventario.setCarta(carta);
+        inventario.setEstado(request.getEstado());
+        inventario.setCopias(request.getCopias());
+        inventario.setValor(request.getValor());
+        inventario.setTipo(request.getTipo());
+
+        return inventarioRepository.save(inventario);
     }
 
-    Inventario inventario = new Inventario();
-    
-    inventario.setUsuario(usuario);
-    inventario.setCarta(carta);
-    inventario.setEstado(request.getEstado());
-    inventario.setCopias(request.getCopias());
-    inventario.setValor(request.getValor());
-    inventario.setTipo(request.getTipo()); 
+    public void eliminarOferta(Long inventarioId, Long usrId) {
+    Inventario inv = inventarioRepository.findById(inventarioId)
+        .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
 
-    return inventarioRepository.save(inventario);
+    if (!inv.getUsuario().getUsrId().equals(usrId)) {
+        throw new RuntimeException("No tienes permiso para eliminar esta oferta");
+    }
+
+    inventarioRepository.delete(inv);
 }
 }

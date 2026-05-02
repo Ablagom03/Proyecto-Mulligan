@@ -42,14 +42,25 @@
                 <div class="grid-ofertas">
                     @for (oferta of ofertasVenta$ | async; track oferta.id) {
                         <div class="oferta-item">
-                            <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
-                            <p>Precio: {{ oferta.valor }} €</p>
+                            <div class="info-texto">
+                                <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
+                                <p>Precio: {{ oferta.valor }} €</p>
+                            </div>
+                            @if (esPropioPerfil$ | async) {
+                                <div class="acciones-oferta">
+                                    <button class="btn-editar" (click)="editarOferta(oferta.id)">
+                                        Editar
+                                    </button>
+                                    <button class="btn-eliminar" (click)="eliminarOferta(oferta.id)">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            }
                         </div>
                     } @empty {
                         <p class="mensaje-vacio">Este usuario no tiene cartas a la venta.</p>
                     }
                 </div>
-
             </div>
         }
 
@@ -60,14 +71,25 @@
                 <div class="grid-ofertas">
                     @for (oferta of ofertasCompra$ | async; track oferta.id) {
                         <div class="oferta-item">
-                            <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
-                            <p>Pago: {{ oferta.valor }} €</p>
+                            <div class="info-texto">
+                                <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
+                                <p>Pago: {{ oferta.valor }} €</p>
+                            </div>
+                            @if (esPropioPerfil$ | async) {
+                                <div class="acciones-oferta">
+                                    <button class="btn-editar" (click)="editarOferta(oferta.id)">
+                                        Editar
+                                    </button>
+                                    <button class="btn-eliminar" (click)="eliminarOferta(oferta.id)">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            }
                         </div>
                     } @empty {
                         <p class="mensaje-vacio">Este usuario no está buscando ninguna carta.</p>
                     }
                 </div>
-
             </div>
         }
     </div>

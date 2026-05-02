@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -94,4 +95,26 @@ public class InventarioController {
         }
     }
 
+
+    /**
+     * Metodo: DELETE
+     * URL: localhost:8080/inventario/{id}
+     * Proposito: Eliminar una oferta del inventario
+     * 
+     * @param id de la oferta a eliminar
+     * @return respuesta vacía (204) o error
+     */
+    @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> eliminarOferta(@PathVariable Long id, Authentication auth) {
+        
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        
+        try {
+            inventarioService.eliminarOferta(id, usuario.getUsrId());
+            return ResponseEntity.noContent().build(); 
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build(); 
+        }
+    }
 }

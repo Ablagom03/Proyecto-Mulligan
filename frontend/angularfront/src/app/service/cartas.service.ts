@@ -8,7 +8,7 @@ import { Carta } from '../model/Carta';
 })
 
 export class CartasService {
-  url: string = "http://localhost:8080/carta";
+  url: string = "/api/carta";
 
 constructor(private http: HttpClient) { 
 

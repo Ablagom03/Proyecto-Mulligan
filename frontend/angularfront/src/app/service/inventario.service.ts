@@ -8,7 +8,7 @@ import { Inventario } from '../model/Inventario';
 })
 export class InventarioService {
   private http = inject(HttpClient);
-  private urlBase = 'http://localhost:8080/inventario';
+  private urlBase = '/api/inventario';
 
   
   getInventarioPorUsuario(usrId: number): Observable<Inventario[]> {

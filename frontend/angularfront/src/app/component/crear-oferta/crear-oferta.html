@@ -10,16 +10,25 @@
   </div>
 
   <div class="search-wrapper">
-    Carta: 
-    <input type="text" name="buscar" class="buscar" formControlName="nombreCard" [(ngModel)]="busqueda"
-      (input)="buscarCartas()" (focus)="mostrar = true" (blur)="ocultar()" placeholder="Buscar carta...">
-    <div div class="dropdown" *ngIf="mostrar && resultados.length > 0">
-      <div class="item" *ngFor="let carta of resultados" (click)="seleccionar(carta)">
-        <p>{{ carta.nombrecard }}</p>
+    <label>Carta:</label>
+    <input type="text" 
+           class="buscar" 
+           formControlName="nombreCard"
+           (input)="buscarCartas()" 
+           (focus)="mostrar = true" 
+           (blur)="ocultar()" 
+           placeholder="Buscar carta...">
+    
+    @if (mostrar && resultados.length > 0) {
+      <div class="dropdown">
+        @for (carta of resultados; track carta.cardid) {
+          <div class="item" (click)="seleccionar(carta)">
+            <p>{{ carta.nombrecard }}</p>
+          </div>
+        }
       </div>
-    </div>
+    }
   </div>
-
   <div>
     <label for="coleccion">Colección: </label>
     <input type="text" class="form-control" id="coleccion" formControlName="coleccion" readonly>
@@ -46,10 +55,12 @@
   </div>
 
   <button type="submit" class="btn btn-primary" [disabled]="ofertaForm.invalid">
-    Crear Oferta
+    {{ inventarioId ? 'Actualizar Oferta' : 'Crear Oferta' }}
   </button>
 </form>
 
 } @else {
-<p>Debes iniciar sesión para crear una oferta.</p>
+  <div class="mensaje-error">
+    <p>Debes iniciar sesión para realizar esta acción.</p>
+  </div>
 }

@@ -1,37 +1,47 @@
-import { Component, EventEmitter, inject, OnInit, Output, ChangeDetectorRef} from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup, FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { FormsModule } from '@angular/forms';
 
 import { AuthService } from '../../service/auth.service';
 import { OfertaService } from '../../service/oferta.service';
 import { Usuario } from '../../model/Usuario';
-
 import { Empresa } from '../../model/Empresa';
 import { EmpresaService } from '../../service/empresa.service';
 import { Carta } from '../../model/Carta';
 import { CartasService } from '../../service/cartas.service';
+import { InventarioService } from '../../service/inventario.service';
+import { Inventario } from '../../model/Inventario';
+import { ModalService } from '../../service/modal.service';
 
 @Component({
   selector: 'crear-oferta',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './crear-oferta.html',
   styleUrl: './crear-oferta.css',
 })
 export class CrearOferta implements OnInit {
+  @Input() inventarioId: number | null = null;
   @Output() cerrarModal = new EventEmitter<void>();
 
+  private inventarioService = inject(InventarioService);
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private ofertaService = inject(OfertaService);
+  private empresaService = inject(EmpresaService);
+  private cartasService = inject(CartasService);
+  private modalService = inject(ModalService);
 
   currentUser$: Observable<Usuario | null> = this.authService.getUsuarioEnUso();
-
+  listadoEmpresas$!: Observable<Empresa[]>;
   ofertaForm: FormGroup;
 
-  constructor(private empresaService: EmpresaService, private cartasService: CartasService) {
+  datos: Carta[] = [];
+  resultados: Carta[] = [];
+  mostrar: boolean = false;
+
+  constructor() {
     this.ofertaForm = this.fb.group({
       tipo: ['VENTA', Validators.required],
       nombreCard: ['', Validators.required],
@@ -41,87 +51,125 @@ export class CrearOferta implements OnInit {
       estado: ['', Validators.required],
       copias: [1, [Validators.required, Validators.min(1)]]
     });
-
   }
+
   ngOnInit(): void {
     this.cargarEmpresas();
 
     this.cartasService.getCartas().subscribe((cartas: Carta[]) => {
-      this.datos = cartas.map(carta => carta);
+      this.datos = cartas;
     });
-  }
 
-  guardar() {
-    if (this.ofertaForm.valid) {
-
-      this.authService.getUsuarioEnUso().subscribe(user => {
-        if (user && user.usrId) {
-
-          const datosEnvio = {
-            ...this.ofertaForm.value,
-            usrId: user.usrId
-          };
-
-          this.ofertaService.crearOferta(datosEnvio).subscribe({
-            next: () => {
-              alert('Oferta creada con éxito');
-              this.cerrarModal.emit();
-            },
-            error: (err) => {
-              console.error('Error detalle:', err);
-              alert('Error al crear la oferta');
-            }
-          });
-        } else {
-          alert('No se pudo identificar al usuario. Reintenta loguearte.');
-        }
-      });
-    
+    if (this.inventarioId) {
+      this.cargarDatosParaEditar(this.inventarioId);
     }
   }
 
-  listadoEmpresas$!: Observable<Empresa[]>;
   cargarEmpresas() {
     this.listadoEmpresas$ = this.empresaService.getEmpresas();
   }
 
-  buscarCartas() {
-    this.resultados = this.datos.filter(carta =>
-      carta.nombrecard.toLowerCase().includes(this.busqueda.toLowerCase())
-    );
-    console.log(this.busqueda);
-
-    console.log(this.resultados);
-    this.mostrar = true;
-
-    //Para debuguear
-    //console.log("Busqueda: ", this.busqueda);
-    //console.log("Datos: ", this.datos);
-    //console.log("Resultado: ", this.resultados);
+  cargarDatosParaEditar(id: number) {
+    this.inventarioService.getOferta(id).subscribe({
+      next: (oferta: Inventario) => {
+        this.ofertaForm.patchValue({
+          tipo: oferta.tipo,
+          nombreCard: oferta.carta.nombrecard,
+          coleccion: oferta.carta.coleccion,
+          empresa: oferta.carta.empresa,
+          valor: oferta.valor,
+          estado: oferta.estado,
+          copias: oferta.copias
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar la oferta para editar:', err);
+        alert('No se pudo cargar la información de la oferta.');
+      }
+    });
   }
 
+  buscarCartas() {
+    const valorBusqueda = this.ofertaForm.get('nombreCard')?.value?.toLowerCase() || '';
 
-  busqueda: string = '';
-  resultados: Carta[] = [];
-  datos: Carta[] = [];
-
-  //Para el dropdown
-  mostrar: boolean = false;
+    if (valorBusqueda.length > 0) {
+      this.resultados = this.datos.filter(carta =>
+        carta.nombrecard.toLowerCase().includes(valorBusqueda)
+      );
+      this.mostrar = true;
+    } else {
+      this.resultados = [];
+      this.mostrar = false;
+    }
+  }
 
   seleccionar(carta: Carta) {
-    this.busqueda = carta.nombrecard;
-    this.mostrar = false;
     this.ofertaForm.patchValue({
+      nombreCard: carta.nombrecard,
       coleccion: carta.coleccion,
       empresa: carta.empresa
-    })
+    });
+    this.mostrar = false;
+  }
+
+  guardar() {
+    if (this.ofertaForm.invalid) return;
+
+    this.authService.getUsuarioEnUso().subscribe(user => {
+      if (!user?.usrId) {
+        alert('Debes estar autenticado para realizar esta operación.');
+        return;
+      }
+
+      const datosUpdate = {
+        tipo: this.ofertaForm.value.tipo,
+        valor: this.ofertaForm.value.valor,
+        estado: this.ofertaForm.value.estado,
+        copias: this.ofertaForm.value.copias,
+        nombreCard: this.ofertaForm.value.nombreCard
+      };
+
+      if (this.inventarioId) {
+        this.inventarioService.updateInventario(this.inventarioId, datosUpdate).subscribe({
+          next: () => {
+            alert('Oferta actualizada con éxito');
+            this.modalService.notificarCambio();
+            this.finalizarAccion();
+          },
+          error: (err) => {
+            console.error('Error update:', err);
+            alert('Error al actualizar la oferta');
+          }
+        });
+      } else {
+        const datosCrear = {
+          ...this.ofertaForm.value,
+          usrId: user.usrId
+        };
+
+        this.ofertaService.crearOferta(datosCrear).subscribe({
+          next: () => {
+            alert('Oferta creada con éxito');
+            this.modalService.notificarCambio();
+            this.finalizarAccion();
+          },
+          error: (err) => {
+            console.error('Error create:', err);
+            alert('Error al crear la oferta');
+          }
+        });
+      }
+    });
+  }
+
+  private finalizarAccion() {
+    this.ofertaForm.reset();
+    this.cerrarModal.emit();
   }
 
   ocultar() {
     setTimeout(() => {
       this.mostrar = false;
-    }, 3);
+    }, 200);
   }
-
-
 }

@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.muligan.cartas.dto.InventarioUpdateDTO;
 import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Inventario;
 import com.muligan.cartas.model.Usuario;
@@ -39,6 +41,22 @@ public class InventarioController {
     public ResponseEntity<List<Inventario>> getInventarios() {
         List<Inventario> inventarios = inventarioService.getAllInventario();
         return ResponseEntity.ok(inventarios);
+    }
+
+    /**
+     * Metodo: GET
+     * URL: localhost:8080/inventario/{id}
+     * Proposito: Obtener los detalles de una oferta específica por su ID
+     * @param id de la oferta
+     * @return la oferta encontrada o 404
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Inventario> getOfertaById(@PathVariable Long id) {
+        // Asegúrate de tener este método implementado en tu InventarioService
+        // Si no existe, puedes usar el repositorio directamente o implementarlo en el service
+        return inventarioService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     /**
@@ -93,6 +111,25 @@ public class InventarioController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+
+    /**
+     * Metodo: PUT
+     * URL: localhost:8080/inventario/{id}
+     * Proposito: Actualizar una oferta del inventario
+     * @param id
+     * @param auth
+     * @return oferta actualizada o error
+     */
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarOferta(@PathVariable Long id, @RequestBody InventarioUpdateDTO dto) {
+       try {
+        Inventario actualizado = inventarioService.actualizar(id, dto);
+        return ResponseEntity.ok(actualizado);
+    } catch (Exception e) {
+        return ResponseEntity.internalServerError().body(e.getMessage());
+    }
     }
 
 

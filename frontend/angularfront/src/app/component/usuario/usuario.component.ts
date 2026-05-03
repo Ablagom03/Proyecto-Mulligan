@@ -1,10 +1,11 @@
-import { ActivatedRoute, Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { switchMap, catchError, map } from 'rxjs/operators';
-import { BehaviorSubject, of, combineLatest } from 'rxjs'; 
+import { BehaviorSubject, of, combineLatest, Subscription } from 'rxjs';
 import { InventarioService } from '../../service/inventario.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModalService } from '../../service/modal.service';
 
 @Component({
   selector: 'app-usuario',
@@ -13,12 +14,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './usuario.component.css',
   imports: [CommonModule],
 })
-export class UsuarioComponent {
+export class UsuarioComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private inventarioService = inject(InventarioService);
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private modalService = inject(ModalService);
+
   private refresh$ = new BehaviorSubject<void>(undefined);
+  private subscripcionCambios?: Subscription;
 
   vistaActual: 'inventario' | 'deseados' = 'inventario';
 
@@ -31,7 +34,6 @@ export class UsuarioComponent {
     catchError(() => of(null))
   );
 
-  // Comprueba si el usuario logueado es el mismo que el del perfil
   esPropioPerfil$ = combineLatest([
     this.perfilPublico$,
     this.authService.getUsuarioEnUso()
@@ -57,11 +59,21 @@ export class UsuarioComponent {
     map(items => items.filter(i => i.tipo === 'COMPRA'))
   );
 
+  ngOnInit(): void {
+    this.subscripcionCambios = this.modalService.ofertaCambiada$.subscribe(() => {
+      console.log('Recibida notificación de cambio, recargando inventario...');
+      this.recargarDatos();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscripcionCambios?.unsubscribe();
+  }
+
   recargarDatos() {
     this.refresh$.next();
   }
 
-  // Métodos de acción
   eliminarOferta(id: number) {
     if (confirm('¿Estás seguro de que deseas eliminar esta oferta?')) {
       this.inventarioService.deleteInventario(id).subscribe({
@@ -74,8 +86,7 @@ export class UsuarioComponent {
   }
 
   editarOferta(id: number) {
-    // Redirige a tu componente de formulario de edición
-    this.router.navigate(['/editar-oferta', id]);
+    this.modalService.abrir(id);
   }
 
   mostrarInventario() { this.vistaActual = 'inventario'; }

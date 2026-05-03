@@ -16,6 +16,11 @@
 
 <div *ngIf="modalAbierto" class="modal" (click)="cerrarModal()">
   <div class="modal-contenido" (click)="$event.stopPropagation()">
-    <crear-oferta (cerrarModal)="cerrarModal()"></crear-oferta>
+    <!-- Forzamos a que el componente se destruya y cree con los datos frescos -->
+    <crear-oferta 
+      *ngIf="modalAbierto" 
+      [inventarioId]="inventarioId" 
+      (cerrarModal)="cerrarModal()">
+    </crear-oferta>
   </div>
 </div>

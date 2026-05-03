@@ -1,12 +1,15 @@
 package com.muligan.cartas.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.muligan.cartas.dto.InventarioUpdateDTO;
 import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Carta;
 import com.muligan.cartas.model.Inventario;
+import com.muligan.cartas.model.TipoOferta;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.CartaRepository;
 import com.muligan.cartas.repository.InventarioRepository;
@@ -48,6 +51,10 @@ public class InventarioService {
         inventarioRepository.deleteById(id);
     }
 
+    public Optional<Inventario> getById(Long id) {
+        return inventarioRepository.findById(id);
+    }
+
     @Transactional
     public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
 
@@ -79,14 +86,35 @@ public class InventarioService {
         return inventarioRepository.save(inventario);
     }
 
-    public void eliminarOferta(Long inventarioId, Long usrId) {
-    Inventario inv = inventarioRepository.findById(inventarioId)
-        .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
-
-    if (!inv.getUsuario().getUsrId().equals(usrId)) {
-        throw new RuntimeException("No tienes permiso para eliminar esta oferta");
+    @Transactional
+    public Inventario actualizar(Long id, InventarioUpdateDTO dto) {
+        Inventario oferta = inventarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No encontrado"));
+        if (dto.getTipo() != null)
+            oferta.setTipo(TipoOferta.valueOf(dto.getTipo()));
+        if (dto.getValor() != null)
+            oferta.setValor(dto.getValor());
+        if (dto.getEstado() != null)
+            oferta.setEstado(dto.getEstado());
+        if (dto.getCopias() != null)
+            oferta.setCopias(dto.getCopias());
+        if (dto.getNombreCard() != null) {
+           Carta nuevaCarta = cartaRepository.findByNombreCard(dto.getNombreCard())
+                .orElseThrow(() -> new RuntimeException("La carta seleccionada no existe"));
+        oferta.setCarta(nuevaCarta);
     }
 
-    inventarioRepository.delete(inv);
-}
+        return inventarioRepository.save(oferta);
+    }
+
+    public void eliminarOferta(Long inventarioId, Long usrId) {
+        Inventario inv = inventarioRepository.findById(inventarioId)
+                .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
+
+        if (!inv.getUsuario().getUsrId().equals(usrId)) {
+            throw new RuntimeException("No tienes permiso para eliminar esta oferta");
+        }
+
+        inventarioRepository.delete(inv);
+    }
 }

@@ -1,32 +1,24 @@
 package com.muligan.cartas.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.service.UsuarioService;
 
-
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuario")
 @Validated
 public class UsuarioController {
-    
+
     private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
@@ -41,7 +33,7 @@ public class UsuarioController {
      * @return lista de cartas
      */
     @GetMapping
-    public ResponseEntity <List<Usuario>> getAllUsuarios() {
+    public ResponseEntity<List<Usuario>> getAllUsuarios() {
         List<Usuario> usuarios = usuarioService.getAllUsuarios();
         return ResponseEntity.ok(usuarios);
     }
@@ -54,16 +46,14 @@ public class UsuarioController {
      * @param id del usuario
      * @return usuario con el id especificado
      */
-    @GetMapping("/{id}")    
-    public ResponseEntity<Optional<Usuario>> getUsuarioById(@PathVariable Long id) {
-        Optional<Usuario> usuario = usuarioService.getUsuarioById(id);
-        if (usuario != null) {
-            return ResponseEntity.ok(usuario);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+        Optional<Usuario> usuarioOpt = usuarioService.getUsuarioById(id);
 
+        return usuarioOpt
+                .map(usuario -> ResponseEntity.ok(usuario))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     /**
      * Metodo: GET
@@ -73,29 +63,44 @@ public class UsuarioController {
      * @param nombre del usuario
      * @return usuario con el nombre especificado
      */
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<Usuario> getUsuarioByNombre(@PathVariable String nombre) {
+        Optional<Usuario> usuarioOpt = usuarioService.getUsuarioByNombre(nombre);
 
-    @GetMapping("/nombre/{nombre}")    
-    public ResponseEntity<Optional<Usuario>> getUsuarioByNombre(@PathVariable String nombre) {
-        Optional<Usuario> usuario = usuarioService.getUsuarioByNombre(nombre);
-        if (usuario != null) {
-            return ResponseEntity.ok(usuario);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return usuarioOpt
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-     /**
-      * Metodo: POST
-      * URL: localhost:8080/usuario/
-      * Proposito: Crear un nuevo usuario
-      * 
-      * @param usuario a crear
-      * @return usuario creado
-      */
+    /**
+     * Metodo: POST
+     * URL: localhost:8080/usuario/
+     * Proposito: Crear un nuevo usuario
+     * 
+     * @param usuario a crear
+     * @return usuario creado
+     */
     @PostMapping
-    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-        Usuario usuarioCreado = usuarioService.saveUsuario(usuario);
-        return ResponseEntity.ok(usuarioCreado);
+    public ResponseEntity<?> createUsuario(@Valid @RequestBody Usuario usuario) {
+        try {
+            Usuario usuarioCreado = usuarioService.saveUsuario(usuario);
+            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
+        } catch (RuntimeException e) {
+            String mensaje = e.getMessage();
+
+            if ("EMAIL_DUPLICADO".equals(mensaje)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(Map.of("error", "Este correo electrónico ya está registrado."));
+            }
+
+            if ("NOMBRE_USUARIO_DUPLICADO".equals(mensaje)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(Map.of("error", "El nombre de usuario ya está en uso."));
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "No se pudo crear el usuario. Revisa los datos."));
+        }
     }
 
     /**
@@ -103,19 +108,19 @@ public class UsuarioController {
      * URL: localhost:8080/usuario/{id}
      * Proposito: Actualizar un usuario por su id
      * 
-     * @param id del usuario a actualizar
+     * @param id      del usuario a actualizar
      * @param usuario con los datos nuevos
      * @return usuario actualizado
      */
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable long id, @RequestBody Usuario usuario) {
-        Usuario usuarioActualizado = usuarioService.updateUsuario(id,usuario);
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable long id, @Valid @RequestBody Usuario usuario) {
+        Usuario usuarioActualizado = usuarioService.updateUsuario(id, usuario);
         if (usuarioActualizado != null) {
-          return ResponseEntity.ok(usuarioActualizado);  
+            return ResponseEntity.ok(usuarioActualizado);
         } else {
             return ResponseEntity.notFound().build();
-        } 
+        }
     }
 
     /**

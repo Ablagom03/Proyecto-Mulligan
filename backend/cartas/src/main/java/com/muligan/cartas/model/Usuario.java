@@ -1,14 +1,10 @@
 package com.muligan.cartas.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Usuario implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("usrId")
@@ -39,22 +36,31 @@ public class Usuario implements UserDetails {
 
     @Column(name = "nombre_usr")
     @JsonProperty("nombre_usr")
+    @NotBlank(message = "El nombre de usuario es obligatorio")
+    // @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20
+    // caracteres")
     private String nombreUsr;
+
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "Debe proporcionar un formato de correo válido")
+
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "El email debe tener un formato válido (ejemplo@dominio.com)")
     private String email;
+
     private int reputacion;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "La contraseña es obligatoria")
+    // @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String passwd;
-    private TipoUsuario tipo;
+
+    @Column(name = "tipo")
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo = TipoUsuario.USR;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("usuario")
     private List<Inventario> ofertas = new ArrayList<>();
-
-    
-
-    public String getNombreUsr() {
-        return nombreUsr;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,5 +1,6 @@
 package com.muligan.cartas.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package com.muligan.cartas.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +43,14 @@ public class AuthController {
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    Usuario usuario = usuarioService.autenticar(peticion.getEmail(), peticion.getPasswd());
+    try {
+      Usuario usuario = usuarioService.autenticar(peticion.getEmail(), peticion.getPasswd());
 
-    if (usuario != null) {
-      UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+      UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
           usuario, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
 
       SecurityContext context = SecurityContextHolder.createEmptyContext();
-      context.setAuthentication(auth);
+      context.setAuthentication(authToken);
       SecurityContextHolder.setContext(context);
 
       HttpSession session = request.getSession(true);
@@ -57,10 +58,24 @@ public class AuthController {
       securityContextRepository.saveContext(context, request, response);
 
       return ResponseEntity.ok(usuario);
+
+    } catch (RuntimeException e) {
+    String mensaje = e.getMessage();
+    
+    if ("USUARIO_NO_ENCONTRADO".equals(mensaje)) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(Map.of("error", "No existe ninguna cuenta con ese correo."));
+    } 
+    
+    if ("PASSWORD_INCORRECTA".equals(mensaje)) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of("error", "La contraseña es incorrecta. Inténtalo de nuevo."));
     }
 
-    return ResponseEntity.status(401).body("Credenciales incorrectas");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(Map.of("error", "Error al iniciar sesión."));
   }
+}
 
   @GetMapping("/me")
   public ResponseEntity<?> getCurrentUser(Authentication auth) {

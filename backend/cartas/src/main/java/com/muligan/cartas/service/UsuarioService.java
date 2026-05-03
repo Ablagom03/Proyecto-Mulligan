@@ -8,6 +8,7 @@ import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class UsuarioService {
 
@@ -23,12 +24,28 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> getUsuarioById(Long usrId) {
-        return usuarioRepository.findByUsrId(usrId);
+    public Optional<Usuario> getUsuarioById(Long id) {
+        return usuarioRepository.findById(id);
+    }
+
+    public Optional<Usuario> getUsuarioByNombre(String nombre) {
+        return usuarioRepository.findByNombreUsr(nombre);
     }
 
     public Usuario saveUsuario(Usuario usuario) {
-        usuario.setPasswd(passwordEncoder.encode(usuario.getPasswd()));
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RuntimeException("EMAIL_DUPLICADO");
+        }
+        if (usuarioRepository.existsByNombreUsr(usuario.getNombreUsr())) {
+            throw new RuntimeException("NOMBRE_USUARIO_DUPLICADO");
+        }
+
+        String passwordEncriptada = passwordEncoder.encode(usuario.getPasswd());
+        usuario.setPasswd(passwordEncriptada);
+
+        if (usuario.getTipo() == null) {
+            usuario.setTipo(TipoUsuario.USR);
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -48,43 +65,34 @@ public class UsuarioService {
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
-    public Usuario autenticar(String email, String passwdPlano) {
-        Optional<Usuario> userOpt = usuarioRepository.findByEmail(email);
-        
-        if (userOpt.isPresent()) {
-            Usuario usuario = userOpt.get();
-            if (passwordEncoder.matches(passwdPlano, usuario.getPasswd())) {
-                return usuario;
-            }
-        }
-        return null;
+
+    public Usuario autenticar(String email, String passwordEscrita) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("USUARIO_NO_ENCONTRADO"));
+
+        return usuario;
     }
 
-    public Optional<Usuario> getUsuarioByNombre(String nombre) {
-        return usuarioRepository.findByNombreUsr(nombre);
-    }
-
-    public void crearUsuarioDefault(){
+    public void crearUsuarioDefault() {
         try {
 
-                    Usuario defNorm = new Usuario();
-        defNorm.setNombreUsr("JohnDoe");
-        defNorm.setEmail("johndoe@gmail.com");
-        defNorm.setReputacion(0);
-        defNorm.setPasswd("paswd");
-        defNorm.setTipo(TipoUsuario.USR);
+            Usuario defNorm = new Usuario();
+            defNorm.setNombreUsr("JohnDoe");
+            defNorm.setEmail("johndoe@gmail.com");
+            defNorm.setReputacion(0);
+            defNorm.setPasswd("paswd");
+            defNorm.setTipo(TipoUsuario.USR);
+            saveUsuario(defNorm);
 
-        Usuario defAdmin = new Usuario();
-        defAdmin.setNombreUsr("Admin");
-        defAdmin.setEmail("admin@gmail.com");
-        defAdmin.setReputacion(99);
-        defAdmin.setPasswd("coolassadmin");
-        defAdmin.setTipo(TipoUsuario.ADMIN);
+            Usuario defAdmin = new Usuario();
+            defAdmin.setNombreUsr("Admin");
+            defAdmin.setEmail("admin@gmail.com");
+            defAdmin.setReputacion(99);
+            defAdmin.setPasswd("coolassadmin");
+            defAdmin.setTipo(TipoUsuario.ADMIN);
+            saveUsuario(defAdmin);
 
-        saveUsuario(defAdmin);
-        saveUsuario(defNorm);
-
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Los usuarios ya estaban creados.");
         }
 

@@ -6,6 +6,9 @@
     <div class="titulo">
       <h1>Registrarse</h1>
     </div>
+    <div *ngIf="mensajeError" class="error-badge">
+      {{ mensajeError }}
+    </div>
 
     <form class="form" (ngSubmit)="register()" #signupForm="ngForm">
       <div class="input-group">
@@ -13,6 +16,7 @@
           name="nombre_usr"
           type="text"
           class="login-field"
+          [class.input-invalid]="mensajeError" 
           placeholder="Nombre de usuario"
           required
           [(ngModel)]="user.nombre_usr"
@@ -24,6 +28,7 @@
           name="email"
           type="email"
           class="login-field"
+          [class.input-invalid]="mensajeError"
           placeholder="Email"
           required
           [(ngModel)]="user.email"
@@ -35,6 +40,7 @@
           name="passwd"
           type="password"
           class="login-field"
+          [class.input-invalid]="mensajeError"
           placeholder="Contraseña"
           required
           [(ngModel)]="user.passwd"
@@ -42,10 +48,17 @@
       </div>
 
       <div class="input-group terms-group">
-        <label>
+        <label for="acepto" style="font-size: 12px; color: #777; cursor: pointer;">
           Acepto los términos y condiciones
         </label>
-        <input type="checkbox" name="acepto" required />
+        <input 
+          type="checkbox" 
+          id="acepto" 
+          name="acepto" 
+          ngModel 
+          required 
+          style="width: auto; margin-left: 10px;"
+        />
       </div>
 
       <button class="btn" type="submit" [disabled]="signupForm.invalid">Registrarse</button>

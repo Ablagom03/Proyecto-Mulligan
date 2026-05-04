@@ -66,7 +66,7 @@
           @for (oferta of ofertas; track oferta.invId) {
           <tr>
             <td class="usuario-info">
-              <a [routerLink]="['/usuario', oferta.usernameVendedor]">
+              <a [routerLink]="['/usuario', oferta.usuario.nombre_usr]">
                 {{ oferta.nombreVendedor }}
               </a>
             </td>

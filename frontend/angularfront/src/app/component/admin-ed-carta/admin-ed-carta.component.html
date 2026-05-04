@@ -1,0 +1,52 @@
+<h1><a [routerLink]="['/admin']">↩Volver a admin</a></h1>
+
+<h1>Listado de cartas</h1>
+
+<div *ngFor="let carta of cartas; let i = index" class="carta-container">
+
+  <form (ngSubmit)="actualizarCarta(carta)">
+    <h2>
+      Nombre de carta:
+      <input type="text" [(ngModel)]="carta.nombrecard" name="nombreCard{{i}}" required >
+    </h2>
+
+    <h2>
+      Descripción:
+      <input type="text" [(ngModel)]="carta.descripcion" name="descripcion{{i}}" required>
+    </h2>
+
+    <h2>
+      Colección:
+      <input type="text" [(ngModel)]="carta.coleccion" name="coleccion{{i}}" required>
+    </h2>
+
+    <h2>
+      Empresa:
+      <select [(ngModel)]="carta.empresa" name="empresa{{i}}">
+        <option *ngFor="let empresa of listadoEmpresas$ | async" [value]="empresa">
+          {{ empresa }}
+        </option>
+      </select>
+    </h2>
+
+    <h2>
+      Nombre imagen:
+      <input type="text" [(ngModel)]="carta.nombreImagen" name="nombreImagen{{i}}">
+    </h2>
+
+    <h2>
+      Cambiar imagen:
+      <input type="file" (change)="onFileSelected($event, carta)" accept="image/*">
+    </h2>
+
+    <div *ngIf="carta.preview">
+      <p>Preview:</p>
+      <img [src]="carta.preview" width="200">
+    </div>
+
+    <br>
+    <button type="submit">Actualizar carta</button>
+  </form>
+
+  <hr>
+</div>

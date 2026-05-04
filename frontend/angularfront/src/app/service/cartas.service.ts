@@ -10,23 +10,26 @@ import { Carta } from '../model/Carta';
 export class CartasService {
   url: string = "/api/carta";
 
-constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
-}
+  }
 
   getCartas(): Observable<Carta[]> {
     return this.http.get<Carta[]>(this.url);
   }
 
-  getCartasPorMarca(marca : string): Observable<Carta[]>  {
+  getCartasPorMarca(marca: string): Observable<Carta[]> {
     return this.http.get<Carta[]>(`${this.url}/marca/${marca}`);
   }
 
-  getCartaPorId(id : bigint): Observable<Carta> {
+  getCartaPorId(id: bigint): Observable<Carta> {
     return this.http.get<Carta>(`${this.url}/${id}`);
   }
 
   insertCarta(carta: any): Observable<Carta> {
-  return this.http.post<Carta>(this.url, carta);
-}
+    return this.http.post<Carta>(this.url, carta);
+  }
+  updateCarta(carta: Carta, id: bigint): Observable<any> {
+    return this.http.put(`${this.url}/${id}`, carta);
+  }
 }

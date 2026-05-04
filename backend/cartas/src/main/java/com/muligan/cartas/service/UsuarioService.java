@@ -87,7 +87,7 @@ public class UsuarioService {
             saveUsuario(defNorm);
 
             Usuario defAdmin = new Usuario();
-            defAdmin.setNombreUsr("Admin");
+            defAdmin.setNombreUsr("Administrador");
             defAdmin.setEmail("admin@gmail.com");
             defAdmin.setReputacion(99);
             defAdmin.setPasswd("coolassadmin");

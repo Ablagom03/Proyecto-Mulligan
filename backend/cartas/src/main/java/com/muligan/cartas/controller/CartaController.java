@@ -1,25 +1,15 @@
 package com.muligan.cartas.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.muligan.cartas.model.Carta;
 import com.muligan.cartas.model.Empresa;
-import com.muligan.cartas.service.CartaService;
 import com.muligan.cartas.model.Imagen;
+import com.muligan.cartas.service.CartaService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/carta")
@@ -36,7 +26,7 @@ public class CartaController {
      * Metodo: GET
      * URL: localhost:8080/carta/
      * Proposito: Devolver todas las cartas
-     * 
+     *
      * @return lista de cartas
      */
     @GetMapping
@@ -50,7 +40,7 @@ public class CartaController {
      * Metodo: GET
      * URL: localhost:8080/carta/{id}
      * Proposito: Devolver una carta por su id
-     * 
+     *
      * @param id de la carta a devolver
      * @return carta con el id especificado
      */
@@ -67,7 +57,8 @@ public class CartaController {
     /**
      * Método: GET
      * URL: localhost:8080/carta/{id}/imagen
-     * Proposito: Devolver 
+     * Proposito: Devolver
+     *
      * @param id de la carta cuya imagen se quiere sacar
      * @return imagen de la carta
      */
@@ -81,24 +72,24 @@ public class CartaController {
         }
     }
 
-        /**
+    /**
      * Método: GET
      * URL: localhost:8080/carta/marca/{empresa}
      * Proposito: Devolver las cartas de una marca especificada
-     * 
+     *
      * @param empresa de las cartas que se buscan
      * @return lista de cartas de esa empresa
      */
     @GetMapping("/marca/{empresa}")
-    public ResponseEntity<List<Carta>> getCartaByEmpresa(@PathVariable String empresa){
+    public ResponseEntity<List<Carta>> getCartaByEmpresa(@PathVariable String empresa) {
         List<Carta> todasCartas = cartaService.getAllCartas();
-        List<Carta> cartasFiltradas = new ArrayList<>(); 
+        List<Carta> cartasFiltradas = new ArrayList<>();
         Empresa marca = Empresa.valueOf(empresa.toUpperCase());
 
         for (Carta carta : todasCartas) {
-           if (carta.getEmpresa() == marca) {
-            cartasFiltradas.add(carta);
-           }
+            if (carta.getEmpresa() == marca) {
+                cartasFiltradas.add(carta);
+            }
         }
 
         if (cartasFiltradas.size() != 0) {
@@ -112,7 +103,7 @@ public class CartaController {
      * Metodo: POST
      * URL: localhost:8080/carta/
      * Proposito: Crear una nueva carta
-     * 
+     *
      * @param carta a crear
      * @return carta creada
      */
@@ -126,8 +117,8 @@ public class CartaController {
      * Metodo: PUT
      * URL: localhost:8080/carta/{id}
      * Proposito: Actualizar una carta por su id
-     * 
-     * @param id de la carta a actualizar
+     *
+     * @param id    de la carta a actualizar
      * @param carta con los nuevos datos
      * @return carta actualizada
      */
@@ -145,7 +136,7 @@ public class CartaController {
      * Metodo: DELETE
      * URL: localhost:8080/carta/{id}
      * Proposito: Eliminar una carta por su id
-     * 
+     *
      * @param id de la carta a eliminar
      * @return respuesta vacia
      */
@@ -154,7 +145,6 @@ public class CartaController {
         cartaService.deleteCartaById(id);
         return ResponseEntity.noContent().build();
     }
-
 
 
 }

@@ -1,18 +1,25 @@
 @if (currentUser$ | async; as user) {
+<div class="titulo">
+  <h1>{{ inventarioId ? 'Editar Oferta' : 'Crear Nueva Oferta' }}</h1>
+</div>
 
-<form [formGroup]="ofertaForm" (ngSubmit)="guardar()">
-  <div>
-    <label for="tipo">Compra/venta</label>
-    <select class="form-control" id="tipo" formControlName="tipo">
-      <option value="VENTA">Venta</option>
-      <option value="COMPRA">Compra</option>
-    </select>
+<form class="form" [formGroup]="ofertaForm" (ngSubmit)="guardar()">
+  
+  <div class="input-group">
+  <label>Operación</label>
+  <div class="radio-toggle">
+    <input type="radio" id="venta" value="VENTA" formControlName="tipo" name="tipo">
+    <label for="venta" class="radio-label venta-label">Venta</label>
+
+    <input type="radio" id="compra" value="COMPRA" formControlName="tipo" name="tipo">
+    <label for="compra" class="radio-label compra-label">Compra</label>
   </div>
+</div>
 
-  <div class="search-wrapper">
-    <label>Carta:</label>
+  <div class="input-group">
+    <label>Carta</label>
     <input type="text" 
-           class="buscar" 
+           class="login-field" 
            formControlName="nombreCard"
            (input)="buscarCartas()" 
            (focus)="mostrar = true" 
@@ -23,44 +30,46 @@
       <div class="dropdown">
         @for (carta of resultados; track carta.cardid) {
           <div class="item" (click)="seleccionar(carta)">
-            <p>{{ carta.nombrecard }}</p>
+            <p style="margin:0; font-size:13px;">{{ carta.nombrecard }}</p>
+            <small style="color:#aaa">{{ carta.coleccion }}</small>
           </div>
         }
       </div>
     }
   </div>
-  <div>
-    <label for="coleccion">Colección: </label>
-    <input type="text" class="form-control" id="coleccion" formControlName="coleccion" readonly>
+
+  <div class="row-flex" style="margin-bottom: 15px;">
+    <div class="input-group">
+      <label>Colección</label>
+      <input type="text" class="login-field readonly" formControlName="coleccion" readonly>
+    </div>
+    <div class="input-group">
+      <label>Empresa</label>
+      <input type="text" class="login-field readonly" formControlName="empresa" readonly>
+    </div>
   </div>
 
-  <div>
-    <label for="empresa">Empresa: </label>
-    <input type="text" class="form-control" id="empresa" formControlName="empresa" readonly>
+  <div class="input-group">
+    <label>Precio / Valor (€)</label>
+    <input type="number" class="login-field" formControlName="valor" step="0.01">
   </div>
 
-  <div>
-    <label for="valor">Valor: </label>
-    <input type="number" class="form-control" id="valor" formControlName="valor" step="0.01" min="0">
+  <div class="input-group">
+    <label>Estado de la carta</label>
+    <input type="text" class="login-field" formControlName="estado" placeholder="Ej: Usada, Nueva, etc.">
   </div>
 
-  <div>
-    <label for="estado">Estado: </label>
-    <input type="text" class="form-control" id="estado" formControlName="estado">
+  <div class="input-group">
+    <label>Cantidad de copias</label>
+    <input type="number" class="login-field" formControlName="copias">
   </div>
 
-  <div>
-    <label for="copias">Cantidad: </label>
-    <input type="number" class="form-control" id="copias" formControlName="copias" min="0">
-  </div>
-
-  <button type="submit" class="btn btn-primary" [disabled]="ofertaForm.invalid">
-    {{ inventarioId ? 'Actualizar Oferta' : 'Crear Oferta' }}
+  <button type="submit" class="btn" [disabled]="ofertaForm.invalid">
+    {{ inventarioId ? 'Actualizar Oferta' : 'Publicar Oferta' }}
   </button>
 </form>
-
-} @else {
-  <div class="mensaje-error">
-    <p>Debes iniciar sesión para realizar esta acción.</p>
-  </div>
+}@else{
+  <p style="text-align: center; color: #777; margin-top: 50px;">
+    Debes iniciar sesión para crear una oferta.
+  </p>
 }

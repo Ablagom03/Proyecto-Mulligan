@@ -10,13 +10,15 @@
   <app-footer></app-footer>
 </div>
 
-<button class="fab" (click)="abrirModal()" aria-label="Añadir oferta">
-  +
-</button>
+<div class="fab-container" (click)="abrirModal()">
+  <button class="fab" aria-label="Añadir oferta">
+    +
+  </button>
+  <span class="fab-text">crear oferta</span>
+</div>
 
 <div *ngIf="modalAbierto" class="modal" (click)="cerrarModal()">
   <div class="modal-contenido" (click)="$event.stopPropagation()">
-    <!-- Forzamos a que el componente se destruya y cree con los datos frescos -->
     <crear-oferta 
       *ngIf="modalAbierto" 
       [inventarioId]="inventarioId" 

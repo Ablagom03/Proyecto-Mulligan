@@ -1,107 +1,109 @@
+.informacion-usuario {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    border: 3px solid black;
+    background-color: var(--ofertas);
+    margin-bottom: 20px;
+}
+
 .imagen-usuario {
     padding: 15px;
-    border: 3px solid black;
+    border-right: 3px solid black;
     background-color: gray;
+    display: flex;
+    align-items: center;
 }
 
 .imagen-usuario img {
     width: 300px;
-}
-
-.informacion-usuario {
-    display: flex;
-    justify-content: left;
-    gap: 20px;
-    border: 3px solid black;
-    background-color: var(--ofertas);
-}
-
-.descripcion-usuario {
-    padding: 10px;
+    height: auto;
+    border: 2px solid black;
 }
 
 .no-imagen {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-direction: column;
     font-size: larger;
-    
+    flex: 1;
+    padding: 20px;
 }
 
 .nombre-usuario {
     font-size: xx-large;
     font-weight: 800;
+    margin: 0 0 10px 0;
+}
+
+.descripcion-usuario {
+    padding: 10px 0;
+    font-style: italic;
 }
 
 .reputacion {
-    font-size: 50px;
-    text-align: right;
+    font-size: 30px;
+    text-align: left;
+    margin-bottom: 20px;
 }
 
-.reputacion>b {
+.badge-reputacion { 
     color: green;
-}
-
-a {
-    text-decoration: none;
+    font-weight: bold;
 }
 
 .cambiarModo {
     display: flex;
-    justify-content: space-around;
-    gap: 10px;
+    justify-content: flex-start; 
+    gap: 15px; 
+    align-items: center;
+    margin-top: auto;
 }
 
-.cambiarModo button {
+.btn-tab {
     border: 2px solid black;
     background: skyblue;
     color: black;
     font-size: 16px;
     line-height: 25px;
     padding: 10px 0;
-    text-decoration: none;
-    text-shadow: none;
     border-radius: 10px;
-    box-shadow: none;
     transition: 0.25s;
-    display: block;
     width: 150px;
-    margin: 0 auto;
-}
-
-.cambiarModo button.active {
-    background-color: #db34a9c4;
-    font-weight: bold;
-    transform: scale(1.05);
-    background-image: linear-gradient(180deg,
-            rgba(255, 255, 255, 0) 30%,
-            rgba(253, 142, 248, 0.8),
-            rgba(255, 255, 255, 0) 70%);
-    animation: brillo 3s infinite linear;
-}
-
-.cambiarModo button:hover,
-.fotoPerfUsuario:hover {
-    font-size: larger;
-    background-color: #db34a9c4;
     cursor: pointer;
-    background-image: linear-gradient(180deg,
-            rgba(255, 255, 255, 0) 30%,
-            rgba(253, 142, 248, 0.8),
-            rgba(255, 255, 255, 0) 70%);
-    animation: brillo 3s infinite linear;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
     font-weight: bold;
+}
+
+.btn-tab.active {
+    background-color: #db34a9;
+    color: white;
     transform: scale(1.05);
 }
 
-.fotoPerfUsuario {
-    height: 100px;
-    border: 2px black solid;
-    border-radius: 4%;
-    padding: 10px;
-    background-color: skyblue;
-    transition: 0.25s;
+.btn-tab:hover {
+    background-color: #c42d96;
+    color: white;
+    transform: scale(1.05);
+}
 
+.btn-tab.active::after,
+.btn-tab:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: brillo 2s infinite linear;
+}
+
+@keyframes brillo {
+    0% { left: -100%; }
+    100% { left: 200%; }
 }
 
 .contenedor-listas {
@@ -111,29 +113,100 @@ a {
 .seccion-inventario,
 .seccion-deseados {
     padding: 20px;
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 8px;
     background-color: var(--ofertas);
 }
 
-.seccion-inventario h2,
-.seccion-deseados h2 {
-    color: var(--text-color);
-    margin-top: 0;
+.grid-ofertas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
 }
 
-.no-usuario {
-    padding: 40px 20px;
-    text-align: center;
-    font-size: 18px;
-    color: #666;
-    border: 2px solid #ccc;
+.oferta-item {
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+    box-shadow: 4px 4px 0px rgba(0,0,0,1);
+}
+
+.oferta-item:hover {
+    transform: translateY(-5px);
+}
+
+.info-texto p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+.acciones-oferta {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-editar, .btn-eliminar {
+    flex: 1;
+    padding: 8px 0;
+    border: 2px solid black;
     border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.btn-editar {
+    background-color: #4dd0e1;
+    color: black;
+}
+
+.btn-editar:hover {
+    background-color: #26c6da;
+    box-shadow: 2px 2px 0px black;
+}
+
+.btn-eliminar {
+    background-color: #ff5252;
+    color: white;
+}
+
+.btn-eliminar:hover {
+    background-color: #ff1744;
+    box-shadow: 2px 2px 0px black;
+}
+
+.mensaje-vacio {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+    color: #555;
+}
+
+.no-usuario-card {
+    padding: 40px;
+    text-align: center;
+    border: 3px solid #ccc;
     background-color: #f9f9f9;
-    margin-top: 60px;
+    border-radius: 12px;
 }
 
 h2 {
-    font-weight: normal;
-    color: red;
+    font-weight: 800;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+a {
+    text-decoration: none;
 }

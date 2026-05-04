@@ -5,9 +5,11 @@ header {
     justify-content: space-between;
     align-items: center;
     grid-area: header;
-    top: 0px;
-    left: 0px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     padding: 2.5rem;
+    background-color: var(--bg-color);
 
 }
 
@@ -18,6 +20,8 @@ header .sesion {
 }
 
 .sesion button {
+    position: relative; 
+    overflow: hidden;
     border: 2px solid black;
     background: skyblue;
     color: black;
@@ -51,17 +55,9 @@ header .sesion {
 }
 
 @keyframes brillo {
-    0% {
-        left: -100px
-    }
-
-    20% {
-        left: 100%
-    }
-
-    100% {
-        left: 100%
-    }
+    0% { transform: translateX(-150%); }
+    20% { transform: translateX(150%); }
+    100% { transform: translateX(150%); }
 }
 
 .contenedor-grid {
@@ -79,13 +75,9 @@ footer {
     justify-content: space-between;
     color: white;
     align-items: center;
-    position: static;
-    width: 100%;
     grid-area: footer;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    bottom: 0px;
-    left: 0px;
+    padding: 10px 1.5rem;
+    width: 100%;
 }
 
 .redes-sociales {
@@ -160,14 +152,62 @@ main,
     box-sizing: border-box;
 }
 
-
-.fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 999;
+.fab-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 30px !important;
+    z-index: 9999;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 5px !important;
+    cursor: pointer;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
 }
 
+.fab {
+    background-color: #db34a9 !important;
+    color: white !important;
+    border: none !important;
+    outline: none !important;
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    font-size: 30px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.2s ease !important;
+    margin: 0 !important;
+}
+
+.fab-text {
+    display: block !important;
+    position: static !important;
+    color: #db34a9 !important;
+    font-weight: bold !important;
+    font-size: 13px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    pointer-events: none;
+    margin: 0 !important;
+    line-height: 1 !important;
+}
+
+.fab-container:hover .fab {
+    transform: scale(1.1) !important;
+    background-color: #c42d96 !important;
+}
+
+.fab:focus,
+.fab:active,
+.fab-container:focus {
+    outline: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
 
 .modal {
     position: fixed;
@@ -187,4 +227,15 @@ main,
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+}
+
+.modal-contenido {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1001;
 }

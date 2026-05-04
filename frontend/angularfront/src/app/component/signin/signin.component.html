@@ -64,6 +64,22 @@
         </small>
       </div>
 
+      <div class="input-group">
+        <input
+          name="confirmPass"
+          type="password"
+          class="login-field"
+          [class.input-invalid]="confirmInput.touched && confirmPass !== user.passwd"
+          placeholder="Confirmar contraseña"
+          required
+          [(ngModel)]="confirmPass"
+          #confirmInput="ngModel"
+        />
+        <small class="text-error" *ngIf="confirmInput.touched && confirmPass !== user.passwd">
+          Las contraseñas no coinciden.
+        </small>
+      </div>
+
       <div class="input-group terms-group">
         <label for="acepto" style="font-size: 12px; color: #777; cursor: pointer;">
           Acepto los términos y condiciones
@@ -81,8 +97,12 @@
       <small class="text-error" *ngIf="aceptoInput.invalid && aceptoInput.touched" style="margin-bottom: 10px;">
         Debes aceptar los términos.
       </small>
-
-      <button class="btn" type="submit" [disabled]="signupForm.invalid">Registrarse</button>
+      <button 
+        class="btn" 
+        type="submit" 
+        [disabled]="signupForm.invalid || user.passwd !== confirmPass">
+        Registrarse
+      </button>
     </form>
   </div>
 </div>

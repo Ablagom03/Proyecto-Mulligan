@@ -40,13 +40,14 @@ export class CrearOferta implements OnInit {
   datos: Carta[] = [];
   resultados: Carta[] = [];
   mostrar: boolean = false;
+  mensajeError: string | null = null;
 
   constructor() {
     this.ofertaForm = this.fb.group({
       tipo: ['VENTA', Validators.required],
       nombreCard: ['', Validators.required],
-      coleccion: ['', Validators.required],
-      empresa: ['', Validators.required],
+      coleccion: [{ value: '', disabled: false }, Validators.required],
+      empresa: [{ value: '', disabled: false }, Validators.required],
       valor: [0, [Validators.required, Validators.min(0.01)]],
       estado: ['', Validators.required],
       copias: [1, [Validators.required, Validators.min(1)]]
@@ -55,10 +56,7 @@ export class CrearOferta implements OnInit {
 
   ngOnInit(): void {
     this.cargarEmpresas();
-
-    this.cartasService.getCartas().subscribe((cartas: Carta[]) => {
-      this.datos = cartas;
-    });
+    this.cartasService.getCartas().subscribe(cartas => this.datos = cartas);
 
     if (this.inventarioId) {
       this.cargarDatosParaEditar(this.inventarioId);
@@ -114,51 +112,30 @@ export class CrearOferta implements OnInit {
 
   guardar() {
     if (this.ofertaForm.invalid) return;
+    this.mensajeError = null;
 
     this.authService.getUsuarioEnUso().subscribe(user => {
       if (!user?.usrId) {
-        alert('Debes estar autenticado para realizar esta operación.');
+        this.mensajeError = "Sesión expirada. Identifícate de nuevo.";
         return;
       }
 
-      const datosUpdate = {
-        tipo: this.ofertaForm.value.tipo,
-        valor: this.ofertaForm.value.valor,
-        estado: this.ofertaForm.value.estado,
-        copias: this.ofertaForm.value.copias,
-        nombreCard: this.ofertaForm.value.nombreCard
-      };
+      const formValues = this.ofertaForm.getRawValue(); // rawValue para pillar los campos readonly
+      
+      const observable = this.inventarioId 
+        ? this.inventarioService.updateInventario(this.inventarioId, formValues)
+        : this.ofertaService.crearOferta({ ...formValues, usrId: user.usrId });
 
-      if (this.inventarioId) {
-        this.inventarioService.updateInventario(this.inventarioId, datosUpdate).subscribe({
-          next: () => {
-            alert('Oferta actualizada con éxito');
-            this.modalService.notificarCambio();
-            this.finalizarAccion();
-          },
-          error: (err) => {
-            console.error('Error update:', err);
-            alert('Error al actualizar la oferta');
-          }
-        });
-      } else {
-        const datosCrear = {
-          ...this.ofertaForm.value,
-          usrId: user.usrId
-        };
-
-        this.ofertaService.crearOferta(datosCrear).subscribe({
-          next: () => {
-            alert('Oferta creada con éxito');
-            this.modalService.notificarCambio();
-            this.finalizarAccion();
-          },
-          error: (err) => {
-            console.error('Error create:', err);
-            alert('Error al crear la oferta');
-          }
-        });
-      }
+      observable.subscribe({
+        next: () => {
+          this.modalService.notificarCambio();
+          this.finalizarAccion();
+        },
+        error: (err) => {
+          this.mensajeError = "Error al procesar la oferta. Inténtalo de nuevo.";
+          console.error(err);
+        }
+      });
     });
   }
 

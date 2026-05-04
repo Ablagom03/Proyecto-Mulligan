@@ -3,24 +3,31 @@
     <div class="volver">
       <a [routerLink]="['/inicio']">&#8592; Volver</a>
     </div>
+    
     <div class="titulo">
       <h1>Registrarse</h1>
     </div>
+
     <div *ngIf="mensajeError" class="error-badge">
       {{ mensajeError }}
     </div>
 
     <form class="form" (ngSubmit)="register()" #signupForm="ngForm">
+
       <div class="input-group">
         <input
           name="nombre_usr"
           type="text"
           class="login-field"
-          [class.input-invalid]="mensajeError" 
+          [class.input-invalid]="nombreUsr.invalid && nombreUsr.touched"
           placeholder="Nombre de usuario"
           required
           [(ngModel)]="user.nombre_usr"
+          #nombreUsr="ngModel"
         />
+        <small class="text-error" *ngIf="nombreUsr.invalid && nombreUsr.touched">
+          El nombre de usuario es obligatorio.
+        </small>
       </div>
 
       <div class="input-group">
@@ -28,11 +35,16 @@
           name="email"
           type="email"
           class="login-field"
-          [class.input-invalid]="mensajeError"
+          [class.input-invalid]="emailInput.invalid && emailInput.touched"
           placeholder="Email"
           required
+          email
           [(ngModel)]="user.email"
+          #emailInput="ngModel"
         />
+        <small class="text-error" *ngIf="emailInput.invalid && emailInput.touched">
+          Introduce un email válido.
+        </small>
       </div>
 
       <div class="input-group">
@@ -40,11 +52,16 @@
           name="passwd"
           type="password"
           class="login-field"
-          [class.input-invalid]="mensajeError"
+          [class.input-invalid]="passInput.invalid && passInput.touched"
           placeholder="Contraseña"
           required
+          minlength="6"
           [(ngModel)]="user.passwd"
+          #passInput="ngModel"
         />
+        <small class="text-error" *ngIf="passInput.invalid && passInput.touched">
+          Mínimo 6 caracteres.
+        </small>
       </div>
 
       <div class="input-group terms-group">
@@ -57,9 +74,13 @@
           name="acepto" 
           ngModel 
           required 
+          #aceptoInput="ngModel"
           style="width: auto; margin-left: 10px;"
         />
       </div>
+      <small class="text-error" *ngIf="aceptoInput.invalid && aceptoInput.touched" style="margin-bottom: 10px;">
+        Debes aceptar los términos.
+      </small>
 
       <button class="btn" type="submit" [disabled]="signupForm.invalid">Registrarse</button>
     </form>

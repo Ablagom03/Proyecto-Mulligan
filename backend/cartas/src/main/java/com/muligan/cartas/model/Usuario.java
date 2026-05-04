@@ -37,21 +37,20 @@ public class Usuario implements UserDetails {
     @Column(name = "nombre_usr")
     @JsonProperty("nombre_usr")
     @NotBlank(message = "El nombre de usuario es obligatorio")
-    // @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20
-    // caracteres")
+    @Size(min = 6, max = 20, message = "Tu nombre de usuario debe tener entre 6 y 20 caracteres")
     private String nombreUsr;
 
     @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Debe proporcionar un formato de correo válido")
+    @Email(message = "Su correo debe tener un formato válido. Ej: (ejemplo@dominio.com)")
 
-    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "El email debe tener un formato válido (ejemplo@dominio.com)")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "El email debe tener un formato válido. Ej: (ejemplo@dominio.com)")
     private String email;
 
     private int reputacion;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "La contraseña es obligatoria")
-    // @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String passwd;
 
     @Column(name = "tipo")

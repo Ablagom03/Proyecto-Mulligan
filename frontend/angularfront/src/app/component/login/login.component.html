@@ -6,20 +6,28 @@
         <div class="titulo">
             <h1>Iniciar Sesión</h1>
         </div>
+
         <div *ngIf="mensajeError" class="error-badge">
             {{ mensajeError }}
         </div>
 
         <form class="form" (ngSubmit)="login()" #loginForm="ngForm">
+            
+            <!-- Campo Email -->
             <div class="input-group">
                 <input
                     name="email"
                     type="email"
                     class="login-field"
-                    [class.input-invalid]="mensajeError"
+                    [class.input-invalid]="mensajeError || (emailInput.invalid && emailInput.touched)"
                     placeholder="Email"
                     required
-                    [(ngModel)]="email" />
+                    email
+                    [(ngModel)]="email"
+                    #emailInput="ngModel" />
+                <small class="text-error" *ngIf="emailInput.invalid && emailInput.touched">
+                    Introduce un email válido.
+                </small>
             </div>
 
             <div class="input-group">
@@ -27,15 +35,23 @@
                     name="passwd"
                     type="password"
                     class="login-field"
-                    [class.input-invalid]="mensajeError"
+                    [class.input-invalid]="mensajeError || (passInput.invalid && passInput.touched)"
                     placeholder="Contraseña"
                     required
-                    [(ngModel)]="passwd" />
+                    [(ngModel)]="passwd"
+                    #passInput="ngModel" />
+                <small class="text-error" *ngIf="passInput.invalid && passInput.touched">
+                    La contraseña es obligatoria.
+                </small>
             </div>
-            <button class="btn" type="submit"
-                [disabled]="loginForm.invalid">Iniciar Sesión</button>
-            <a class="login-link" [routerLink]="['/signIn']">¿No tienes cuenta?
-                Regístrate aquí</a>
+
+            <button class="btn" type="submit" [disabled]="loginForm.invalid">
+                Iniciar Sesión
+            </button>
+
+            <a class="login-link" [routerLink]="['/signIn']">
+                ¿No tienes cuenta? Regístrate aquí
+            </a>
         </form>
     </div>
 </div>

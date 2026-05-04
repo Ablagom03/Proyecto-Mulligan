@@ -1,10 +1,5 @@
 package com.muligan.cartas.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.muligan.cartas.dto.InventarioUpdateDTO;
 import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Carta;
@@ -14,8 +9,11 @@ import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.repository.CartaRepository;
 import com.muligan.cartas.repository.InventarioRepository;
 import com.muligan.cartas.repository.UsuarioRepository;
-
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InventarioService {
@@ -25,7 +23,7 @@ public class InventarioService {
     private final UsuarioRepository usuarioRepository;
 
     public InventarioService(InventarioRepository inventarioRepository, CartaRepository cartaRepository,
-            UsuarioRepository usuarioRepository) {
+                             UsuarioRepository usuarioRepository) {
         this.inventarioRepository = inventarioRepository;
         this.cartaRepository = cartaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -99,10 +97,10 @@ public class InventarioService {
         if (dto.getCopias() != null)
             oferta.setCopias(dto.getCopias());
         if (dto.getNombreCard() != null) {
-           Carta nuevaCarta = cartaRepository.findByNombreCard(dto.getNombreCard())
-                .orElseThrow(() -> new RuntimeException("La carta seleccionada no existe"));
-        oferta.setCarta(nuevaCarta);
-    }
+            Carta nuevaCarta = cartaRepository.findByNombreCard(dto.getNombreCard())
+                    .orElseThrow(() -> new RuntimeException("La carta seleccionada no existe"));
+            oferta.setCarta(nuevaCarta);
+        }
 
         return inventarioRepository.save(oferta);
     }

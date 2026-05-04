@@ -50,16 +50,14 @@ public class UsuarioService {
     }
 
     public Usuario updateUsuario(Long id, Usuario u) {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-        if (optionalUsuario.isPresent()) {
-            Usuario usuario = optionalUsuario.get();
+        return usuarioRepository.findById(id).map(usuario -> {
             usuario.setNombreUsr(u.getNombreUsr());
             usuario.setEmail(u.getEmail());
-            usuario.setPasswd(u.getPasswd());
+            if (u.getPasswd() != null && !u.getPasswd().isEmpty()) {
+                usuario.setPasswd(passwordEncoder.encode(u.getPasswd()));
+            }
             return usuarioRepository.save(usuario);
-        } else {
-            return null;
-        }
+        }).orElse(null);
     }
 
     public void deleteUsuario(Long id) {
@@ -69,6 +67,10 @@ public class UsuarioService {
     public Usuario autenticar(String email, String passwordEscrita) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("USUARIO_NO_ENCONTRADO"));
+
+        if (!passwordEncoder.matches(passwordEscrita, usuario.getPasswd())) {
+            throw new RuntimeException("PASSWORD_INCORRECTA");
+        }
 
         return usuario;
     }
@@ -80,7 +82,7 @@ public class UsuarioService {
             defNorm.setNombreUsr("JohnDoe");
             defNorm.setEmail("johndoe@gmail.com");
             defNorm.setReputacion(0);
-            defNorm.setPasswd("paswd");
+            defNorm.setPasswd("123456");
             defNorm.setTipo(TipoUsuario.USR);
             saveUsuario(defNorm);
 

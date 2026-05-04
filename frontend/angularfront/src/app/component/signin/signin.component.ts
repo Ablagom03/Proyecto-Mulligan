@@ -34,14 +34,21 @@ export class SigninComponent {
       },
       error: (err: any) => {
         console.error('Error en el registro:', err);
-        if (err.error && err.error.error) {
+        
+        if (err.error && err.error.errors && Array.isArray(err.error.errors) && err.error.errors.length > 0) {
+          this.mensajeError = err.error.errors[0].defaultMessage;
+        }
+        else if (err.error && err.error.error) {
           this.mensajeError = err.error.error;
         } 
-        else if (typeof err.error === 'string') {
+        else if (err.error && typeof err.error === 'string') {
           this.mensajeError = err.error;
         } 
+        else if (err.error && err.error.message) {
+          this.mensajeError = err.error.message;
+        }
         else {
-          this.mensajeError = 'No se pudo completar el registro. Inténtalo de nuevo.';
+          this.mensajeError = 'No se pudo completar el registro. Verifica los datos introducidos.';
         }
       }
     });

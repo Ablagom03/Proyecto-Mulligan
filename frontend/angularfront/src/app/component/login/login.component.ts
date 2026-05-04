@@ -32,11 +32,14 @@ export class LoginComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Detalles del error:', err);
-        if (typeof err.error === 'string') {
-          this.mensajeError = err.error;
+        if (err.error && err.error.error) {
+          this.mensajeError = err.error.error;
         }
-        else if (err.error?.message) {
+        else if (err.error && err.error.message) {
           this.mensajeError = err.error.message;
+        }
+        else if (err.error && typeof err.error === 'string') {
+          this.mensajeError = err.error;
         }
         else {
           this.mensajeError = 'Error al intentar acceder.';

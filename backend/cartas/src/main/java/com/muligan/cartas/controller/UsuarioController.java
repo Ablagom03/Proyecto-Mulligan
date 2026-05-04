@@ -137,4 +137,17 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Proposito: Captura los errores de la etiqueta @Valid para devolverlos al front
+     * 
+     * @param ex excepción lanzada por la validación
+     * @return mensaje de error con el motivo de la validación fallida
+     */
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", errorMessage));
+    }
+
 }

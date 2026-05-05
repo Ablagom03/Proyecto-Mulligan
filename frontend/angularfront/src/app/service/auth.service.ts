@@ -3,11 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Usuario } from '../model/Usuario';
 import { catchError, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = '/api';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  private userSubject = new BehaviorSubject<Usuario | null>(null);
+  user$ = this.userSubject.asObservable();
   public Logeado$ = this.isLoggedInSubject.asObservable();
   authService: any;
   router: any;
@@ -19,13 +23,13 @@ export class AuthService {
   private EstadoLogin() {
     this.getUsuarioEnUso().subscribe({
       next: (user) => {
-        if (user) {
-          this.isLoggedInSubject.next(true);
-        } else {
-          this.isLoggedInSubject.next(false);
-        }
+        this.userSubject.next(user);
+        this.isLoggedInSubject.next(!!user);
       },
-      error: () => this.isLoggedInSubject.next(false)
+      error: () => {
+        this.userSubject.next(null);
+        this.isLoggedInSubject.next(false);
+      }
     });
   }
 
@@ -36,10 +40,10 @@ export class AuthService {
   }
 
   login(credenciales: { email: string; passwd: string }): Observable<any> {
-  return this.http.post(`${this.baseUrl}/auth/login`, credenciales, {
-    withCredentials: true
-  });
-}
+    return this.http.post(`${this.baseUrl}/auth/login`, credenciales, {
+      withCredentials: true
+    });
+  }
   credenciales(credenciales: any) {
     throw new Error('Method not implemented.');
   }
@@ -51,12 +55,12 @@ export class AuthService {
   }
 
   getUsuarioEnUso(): Observable<Usuario | null> {
-  return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { withCredentials: true }).pipe(
-    catchError((error) => {
-      return of(null); 
-    })
-  );
-}
+    return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { withCredentials: true }).pipe(
+      catchError((error) => {
+        return of(null);
+      })
+    );
+  }
 
   getUsuarioPorNombre(nombre: string): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.baseUrl}/usuario/nombre/${nombre}`, {
@@ -70,5 +74,18 @@ export class AuthService {
 
   isLoggedInValue(): boolean {
     return this.isLoggedInSubject.value;
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.getUsuarioEnUso().pipe(
+      //Debug
+      //tap(user => console.log('USER EN isAdmin:', user)),
+      map(user => {
+        //Debug
+        //console.log('TIPO:', user?.tipo);
+        //console.log('COMPARACIÓN:', user?.tipo === 'ADMIN');
+        return user?.tipo === 'ADMIN';
+      })
+    );
   }
 }

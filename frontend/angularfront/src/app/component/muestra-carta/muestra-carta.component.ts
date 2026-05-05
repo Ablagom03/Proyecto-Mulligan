@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute,RouterModule, Params } from '@angular/router';
-import { CommonModule  } from '@angular/common';
-import { map, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterModule, Params } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable, switchMap, catchError, of, shareReplay } from 'rxjs';
 import { Carta } from '../../model/Carta';
 import { CartasService } from '../../service/cartas.service';
 import { OfertaService } from '../../service/oferta.service';
-
 
 @Component({
   selector: 'app-muestra-carta',
@@ -16,13 +16,15 @@ import { OfertaService } from '../../service/oferta.service';
 })
 export class MuestraCartaComponent implements OnInit {
 
-  cartaEncontrada$ !: Observable<Carta>;
+  cartaEncontrada$!: Observable<Carta>;
   ofertasVenta$!: Observable<any[]>;
+  precioExterno$!: Observable<string>;
 
   constructor(
     private cartasService: CartasService, 
     private ofertaService: OfertaService,
-    private ar: ActivatedRoute
+    private ar: ActivatedRoute,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -30,19 +32,43 @@ export class MuestraCartaComponent implements OnInit {
       const id = entrada['id'];
       if (id) {
         this.cargarDatos(id);
-        console.log(id);
       }
     });
   }
-  cargarDatos(id: bigint) { 
-  this.cartaEncontrada$ = this.cartasService.getCartaPorId(id);
-  
-  this.ofertasVenta$ = this.ofertaService.getOfertasPorCarta(id).pipe(
-    map(ofertas => {
-      console.log('Ofertas recibidas:', ofertas);
-      return ofertas.filter(o => o.tipo === 'VENTA');
-    })
-  );
-}
 
+  cargarDatos(id: bigint) { 
+    this.cartaEncontrada$ = this.cartasService.getCartaPorId(id).pipe(
+      shareReplay(1)
+    );
+
+    this.ofertasVenta$ = this.ofertaService.getOfertasPorCarta(id).pipe(
+      map(ofertas => ofertas.filter(o => o.tipo === 'VENTA'))
+    );
+
+    this.precioExterno$ = this.cartaEncontrada$.pipe(
+      switchMap(carta => this.buscarPrecioEnNuestroBackend(carta.nombrecard, carta.empresa)),
+      catchError(() => of('Precio no disponible'))
+    );
+  }
+
+  /**
+   * Función que consulta nuestro backend para obtener el precio de mercado de la carta.
+   * 
+   */
+  private buscarPrecioEnNuestroBackend(nombre: string, empresa: string): Observable<string> {
+    const url = `/api/precios/externo`;
+    
+    const params = {
+      nombre: nombre,
+      empresa: empresa
+    };
+
+    return this.http.get<{ precio: string }>(url, { params }).pipe(
+      map(res => res.precio),
+      catchError(err => {
+        console.error('Error al conectar con el backend de precios:', err);
+        return of('No disponible');
+      })
+    );
+  }
 }

@@ -8,7 +8,7 @@ INSERT INTO imagenes(nombre,data) VALUES
 ('logoYugioh',pg_read_binary_file('/images/logosMarcas/Yugioh_Logo.webp')),
 ('logoMulligan',pg_read_binary_file('/images/logoMulligan.png')),
 ('CharizardOriginal',pg_read_binary_file('/images/cartas/chariz.png')),
-('Blue Eyes White Dragon',pg_read_binary_file('/images/cartas/bewd.jpg')),
+('Blue-Eyes White Dragon',pg_read_binary_file('/images/cartas/bewd.jpg')),
 ('Pot Of Greed',pg_read_binary_file('/images/cartas/PotOfGreed.jpg')),
 ('PikachuOriginal',pg_read_binary_file('/images/cartas/PikachuOG.jpg')),
 ('Forest',pg_read_binary_file('/images/cartas/ForestMtg.jpg')),
@@ -20,8 +20,8 @@ ON CONFLICT (nombre) DO NOTHING;
 
 INSERT INTO carta (nombreCard, descripcion, coleccion, empresa, idimg) 
 VALUES 
-('Blue Eyes White Dragon', 'Este dragón legendario es una poderos máquina de destrucción. Virtualmente invencible, pocos han visto esta asombrosa criatura y vivido para contarlo.', 'OG', 'YUGIOH',
-(SELECT idimg FROM imagenes WHERE nombre = 'Blue Eyes White Dragon')),
+('Blue-Eyes White Dragon', 'Este dragón legendario es una poderos máquina de destrucción. Virtualmente invencible, pocos han visto esta asombrosa criatura y vivido para contarlo.', 'OG', 'YUGIOH',
+(SELECT idimg FROM imagenes WHERE nombre = 'Blue-Eyes White Dragon')),
 ('Pot of Greed', 'Roba 2 cartas.', 'OG', 'YUGIOH', 
 (SELECT idimg FROM imagenes WHERE nombre = 'Pot Of Greed')),
 ('Charizard Original Edition', 'La original carta de Charizard de 1995', 'OG 1995', 'POKEMON', 

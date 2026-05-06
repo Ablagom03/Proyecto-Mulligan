@@ -3,6 +3,7 @@ package com.muligan.cartas.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,8 @@ public class PrecioMercadoService {
     public PrecioMercadoService() {
         this.restTemplate = new RestTemplate();
     }
-
-    public String obtenerPrecioComercial(String nombreCarta, String empresa) {
+    
+    public Map<String, String> obtenerDatosMercado(String nombreCarta, String empresa) {
         try {
             switch (empresa.toUpperCase()) {
                 case "YUGIOH":
@@ -27,65 +28,83 @@ public class PrecioMercadoService {
                 case "LORCANA":
                 case "MARVELC":
                 case "INVIZIMALS":
-                    return "Próximamente (API en desarrollo)";
+                    return crearRespuesta("Próximamente (API en desarrollo)", null);
                 default:
-                    return "No disponible";
+                    return crearRespuesta("No disponible", null);
             }
         } catch (Exception e) {
             System.err.println("Error consultando " + empresa + " para " + nombreCarta + ": " + e.getMessage());
-            return "No disponible";
+            return crearRespuesta("No disponible", null);
         }
     }
 
-    private String buscarYugioh(String nombre) {
-        String url = UriComponentsBuilder
+    private Map<String, String> crearRespuesta(String precio, String url) {
+        Map<String, String> res = new HashMap<>();
+        res.put("precio", precio);
+        res.put("url", url);
+        return res;
+    }
+
+    private Map<String, String> buscarYugioh(String nombre) {
+        String urlApi = UriComponentsBuilder
                 .fromUriString("https://db.ygoprodeck.com/api/v7/cardinfo.php")
-                .queryParam("fname", nombre) 
+                .queryParam("fname", nombre)
                 .build().toUriString();
 
-        Map<String, Object> res = restTemplate.getForObject(url, Map.class);
+        Map<String, Object> res = restTemplate.getForObject(urlApi, Map.class);
         if (res != null && res.containsKey("data")) {
             List<Map<String, Object>> data = (List<Map<String, Object>>) res.get("data");
             List<Map<String, String>> prices = (List<Map<String, String>>) data.get(0).get("card_prices");
-            return prices.get(0).get("cardmarket_price") + " €";
+            
+            String precio = prices.get(0).get("cardmarket_price") + " €";
+            String link = "https://www.cardmarket.com/en/YuGiOh/Products/Search?searchString=" + nombre.replace(" ", "+");
+            
+            return crearRespuesta(precio, link);
         }
-        return "No listado";
+        return crearRespuesta("No listado", null);
     }
 
-    private String buscarMagic(String nombre) {
-        String url = UriComponentsBuilder
+    private Map<String, String> buscarMagic(String nombre) {
+        String urlApi = UriComponentsBuilder
                 .fromUriString("https://api.scryfall.com/cards/named")
                 .queryParam("fuzzy", nombre)
                 .build().toUriString();
 
-        Map<String, Object> res = restTemplate.getForObject(url, Map.class);
-        if (res != null && res.containsKey("prices")) {
+        Map<String, Object> res = restTemplate.getForObject(urlApi, Map.class);
+        if (res != null) {
             Map<String, String> prices = (Map<String, String>) res.get("prices");
-            String precio = prices.get("eur");
-            return precio != null ? precio + " €" : "Sin stock";
+            Map<String, String> uris = (Map<String, String>) res.get("purchase_uris");
+            
+            String precio = (prices != null && prices.get("eur") != null) ? prices.get("eur") + " €" : "Sin stock";
+            String link = (uris != null) ? uris.get("cardmarket") : null;
+            
+            return crearRespuesta(precio, link);
         }
-        return "No listado";
+        return crearRespuesta("No listado", null);
     }
 
-    private String buscarPokemon(String nombre) {
-        String url = UriComponentsBuilder
+    private Map<String, String> buscarPokemon(String nombre) {
+        String urlApi = UriComponentsBuilder
                 .fromUriString("https://api.pokemontcg.io/v2/cards")
                 .queryParam("q", "name:\"" + nombre + "\"")
                 .build().toUriString();
 
-        Map<String, Object> res = restTemplate.getForObject(url, Map.class);
+        Map<String, Object> res = restTemplate.getForObject(urlApi, Map.class);
         if (res != null && res.containsKey("data")) {
             List<Map<String, Object>> data = (List<Map<String, Object>>) res.get("data");
             if (!data.isEmpty()) {
                 Map<String, Object> cardmarket = (Map<String, Object>) data.get(0).get("cardmarket");
-                if (cardmarket != null && cardmarket.containsKey("prices")) {
+                if (cardmarket != null) {
                     Map<String, Object> prices = (Map<String, Object>) cardmarket.get("prices");
+                    String link = (String) cardmarket.get("url");
                     
-                    Object precio = prices.get("averageSellPrice");
-                    return precio != null ? precio.toString() + " €" : "No disponible";
+                    Object precioObj = (prices != null) ? prices.get("averageSellPrice") : null;
+                    String precio = (precioObj != null) ? precioObj.toString() + " €" : "No disponible";
+                    
+                    return crearRespuesta(precio, link);
                 }
             }
         }
-        return "No listado";
+        return crearRespuesta("No listado", null);
     }
 }

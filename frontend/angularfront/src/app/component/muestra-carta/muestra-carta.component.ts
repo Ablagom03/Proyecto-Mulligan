@@ -6,6 +6,10 @@ import { map, Observable, switchMap, catchError, of, shareReplay } from 'rxjs';
 import { Carta } from '../../model/Carta';
 import { CartasService } from '../../service/cartas.service';
 import { OfertaService } from '../../service/oferta.service';
+interface DatosPrecio {
+  precio: string;
+  url: string | null;
+}
 
 @Component({
   selector: 'app-muestra-carta',
@@ -18,7 +22,7 @@ export class MuestraCartaComponent implements OnInit {
 
   cartaEncontrada$!: Observable<Carta>;
   ofertasVenta$!: Observable<any[]>;
-  precioExterno$!: Observable<string>;
+  precioExterno$!: Observable<DatosPrecio>;
 
   constructor(
     private cartasService: CartasService, 
@@ -47,15 +51,11 @@ export class MuestraCartaComponent implements OnInit {
 
     this.precioExterno$ = this.cartaEncontrada$.pipe(
       switchMap(carta => this.buscarPrecioEnNuestroBackend(carta.nombrecard, carta.empresa)),
-      catchError(() => of('Precio no disponible'))
+      catchError(() => of({ precio: 'No disponible', url: null }))
     );
   }
 
-  /**
-   * Función que consulta nuestro backend para obtener el precio de mercado de la carta.
-   * 
-   */
-  private buscarPrecioEnNuestroBackend(nombre: string, empresa: string): Observable<string> {
+  private buscarPrecioEnNuestroBackend(nombre: string, empresa: string): Observable<DatosPrecio> {
     const url = `/api/precios/externo`;
     
     const params = {
@@ -63,11 +63,10 @@ export class MuestraCartaComponent implements OnInit {
       empresa: empresa
     };
 
-    return this.http.get<{ precio: string }>(url, { params }).pipe(
-      map(res => res.precio),
+    return this.http.get<DatosPrecio>(url, { params }).pipe(
       catchError(err => {
         console.error('Error al conectar con el backend de precios:', err);
-        return of('No disponible');
+        return of({ precio: 'No disponible', url: null });
       })
     );
   }

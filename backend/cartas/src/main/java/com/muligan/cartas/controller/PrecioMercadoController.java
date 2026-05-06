@@ -1,6 +1,5 @@
 package com.muligan.cartas.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -30,12 +29,6 @@ public class PrecioMercadoController {
     public ResponseEntity<Map<String, String>> getPrecio(
             @RequestParam String nombre, 
             @RequestParam String empresa) {
-        
-        String precio = precioMercadoService.obtenerPrecioComercial(nombre, empresa);
-        
-        Map<String, String> response = new HashMap<>();
-        response.put("precio", precio);
-        
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(precioMercadoService.obtenerDatosMercado(nombre, empresa));
     }
 }

@@ -50,12 +50,12 @@ export class MuestraCartaComponent implements OnInit {
     );
 
     this.precioExterno$ = this.cartaEncontrada$.pipe(
-      switchMap(carta => this.buscarPrecioEnNuestroBackend(carta.nombrecard, carta.empresa)),
+      switchMap(carta => this.buscarPrecio(carta.nombrecard, carta.empresa)),
       catchError(() => of({ precio: 'No disponible', url: null }))
     );
   }
 
-  private buscarPrecioEnNuestroBackend(nombre: string, empresa: string): Observable<DatosPrecio> {
+  private buscarPrecio(nombre: string, empresa: string): Observable<DatosPrecio> {
     const url = `/api/precios/externo`;
     
     const params = {

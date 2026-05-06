@@ -25,6 +25,8 @@ public class PrecioMercadoService {
                 case "POKEMON":
                     return buscarPokemon(nombreCarta);
                 case "LORCANA":
+                case "MARVELC":
+                case "INVIZIMALS":
                     return "Próximamente (API en desarrollo)";
                 default:
                     return "No disponible";

@@ -33,7 +33,8 @@
           <div class="tracker tr-24"></div>
           <div class="tracker tr-25"></div>
           <div id="card">
-            <div class="title"><img [src]="'/api/imagenes/' + carta.imagen.nombre" /></div>
+            <div class="title"><img
+                [src]="'/api/imagenes/' + carta.imagen.nombre" /></div>
           </div>
         </div>
       </div>
@@ -49,24 +50,31 @@
     </div>
 
     <div class="precio-mercado-widget">
-    <h4>Valor en Tiendas Oficiales / Mercado</h4>
-    @if (precioExterno$ | async; as precio) {
-        @if (precio === 'No disponible') {
-            <div class="etiqueta-precio error">
-                <span class="valor">No listado</span>
-            </div>
-        } @else {
-            <div class="etiqueta-precio">
-                <span class="valor">{{ precio }}</span>
-                <small>(Precio de referencia en Cardmarket)</small>
-            </div>
-        }
-    } @else {
-        <div class="etiqueta-precio cargando">
-            <span class="spinner"></span> Buscando valor comercial...
-        </div>
-    }
-</div>
+      <h4>Valor en Tiendas Oficiales / Mercado</h4>
+      @if (precioExterno$ | async; as precio) {
+      @if (precio === 'No disponible' || precio === 'No listado') {
+      <div class="etiqueta-precio error">
+        <span class="valor">No listado</span>
+      </div>
+      }
+      @else if (precio.includes('€')) {
+      <div class="etiqueta-precio">
+        <span class="valor">{{ precio }}</span>
+        <small>(Precio de referencia en Cardmarket)</small>
+      </div>
+      }
+      @else {
+      <div class="etiqueta-precio info">
+        <span class="valor">{{ precio }}</span>
+      </div>
+      }
+
+      } @else {
+      <div class="etiqueta-precio cargando">
+        <span class="spinner"></span> Buscando valor comercial...
+      </div>
+      }
+    </div>
 
     <div class="contenedor-ventas">
       <h3>Ventas Disponibles</h3>

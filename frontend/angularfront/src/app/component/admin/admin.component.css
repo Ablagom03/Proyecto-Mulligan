@@ -53,7 +53,7 @@ input[type="file"] {
   padding: 0;
 }
 
-div[ngIf], div *ngIf {
+div[ngIf], div {
   grid-column: span 2;
 }
 

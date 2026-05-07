@@ -11,19 +11,25 @@
             </div>
         </div>
         <div class="marcas">
-            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'YUGIOH'}"><img
-                        [src]="'/api/imagenes/' + 'logoYugioh'" alt="Yu-Gi-Oh"></a></div>
-            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MAGIC'}"><img
-                        [src]="'/api/imagenes/' + 'logoMagic'" alt="Magic: The Gathering"></a></div>
-            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'POKEMON'}"><img
-                        [src]="'/api/imagenes/' + 'logoPokTCG'"
-                        alt="Pokémon: The Trading Card Game"></a></div>
-            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Invizimals'}"><img
-                        [src]="'/api/imagenes/' + 'logoInvizimals'" alt="INVIZIMALS"></a></div>
-            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MARVELC'}"><img
-                        [src]="'/api/imagenes/' + 'logoMarvelC'" alt="Marvel Champions"></a></div>
-            <div class="marca"><a [routerLink]="['/marca']" [queryParams]="{ nombre: 'LORCANA'}"><img
-                        [src]="'/api/imagenes/' + 'logoLorcana'"></a></div>
+            <a [routerLink]="['/marca']" [queryParams]="{ nombre: 'YUGIOH'}">
+                <div class="marca"><img [src]="'/api/imagenes/' + 'logoYugioh'" alt="Yu-Gi-Oh"></div>
+            </a>
+            <a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MAGIC'}">
+                <div class="marca"><img [src]="'/api/imagenes/' + 'logoMagic'" alt="Magic: The Gathering"></div>
+            </a>
+            <a [routerLink]="['/marca']" [queryParams]="{ nombre: 'POKEMON'}">
+                <div class="marca"><img [src]="'/api/imagenes/' + 'logoPokTCG'" alt="Pokémon: The Trading Card Game">
+                </div>
+            </a>
+            <a [routerLink]="['/marca']" [queryParams]="{ nombre: 'Invizimals'}">
+                <div class="marca"><img [src]="'/api/imagenes/' + 'logoInvizimals'" alt="INVIZIMALS"></div>
+            </a>
+            <a [routerLink]="['/marca']" [queryParams]="{ nombre: 'MARVELC'}">
+                <div class="marca"><img [src]="'/api/imagenes/' + 'logoMarvelC'" alt="Marvel Champions"></div>
+            </a>
+            <a [routerLink]="['/marca']" [queryParams]="{ nombre: 'LORCANA'}">
+                <div class="marca"><img [src]="'/api/imagenes/' + 'logoLorcana'"></div>
+            </a>
         </div>
     </div>
 

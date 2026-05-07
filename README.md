@@ -15,16 +15,24 @@ Además, Mulligan permite a los usuarios interactuar entre ellos con un sistema 
 
 ## Para backend:
 - SpringBoot (manejo de datos en backend y conexión a bbdd)
+- Manejo de cookies y sesión con Java
 
 ## Para base de datos:
 - Contenedor docker con postgresql
 
 ### Instrucciones de uso
 
-1. Clona el repositorio
+1. Clonar el repositorio en un directorio
 
-2. Ejecuta el docker compose
+2. Ejecutar el siguiente comando para levantarlo 
 
  ```sh
    docker compose up
    ```
+
+3. Si es necesario reiniciar la base de datos
+
+ ```sh
+   docker compose down -v
+   ```
+

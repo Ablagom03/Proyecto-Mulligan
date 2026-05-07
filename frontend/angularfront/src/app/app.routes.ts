@@ -12,6 +12,7 @@ import { SigninComponent } from './component/signin/signin.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { AdminComponent } from './component/admin/admin.component';
 import { AdminEdCartaComponent } from './component/admin-ed-carta/admin-ed-carta.component';
+import { AdminGuard } from './component/admin.guard/admin.guard';
 
 
 
@@ -24,8 +25,8 @@ export const routes: Routes = [
     { path: 'usuario', component: UsuarioComponent },
     { path: 'signIn', component: SigninComponent },
     { path: 'marca', component: MarcaComponent },
-    { path: 'carta', component: MuestraCartaComponent},
+    { path: 'carta', component: MuestraCartaComponent },
     { path: 'usuario/:usuario', component: UsuarioComponent },
-    { path: 'admin', component: AdminComponent},
-    { path: 'admin/editar-cartas', component: AdminEdCartaComponent}
+    { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
+    { path: 'admin/editar-cartas', component: AdminEdCartaComponent, canActivate: [AdminGuard] }
 ];

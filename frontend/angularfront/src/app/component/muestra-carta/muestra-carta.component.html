@@ -48,6 +48,41 @@
       </div>
     </div>
 
+    <div class="precio-mercado-widget">
+      <h4>Valor en Tiendas Oficiales / Mercado</h4>
+
+      @if (precioExterno$ | async; as datos) {
+
+      @if (datos.precio === 'No disponible' || datos.precio === 'No listado') {
+      <div class="etiqueta-precio error">
+        <span class="valor">No listado</span>
+      </div>
+      }
+      @else if (datos.precio.includes('€')) {
+      <div class="etiqueta-precio">
+        <span class="valor">{{ datos.precio }}</span>
+        @if (datos.url) {
+        <a [href]="datos.url" target="_blank" class="link-cardmarket">
+          <small>(Ver en Cardmarket)</small>
+        </a>
+        } @else {
+        <small>(Precio de referencia en Cardmarket)</small>
+        }
+      </div>
+      }
+      @else {
+      <div class="etiqueta-precio info">
+        <span class="valor">{{ datos.precio }}</span>
+      </div>
+      }
+
+      } @else {
+      <div class="etiqueta-precio cargando">
+        <span class="spinner"></span> Buscando valor comercial...
+      </div>
+      }
+    </div>
+
     <div class="contenedor-ventas">
       <h3>Ventas Disponibles</h3>
 
@@ -80,7 +115,9 @@
               {{ oferta.copias }} ud.
             </td>
             <td>
-              <button class="btn-comprar">Comprar</button>
+              <button class="btn-comprar" (click)="comprarCarta(oferta.id, oferta.copias)">
+                Comprar
+              </button>
             </td>
           </tr>
           } @empty {
@@ -89,6 +126,11 @@
               esta carta.</td>
           </tr>
           }
+          }
+          @if (mensajeCompra) {
+          <div class="mensaje-compra">
+            {{ mensajeCompra }}
+          </div>
           }
         </tbody>
       </table>

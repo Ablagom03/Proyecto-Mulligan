@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute,RouterModule, Params } from '@angular/router';
+import { ActivatedRoute, RouterModule, Params } from '@angular/router';
 
 import { Carta } from '../../model/Carta';
 import { Empresa } from '../../model/Empresa';
@@ -35,7 +35,7 @@ export class AdminEdCartaComponent implements OnInit {
 
   cargarCartas() {
     this.cartasService.getCartas().subscribe(data => {
-      
+
       this.cartas = data.map(carta => ({
         ...carta,
         preview: null,
@@ -50,33 +50,27 @@ export class AdminEdCartaComponent implements OnInit {
     this.listadoEmpresas$ = this.empresaService.getEmpresas();
   }
 
-onFileSelected(event: any, carta: any) {
-  const file = event.target.files[0];
-  if (!file) return;
+  onFileSelected(event: any, carta: any) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = () => {
-    carta.preview = reader.result;
+    reader.onload = () => {
+      carta.preview = reader.result;
 
-    const base64 = (reader.result as string).split(',')[1];
+      const base64 = (reader.result as string).split(',')[1];
 
-    carta.imagen = {
-      nombre: carta.nombreImagen,
-      data: base64
-    }
+      carta.imagen = {
+        nombre: carta.nombreImagen,
+        data: base64
+      }
 
-    /*carta.imagen = {
-      ...carta.imagen, 
-      nombre: carta.nombreImagen || carta.imagen?.nombre,
-      data: base64
-    };*/
+      this.cdr.detectChanges();
+    };
 
-    this.cdr.detectChanges();
-  };
-
-  reader.readAsDataURL(file);
-}
+    reader.readAsDataURL(file);
+  }
 
   actualizarCarta(carta: any) {
     console.log('Actualizando carta:', carta);

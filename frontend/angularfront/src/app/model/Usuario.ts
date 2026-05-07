@@ -1,4 +1,5 @@
 import { Inventario } from './Inventario';
+import { Tipo } from './TipoUsuario';
 
 export interface Usuario {
     usrId?: number;
@@ -7,4 +8,5 @@ export interface Usuario {
     passwd?: string;
     reputacion?: number;
     ofertas?: Inventario[]; 
+    tipo?: Tipo;
 }

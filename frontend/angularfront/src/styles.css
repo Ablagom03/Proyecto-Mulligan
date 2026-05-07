@@ -187,7 +187,7 @@ main,
 .fab-text {
     display: block !important;
     position: static !important;
-    color: #db34a9 !important;
+    color: #db34a9 ;
     font-weight: bold !important;
     font-size: 13px !important;
     text-align: center !important;

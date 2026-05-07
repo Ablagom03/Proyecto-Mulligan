@@ -508,3 +508,12 @@ a {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.mensaje-compra {
+  background: #1f7a1f;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}

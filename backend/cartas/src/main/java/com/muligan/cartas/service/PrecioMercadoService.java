@@ -1,11 +1,12 @@
 package com.muligan.cartas.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class PrecioMercadoService {
@@ -18,20 +19,13 @@ public class PrecioMercadoService {
     
     public Map<String, String> obtenerDatosMercado(String nombreCarta, String empresa) {
         try {
-            switch (empresa.toUpperCase()) {
-                case "YUGIOH":
-                    return buscarYugioh(nombreCarta);
-                case "MAGIC":
-                    return buscarMagic(nombreCarta);
-                case "POKEMON":
-                    return buscarPokemon(nombreCarta);
-                case "LORCANA":
-                case "MARVELC":
-                case "INVIZIMALS":
-                    return crearRespuesta("Próximamente (API en desarrollo)", null);
-                default:
-                    return crearRespuesta("No disponible", null);
-            }
+            return switch (empresa.toUpperCase()) {
+                case "YUGIOH" -> buscarYugioh(nombreCarta);
+                case "MAGIC" -> buscarMagic(nombreCarta);
+                case "POKEMON" -> buscarPokemon(nombreCarta);
+                case "LORCANA", "MARVELC", "INVIZIMALS" -> crearRespuesta("Próximamente (API en desarrollo)", null);
+                default -> crearRespuesta("No disponible", null);
+            };
         } catch (Exception e) {
             System.err.println("Error consultando " + empresa + " para " + nombreCarta + ": " + e.getMessage());
             return crearRespuesta("No disponible", null);

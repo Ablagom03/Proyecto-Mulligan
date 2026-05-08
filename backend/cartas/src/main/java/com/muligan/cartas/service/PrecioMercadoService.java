@@ -38,7 +38,12 @@ public class PrecioMercadoService {
         res.put("url", url);
         return res;
     }
-
+    /**
+     * Busca el precio de una carta de Yu-Gi-Oh! usando una API externa.
+     *
+     * @param nombre Nombre de la carta.
+     * @return Map con el precio y el enlace.
+     */
     private Map<String, String> buscarYugioh(String nombre) {
         String urlApi = UriComponentsBuilder
                 .fromUriString("https://db.ygoprodeck.com/api/v7/cardinfo.php")
@@ -57,7 +62,12 @@ public class PrecioMercadoService {
         }
         return crearRespuesta("No listado", null);
     }
-
+    /**
+     * Busca el precio de una carta de Magic usando una API externa.
+     *
+     * @param nombre Nombre de la carta.
+     * @return Map con el precio y el enlace.
+     */
     private Map<String, String> buscarMagic(String nombre) {
         String urlApi = UriComponentsBuilder
                 .fromUriString("https://api.scryfall.com/cards/named")
@@ -76,7 +86,12 @@ public class PrecioMercadoService {
         }
         return crearRespuesta("No listado", null);
     }
-
+    /**
+     * Busca el precio de una carta de Pokémon usando una API externa.
+     *
+     * @param nombre Nombre de la carta.
+     * @return Map con el precio y el enlace.
+     */
     private Map<String, String> buscarPokemon(String nombre) {
         String urlApi = UriComponentsBuilder
                 .fromUriString("https://api.pokemontcg.io/v2/cards")

@@ -23,7 +23,7 @@ public class InventarioService {
     private final UsuarioRepository usuarioRepository;
 
     public InventarioService(InventarioRepository inventarioRepository, CartaRepository cartaRepository,
-                             UsuarioRepository usuarioRepository) {
+            UsuarioRepository usuarioRepository) {
         this.inventarioRepository = inventarioRepository;
         this.cartaRepository = cartaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -52,7 +52,13 @@ public class InventarioService {
     public Optional<Inventario> getById(Long id) {
         return inventarioRepository.findById(id);
     }
-
+    /**
+     * Crea una nueva oferta en el inventario.
+     *
+     * @param request   Objeto con los datos de la oferta.
+     * @param nombreUsuario Nombre del usuario que crea la oferta.
+     * @return La oferta creada.
+     */
     @Transactional
     public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
 
@@ -84,18 +90,29 @@ public class InventarioService {
         return inventarioRepository.save(inventario);
     }
 
+    /**
+     * Actualiza una oferta existente con nuevos datos.
+     *
+     * @param id ID de la oferta a actualizar.
+     * @param dto Objeto con los datos a actualizar.
+     * @return La oferta actualizada.
+     */
     @Transactional
     public Inventario actualizar(Long id, InventarioUpdateDTO dto) {
         Inventario oferta = inventarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No encontrado"));
-        if (dto.getTipo() != null)
+        if (dto.getTipo() != null) {
             oferta.setTipo(TipoOferta.valueOf(dto.getTipo()));
-        if (dto.getValor() != null)
+        }
+        if (dto.getValor() != null) {
             oferta.setValor(dto.getValor());
-        if (dto.getEstado() != null)
+        }
+        if (dto.getEstado() != null) {
             oferta.setEstado(dto.getEstado());
-        if (dto.getCopias() != null)
+        }
+        if (dto.getCopias() != null) {
             oferta.setCopias(dto.getCopias());
+        }
         if (dto.getNombreCard() != null) {
             Carta nuevaCarta = cartaRepository.findByNombreCard(dto.getNombreCard())
                     .orElseThrow(() -> new RuntimeException("La carta seleccionada no existe"));

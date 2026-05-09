@@ -3,6 +3,7 @@ import { AuthService } from '../../service/auth.service';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { BehaviorSubject, of, combineLatest, Subscription } from 'rxjs';
 import { InventarioService } from '../../service/inventario.service';
+import { ComentarioService } from '../../service/comentario.service';
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../service/modal.service';
@@ -17,15 +18,15 @@ import { ModalService } from '../../service/modal.service';
 export class UsuarioComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private inventarioService = inject(InventarioService);
+  private comentarioService = inject(ComentarioService);
   private route = inject(ActivatedRoute);
   private modalService = inject(ModalService);
 
   private refresh$ = new BehaviorSubject<void>(undefined);
   private subscripcionCambios?: Subscription;
 
-  vistaActual: 'inventario' | 'deseados' = 'inventario';
+  vistaActual: 'inventario' | 'deseados' | 'comentarios' = 'inventario';
 
-  // Obtiene el perfil que se está visitando
   perfilPublico$ = this.route.paramMap.pipe(
     switchMap(p => {
       const nombre = p.get('usuario');
@@ -57,6 +58,14 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   ofertasCompra$ = this.inventarioCompleto$.pipe(
     map(items => items.filter(i => i.tipo === 'COMPRA'))
+  );
+
+  comentariosRecibidos$ = this.refresh$.pipe(
+    switchMap(() => this.perfilPublico$),
+    switchMap(user => {
+      if (user?.usrId) return this.comentarioService.obtenerComentariosRecibidos(user.usrId);
+      return of([]);
+    })
   );
 
   ngOnInit(): void {
@@ -91,4 +100,5 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   mostrarInventario() { this.vistaActual = 'inventario'; }
   mostrarDeseados() { this.vistaActual = 'deseados'; }
+  mostrarComentarios() { this.vistaActual = 'comentarios'; }
 }

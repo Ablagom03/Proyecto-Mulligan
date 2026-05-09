@@ -210,3 +210,90 @@ h2 {
 a {
     text-decoration: none;
 }
+
+.seccion-comentarios {
+    padding: 20px;
+    border: 3px solid black;
+    border-radius: 8px;
+    background-color: var(--ofertas);
+}
+
+.lista-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.comentario-item {
+    background-color: white;
+    border-left: 6px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.comentario-item:hover {
+    transform: translateX(5px);
+}
+
+.comentario-item.tipo-positivo {
+    border-left-color: #4caf50;
+    background-color: rgba(76, 175, 80, 0.03);
+}
+
+.comentario-item.tipo-negativo {
+    border-left-color: #f44336;
+    background-color: rgba(244, 67, 54, 0.03);
+}
+
+.comentario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nombre-comprador {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.tipo-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-positivo {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-negativo {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.fecha {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.comentario-texto {
+    color: #555;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+}

@@ -29,6 +29,11 @@
                         class="btn-tab">
                     Compro
                 </button>
+                <button (click)="mostrarComentarios()" 
+                        [class.active]="vistaActual === 'comentarios'"
+                        class="btn-tab">
+                    Reseñas
+                </button>
             </div>
         </div>
     </div>
@@ -88,6 +93,35 @@
                         </div>
                     } @empty {
                         <p class="mensaje-vacio">Este usuario no está buscando ninguna carta.</p>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (vistaActual === 'comentarios') {
+            <div class="seccion-comentarios card-container">
+                <h2>Reseñas y comentarios</h2>
+                
+                <div class="lista-comentarios">
+                    @for (comentario of comentariosRecibidos$ | async; track comentario.comentarioId) {
+                        <div class="comentario-item" [class]="'tipo-' + comentario.tipo.toLowerCase()">
+                            <div class="comentario-header">
+                                <div class="usuario-info">
+                                    <span class="nombre-comprador">
+                                        <strong>{{ comentario.usuarioComprador?.nombre_usr }}</strong>
+                                    </span>
+                                    <span class="tipo-badge" [class]="'badge-' + comentario.tipo.toLowerCase()">
+                                        {{ comentario.tipo === 'POSITIVO' ? '👍 Positivo' : '👎 Negativo' }}
+                                    </span>
+                                </div>
+                                <span class="fecha">{{ comentario.fechaCreacion | date: 'short' }}</span>
+                            </div>
+                            <div class="comentario-texto">
+                                {{ comentario.texto }}
+                            </div>
+                        </div>
+                    } @empty {
+                        <p class="mensaje-vacio">Este usuario aún no tiene reseñas.</p>
                     }
                 </div>
             </div>

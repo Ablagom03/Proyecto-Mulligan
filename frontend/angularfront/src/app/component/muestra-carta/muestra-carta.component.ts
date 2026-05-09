@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterModule, Params } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { CartasService } from '../../service/cartas.service';
 import { OfertaService } from '../../service/oferta.service';
 import { InventarioService } from '../../service/inventario.service';
 import { AuthService } from '../../service/auth.service';
+import { ComentarioModalComponent } from '../comentario-modal/comentario-modal.component';
 
 interface DatosPrecio {
   precio: string;
@@ -18,11 +19,13 @@ interface DatosPrecio {
 @Component({
   selector: 'app-muestra-carta',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, ComentarioModalComponent],
   templateUrl: './muestra-carta.component.html',
   styleUrls: ['./muestra-carta.component.css']
 })
 export class MuestraCartaComponent implements OnInit {
+  @ViewChild(ComentarioModalComponent) comentarioModal!: ComentarioModalComponent;
+
   private authService = inject(AuthService);
   private cartasService = inject(CartasService);
   private ofertaService = inject(OfertaService);
@@ -33,7 +36,6 @@ export class MuestraCartaComponent implements OnInit {
   cartaEncontrada$!: Observable<Carta>;
   precioExterno$!: Observable<DatosPrecio>;
 
-  // Subjects para manejar las listas reactivas de ofertas
   ofertasVenta$ = new BehaviorSubject<any[]>([]);
   ofertasCompra$ = new BehaviorSubject<any[]>([]);
 
@@ -51,12 +53,10 @@ export class MuestraCartaComponent implements OnInit {
   }
 
   cargarDatos(idCarta: bigint) {
-    // 1. Obtener datos de la carta
     this.cartaEncontrada$ = this.cartasService.getCartaPorId(idCarta).pipe(
       shareReplay(1)
     );
 
-    // 2. Cargar ofertas y distribuirlas por tipo
     this.ofertaService.getOfertasPorCarta(idCarta).subscribe({
       next: (ofertas) => {
         console.log('Ofertas cargadas:', ofertas);
@@ -65,8 +65,6 @@ export class MuestraCartaComponent implements OnInit {
       },
       error: (err) => console.error('Error cargando ofertas:', err)
     });
-
-    // 3. Buscar precio en API externa
     this.precioExterno$ = this.cartaEncontrada$.pipe(
       switchMap(carta => this.buscarPrecio(carta.nombrecard, carta.empresa)),
       catchError(() => of({ precio: 'No disponible', url: null }))
@@ -86,7 +84,6 @@ export class MuestraCartaComponent implements OnInit {
   procesarTransaccion(idInventarioReal: number, copiasActuales: number, idPropietario: number) {
     const usuarioActual = this.authService.getUsuarioEnUsoSincrono();
 
-    // Validación: No puedes comprarte a ti mismo
     if (usuarioActual && usuarioActual.usrId === idPropietario) {
       this.mensajeCompra = 'No puedes realizar transacciones con tus propias ofertas.';
       return;
@@ -98,12 +95,9 @@ export class MuestraCartaComponent implements OnInit {
     const ofertas = subjectActual.value;
 
     let operacion$: Observable<any>;
-    
-    // Si quedan varias copias, restamos una (PUT). Si es la última, eliminamos (DELETE).
     if (copiasActuales > 1) {
       operacion$ = this.inventarioService.updateInventario(idInventarioReal, { copias: copiasActuales - 1 });
     } else {
-      // Procesar transacción: usar endpoint /api/inventario/transaccion/{id}
       operacion$ = this.inventarioService.procesarTransaccion(idInventarioReal);
     }
 
@@ -111,20 +105,15 @@ export class MuestraCartaComponent implements OnInit {
       next: () => {
         this.mensajeCompra = 'Operación realizada correctamente.';
 
-        // Lógica de Reputación: Sumar 1 punto al dueño original de la oferta
-        this.authService.getUsuarioPorId(idPropietario).subscribe(user => {
-          if (user) {
-            const nuevaRep = (user.reputacion || 0) + 1;
-            this.authService.actualizarReputacion(idPropietario, nuevaRep).subscribe();
-          }
-        });
-
-        // Actualizar la interfaz sin recargar
         const nuevasOfertas = copiasActuales > 1
           ? ofertas.map(o => o.id === idInventarioReal ? { ...o, copias: o.copias - 1 } : o)
           : ofertas.filter(o => o.id !== idInventarioReal);
 
         subjectActual.next(nuevasOfertas);
+
+        setTimeout(() => {
+          this.comentarioModal.abrir(idInventarioReal);
+        }, 500);
       },
       error: (err) => {
         console.error('Error en la transacción:', err);

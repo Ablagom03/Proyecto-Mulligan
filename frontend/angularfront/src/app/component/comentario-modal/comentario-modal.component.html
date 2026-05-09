@@ -1,0 +1,75 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Dejar un comentario</h2>
+      <button class="btn-cerrar" (click)="cerrarModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="instrucciones">¿Cómo fue tu experiencia con esta transacción? Comparte tu opinión:</p>
+
+      <div class="form-group">
+        <label for="texto">Tu comentario:</label>
+        <textarea
+          id="texto"
+          [(ngModel)]="texto"
+          placeholder="Escribe tu comentario aquí..."
+          rows="4"
+          [disabled]="cargando"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>¿Fue una buena experiencia?</label>
+        <div class="radio-group">
+          <label class="radio-option positivo">
+            <input
+              type="radio"
+              [(ngModel)]="tipo"
+              value="POSITIVO"
+              [disabled]="cargando"
+            />
+            <span class="radio-label">
+              <span class="icon">👍</span>
+              Sí, excelente
+            </span>
+          </label>
+
+          <label class="radio-option negativo">
+            <input
+              type="radio"
+              [(ngModel)]="tipo"
+              value="NEGATIVO"
+              [disabled]="cargando"
+            />
+            <span class="radio-label">
+              <span class="icon">👎</span>
+              No, mala experiencia
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        class="btn btn-cancelar"
+        (click)="cerrarModal()"
+        [disabled]="cargando"
+      >
+        Cancelar
+      </button>
+      <button
+        class="btn btn-enviar"
+        (click)="enviarComentario()"
+        [disabled]="cargando"
+      >
+        {{ cargando ? 'Enviando...' : 'Enviar comentario' }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -59,6 +59,14 @@ public class Usuario implements UserDetails {
     @JsonIgnoreProperties("usuario")
     private List<Inventario> ofertas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuarioVendedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("usuarioVendedor")
+    private List<Comentario> comentariosRecibidos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioComprador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("usuarioComprador")
+    private List<Comentario> comentariosDejaods = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + tipo.name()));

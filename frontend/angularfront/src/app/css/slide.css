@@ -11,7 +11,7 @@
 
 .mySlides img{
   width: 40%;
-  padding-bottom: 60px;
+  padding-bottom: 3em;
 }
 
 .prev,
@@ -20,8 +20,8 @@
   position: absolute;
   top: 50%;
   width: auto;
-  padding: 16px;
-  margin-top: -22px;
+  padding: 1em;
+  margin-top: -1em;
   color: white;
   font-weight: bold;
   font-size: 18px;

@@ -1,11 +1,12 @@
 package com.muligan.cartas.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class PrecioMercadoService {
@@ -18,20 +19,13 @@ public class PrecioMercadoService {
     
     public Map<String, String> obtenerDatosMercado(String nombreCarta, String empresa) {
         try {
-            switch (empresa.toUpperCase()) {
-                case "YUGIOH":
-                    return buscarYugioh(nombreCarta);
-                case "MAGIC":
-                    return buscarMagic(nombreCarta);
-                case "POKEMON":
-                    return buscarPokemon(nombreCarta);
-                case "LORCANA":
-                case "MARVELC":
-                case "INVIZIMALS":
-                    return crearRespuesta("Próximamente (API en desarrollo)", null);
-                default:
-                    return crearRespuesta("No disponible", null);
-            }
+            return switch (empresa.toUpperCase()) {
+                case "YUGIOH" -> buscarYugioh(nombreCarta);
+                case "MAGIC" -> buscarMagic(nombreCarta);
+                case "POKEMON" -> buscarPokemon(nombreCarta);
+                case "LORCANA", "MARVELC", "INVIZIMALS" -> crearRespuesta("Próximamente (API en desarrollo)", null);
+                default -> crearRespuesta("No disponible", null);
+            };
         } catch (Exception e) {
             System.err.println("Error consultando " + empresa + " para " + nombreCarta + ": " + e.getMessage());
             return crearRespuesta("No disponible", null);
@@ -44,7 +38,12 @@ public class PrecioMercadoService {
         res.put("url", url);
         return res;
     }
-
+    /**
+     * Busca el precio de una carta de Yu-Gi-Oh! usando una API externa.
+     *
+     * @param nombre Nombre de la carta.
+     * @return Map con el precio y el enlace.
+     */
     private Map<String, String> buscarYugioh(String nombre) {
         String urlApi = UriComponentsBuilder
                 .fromUriString("https://db.ygoprodeck.com/api/v7/cardinfo.php")
@@ -63,7 +62,12 @@ public class PrecioMercadoService {
         }
         return crearRespuesta("No listado", null);
     }
-
+    /**
+     * Busca el precio de una carta de Magic usando una API externa.
+     *
+     * @param nombre Nombre de la carta.
+     * @return Map con el precio y el enlace.
+     */
     private Map<String, String> buscarMagic(String nombre) {
         String urlApi = UriComponentsBuilder
                 .fromUriString("https://api.scryfall.com/cards/named")
@@ -82,7 +86,12 @@ public class PrecioMercadoService {
         }
         return crearRespuesta("No listado", null);
     }
-
+    /**
+     * Busca el precio de una carta de Pokémon usando una API externa.
+     *
+     * @param nombre Nombre de la carta.
+     * @return Map con el precio y el enlace.
+     */
     private Map<String, String> buscarPokemon(String nombre) {
         String urlApi = UriComponentsBuilder
                 .fromUriString("https://api.pokemontcg.io/v2/cards")

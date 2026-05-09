@@ -37,7 +37,14 @@ public class AuthController {
     this.usuarioService = usuarioService;
 
   }
-
+  /**
+   * Autentica a un usuario y crea una sesión.
+   *
+   * @param peticion Datos de inicio de sesión.
+   * @param request  Objeto de solicitud HTTP.
+   * @param response Objeto de respuesta HTTP.
+   * @return ResponseEntity con el resultado de la autenticación.
+   */
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody PeticionLogin peticion,
       HttpServletRequest request,
@@ -76,7 +83,12 @@ public class AuthController {
         .body(Map.of("error", "Error al iniciar sesión."));
   }
 }
-
+  /**
+   * Obtiene la información del usuario actualmente autenticado.
+   *
+   * @param auth Objeto de autenticación proporcionado por Spring Security.
+   * @return ResponseEntity con la información del usuario o un error si no está autenticado.
+   */
   @GetMapping("/me")
   public ResponseEntity<?> getCurrentUser(Authentication auth) {
     if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof Usuario) {
@@ -84,7 +96,12 @@ public class AuthController {
     }
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
   }
-
+  /**
+   * Cierra la sesión del usuario actual.
+   *
+   * @param request Objeto de solicitud HTTP.
+   * @return ResponseEntity indicando que la sesión ha sido cerrada.
+   */
   @PostMapping("/logout")
   public ResponseEntity<Void> logout(HttpServletRequest request) {
     SecurityContextHolder.clearContext();

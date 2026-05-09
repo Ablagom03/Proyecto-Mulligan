@@ -46,9 +46,6 @@ public class InventarioService {
         return inventarioRepository.findById(id);
     }
 
-    /**
-     * Crea una nueva oferta validando que no exista una idéntica previamente.
-     */
     @Transactional
     public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
         Usuario usuario = usuarioRepository.findByNombreUsr(nombreUsuario)
@@ -79,23 +76,21 @@ public class InventarioService {
         return inventarioRepository.save(inventario);
     }
 
-    /**
-     * Actualiza los datos de una oferta existente.
-     */
     @Transactional
     public Inventario actualizar(Long id, InventarioUpdateDTO dto) {
         Inventario oferta = inventarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Oferta no encontrada con ID: " + id));
-
+                .orElseThrow(() -> new RuntimeException("No encontrado"));
         if (dto.getTipo() != null)
             oferta.setTipo(TipoOferta.valueOf(dto.getTipo()));
-        if (dto.getValor() != null)
+        }
+        if (dto.getValor() != null) {
             oferta.setValor(dto.getValor());
-        if (dto.getEstado() != null)
+        }
+        if (dto.getEstado() != null) {
             oferta.setEstado(dto.getEstado());
-        if (dto.getCopias() != null)
+        }
+        if (dto.getCopias() != null) {
             oferta.setCopias(dto.getCopias());
-        
         if (dto.getNombreCard() != null) {
             Carta nuevaCarta = cartaRepository.findByNombreCard(dto.getNombreCard())
                     .orElseThrow(() -> new RuntimeException("La carta seleccionada no existe"));

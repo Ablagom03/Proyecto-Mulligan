@@ -80,7 +80,7 @@ public class InventarioService {
     public Inventario actualizar(Long id, InventarioUpdateDTO dto) {
         Inventario oferta = inventarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No encontrado"));
-        if (dto.getTipo() != null)
+        if (dto.getTipo() != null) {
             oferta.setTipo(TipoOferta.valueOf(dto.getTipo()));
         }
         if (dto.getValor() != null) {
@@ -91,6 +91,7 @@ public class InventarioService {
         }
         if (dto.getCopias() != null) {
             oferta.setCopias(dto.getCopias());
+        }
         if (dto.getNombreCard() != null) {
             Carta nuevaCarta = cartaRepository.findByNombreCard(dto.getNombreCard())
                     .orElseThrow(() -> new RuntimeException("La carta seleccionada no existe"));

@@ -103,8 +103,8 @@ export class MuestraCartaComponent implements OnInit {
     if (copiasActuales > 1) {
       operacion$ = this.inventarioService.updateInventario(idInventarioReal, { copias: copiasActuales - 1 });
     } else {
-      // Este método debe llamar a /api/inventario/transaccion/{id}
-      operacion$ = this.inventarioService.deleteInventario(idInventarioReal);
+      // Procesar transacción: usar endpoint /api/inventario/transaccion/{id}
+      operacion$ = this.inventarioService.procesarTransaccion(idInventarioReal);
     }
 
     operacion$.subscribe({

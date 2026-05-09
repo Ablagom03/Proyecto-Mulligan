@@ -60,6 +60,13 @@ public class UsuarioService {
         }).orElse(null);
     }
 
+    public Usuario updateReputacion(Long id, int nuevaReputacion) {
+        return usuarioRepository.findById(id).map(usuario -> {
+            usuario.setReputacion(nuevaReputacion);
+            return usuarioRepository.save(usuario);
+        }).orElse(null);
+    }
+
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }

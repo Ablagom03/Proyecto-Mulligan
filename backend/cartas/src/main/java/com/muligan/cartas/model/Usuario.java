@@ -1,7 +1,7 @@
 package com.muligan.cartas.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -56,16 +56,16 @@ public class Usuario implements UserDetails {
     private TipoUsuario tipo = TipoUsuario.USR;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("usuario")
+    @JsonIgnore
     private List<Inventario> ofertas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuarioVendedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("usuarioVendedor")
+    @OneToMany(mappedBy = "usuarioVendedor", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Comentario> comentariosRecibidos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuarioComprador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("usuarioComprador")
-    private List<Comentario> comentariosDejaods = new ArrayList<>();
+    @OneToMany(mappedBy = "usuarioComprador", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Comentario> comentariosDejaos = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

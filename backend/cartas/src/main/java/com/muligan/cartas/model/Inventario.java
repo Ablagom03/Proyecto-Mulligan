@@ -2,6 +2,7 @@ package com.muligan.cartas.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,7 +58,7 @@ public class Inventario {
     private TipoOferta tipo;
 
     @OneToMany(mappedBy = "inventario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("inventario")
+    @JsonIgnore
     private List<Comentario> comentarios = new ArrayList<>();
 
     @JsonProperty("usrId")

@@ -25,8 +25,9 @@
           <label class="radio-option positivo">
             <input
               type="radio"
+              name="tipo"
               [(ngModel)]="tipo"
-              value="POSITIVO"
+              [value]="'POSITIVO'"
               [disabled]="cargando"
             />
             <span class="radio-label">
@@ -38,8 +39,9 @@
           <label class="radio-option negativo">
             <input
               type="radio"
+              name="tipo"
               [(ngModel)]="tipo"
-              value="NEGATIVO"
+              [value]="'NEGATIVO'"
               [disabled]="cargando"
             />
             <span class="radio-label">

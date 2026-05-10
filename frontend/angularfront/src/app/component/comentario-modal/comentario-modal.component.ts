@@ -43,15 +43,33 @@ export class ComentarioModalComponent {
     }
 
     this.cargando = true;
+    console.log('Enviando comentario:', {
+      inventarioId: this.inventarioId,
+      texto: this.texto,
+      tipo: this.tipo
+    });
+
     this.comentarioService.crearComentario(this.inventarioId, this.texto, this.tipo).subscribe({
       next: () => {
         this.cargando = false;
+        console.log('Comentario creado exitosamente');
         this.comentarioEnviado.emit();
         this.cerrarModal();
       },
       error: (err) => {
         this.cargando = false;
-        this.error = 'Error al enviar el comentario: ' + err.message;
+        console.error('Error completo:', err);
+        console.error('Error status:', err.status);
+        console.error('Error body:', err.error);
+        
+        let mensajeError = 'Error desconocido';
+        if (err.error && err.error.error) {
+          mensajeError = err.error.error;
+        } else if (err.message) {
+          mensajeError = err.message;
+        }
+        
+        this.error = 'Error: ' + mensajeError;
       }
     });
   }

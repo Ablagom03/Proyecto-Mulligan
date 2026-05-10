@@ -5,7 +5,14 @@ import org.springframework.stereotype.Service;
 
 import com.muligan.cartas.model.TipoUsuario;
 import com.muligan.cartas.model.Usuario;
+import com.muligan.cartas.model.Inventario;
+import com.muligan.cartas.model.Comentario;
+import com.muligan.cartas.model.TipoOferta;
+import com.muligan.cartas.model.TipoComentario;
 import com.muligan.cartas.repository.UsuarioRepository;
+import com.muligan.cartas.repository.CartaRepository;
+import com.muligan.cartas.repository.InventarioRepository;
+import com.muligan.cartas.repository.ComentarioRepository;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,10 +20,20 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final CartaRepository cartaRepository;
+    private final InventarioRepository inventarioRepository;
+    private final ComentarioRepository comentarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, 
+                         CartaRepository cartaRepository,
+                         InventarioRepository inventarioRepository,
+                         ComentarioRepository comentarioRepository,
+                         PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.cartaRepository = cartaRepository;
+        this.inventarioRepository = inventarioRepository;
+        this.comentarioRepository = comentarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -91,7 +108,7 @@ public class UsuarioService {
             defNorm.setReputacion(0);
             defNorm.setPasswd("123456");
             defNorm.setTipo(TipoUsuario.USR);
-            saveUsuario(defNorm);
+            Usuario userGuardado = saveUsuario(defNorm);
 
             Usuario defAdmin = new Usuario();
             defAdmin.setNombreUsr("Administrador");
@@ -99,10 +116,33 @@ public class UsuarioService {
             defAdmin.setReputacion(99);
             defAdmin.setPasswd("coolassadmin");
             defAdmin.setTipo(TipoUsuario.ADMIN);
-            saveUsuario(defAdmin);
+            Usuario adminGuardado = saveUsuario(defAdmin);
+
+            var carta = cartaRepository.findByNombreCard("Tepig");
+            if (carta.isPresent()) {
+                Inventario oferta = new Inventario();
+                oferta.setUsuario(userGuardado);
+                oferta.setCarta(carta.get());
+                oferta.setValor(3.0);
+                oferta.setEstado("e");
+                oferta.setCopias(1);
+                oferta.setTipo(TipoOferta.VENTA);
+                Inventario ofertaGuardada = inventarioRepository.save(oferta);
+
+                Comentario comentario = new Comentario();
+                comentario.setTexto("mu mala gente");
+                comentario.setTipo(TipoComentario.POSITIVO);
+                comentario.setUsuarioComprador(adminGuardado);
+                comentario.setUsuarioVendedor(userGuardado);
+                comentario.setInventario(ofertaGuardada);
+                comentarioRepository.save(comentario);
+
+                userGuardado.setReputacion(userGuardado.getReputacion() + 1);
+                usuarioRepository.save(userGuardado);
+            }
 
         } catch (Exception e) {
-            System.out.println("Los usuarios ya estaban creados.");
+            System.out.println("Los usuarios ya estaban creados: " + e.getMessage());
         }
 
     }

@@ -111,9 +111,7 @@ export class MuestraCartaComponent implements OnInit {
 
         subjectActual.next(nuevasOfertas);
 
-        setTimeout(() => {
-          this.comentarioModal.abrir(idInventarioReal);
-        }, 500);
+        this.comentarioModal.abrir(idInventarioReal);
       },
       error: (err) => {
         console.error('Error en la transacción:', err);

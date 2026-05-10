@@ -2,12 +2,14 @@ package com.muligan.cartas.controller;
 
 import com.muligan.cartas.model.Comentario;
 import com.muligan.cartas.service.ComentarioService;
+import com.muligan.cartas.dto.PeticionComentario;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.muligan.cartas.model.Usuario;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -30,23 +32,31 @@ public class ComentarioController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> crearComentario(
-            @RequestBody Map<String, Object> request,
+            @Valid @RequestBody PeticionComentario request,
             Authentication auth) {
         try {
+            if (request.getInventarioId() == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "El ID de la oferta es requerido"));
+            }
+            if (request.getTexto() == null || request.getTexto().trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "El comentario no puede estar vacío"));
+            }
+            if (request.getTipo() == null || request.getTipo().trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "El tipo de comentario es requerido"));
+            }
+            
             Usuario usuarioLogueado = (Usuario) auth.getPrincipal();
-            Long inventarioId = Long.parseLong(request.get("inventarioId").toString());
-            String texto = request.get("texto").toString();
-            String tipo = request.get("tipo").toString();
             
             Comentario comentario = comentarioService.crearComentario(
-                    inventarioId,
+                    request.getInventarioId(),
                     usuarioLogueado.getUsrId(),
-                    texto,
-                    tipo
+                    request.getTexto(),
+                    request.getTipo()
             );
             
             return ResponseEntity.status(HttpStatus.CREATED).body(comentario);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
@@ -79,5 +89,12 @@ public class ComentarioController {
     public ResponseEntity<List<Comentario>> obtenerComentariosPorOferta(@PathVariable Long inventarioId) {
         List<Comentario> comentarios = comentarioService.obtenerComentariosPorOferta(inventarioId);
         return ResponseEntity.ok(comentarios);
+    }
+
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(
+            org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", errorMessage));
     }
 }

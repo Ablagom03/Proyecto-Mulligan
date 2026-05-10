@@ -118,14 +118,15 @@ public class InventarioService {
     }
 
     /**
-     * Elimina una oferta sin validar el dueño.
+     * Marca una oferta como vendida sin validar el dueño.
      * Se usa exclusivamente para procesar compras/ventas entre usuarios.
+     * En lugar de eliminar, seteamos copias a 0 para permitir comentarios.
      */
     @Transactional
     public void eliminarPorCompra(Long id) {
-        if (!inventarioRepository.existsById(id)) {
-            throw new RuntimeException("La oferta con ID " + id + " ya no está disponible");
-        }
-        inventarioRepository.deleteById(id);
+        Inventario inv = inventarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("La oferta con ID " + id + " ya no está disponible"));
+        inv.setCopias(0);
+        inventarioRepository.save(inv);
     }
 }

@@ -54,13 +54,8 @@ CREATE TABLE IF NOT EXISTS comentario (
   usr_id_comprador bigint NOT NULL,
   usr_id_vendedor bigint NOT NULL,
   inventario_id bigint NOT NULL,
-  fecha_creacion timestamp,
+  fecha_creacion timestamp WITH TIME ZONE,
   CONSTRAINT fk_comentario_comprador FOREIGN KEY(usr_id_comprador) REFERENCES usuario(usrId),
   CONSTRAINT fk_comentario_vendedor FOREIGN KEY(usr_id_vendedor) REFERENCES usuario(usrId),
   CONSTRAINT fk_comentario_inventario FOREIGN KEY(inventario_id) REFERENCES inventario(invId)
 );
-
---Constraints
---ALTER TABLE usuario ADD CONSTRAINT unique_email UNIQUE (email);
---ALTER TABLE carta ADD CONSTRAINT unique_nombreCard UNIQUE (nombreCard);
---ALTER TABLE imagenes ADD CONSTRAINT unique_nombre UNIQUE (nombre);

@@ -131,7 +131,7 @@ public class UsuarioService {
 
                 Comentario comentario = new Comentario();
                 comentario.setTexto("mu mala gente");
-                comentario.setTipo(TipoComentario.POSITIVO);
+                comentario.setTipo(TipoComentario.NEGATIVO);
                 comentario.setUsuarioComprador(adminGuardado);
                 comentario.setUsuarioVendedor(userGuardado);
                 comentario.setInventario(ofertaGuardada);

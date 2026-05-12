@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, map, tap, switchMap } from 'rxjs/operators';
+import { catchError, map, tap, filter, take, switchMap } from 'rxjs/operators';
 import { Usuario } from '../model/Usuario';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = '/api';
 
-  private userSubject = new BehaviorSubject<Usuario | null>(null);
+  private userSubject = new BehaviorSubject<Usuario | null | undefined>(undefined);
   public user$ = this.userSubject.asObservable();
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
@@ -18,7 +19,7 @@ export class AuthService {
     this.EstadoLogin();
   }
 
-  getUsuarioEnUsoSincrono(): Usuario | null {
+  getUsuarioEnUsoSincrono() {
     return this.userSubject.value;
   }
 
@@ -60,6 +61,8 @@ export class AuthService {
 
   getUsuarioEnUso(): Observable<Usuario | null> {
     return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { withCredentials: true }).pipe(
+      //Para debuguear
+      tap(user => console.log('Usuario recibido:', user)),
       catchError(() => {
         return of(null);
       })
@@ -92,7 +95,9 @@ export class AuthService {
 
   isAdmin(): Observable<boolean> {
     return this.user$.pipe(
-      map(user => user?.tipo === 'ADMIN')
+      filter(user => user !== undefined),
+      map(user => !!user && user.tipo === 'ADMIN'),
+      take(1)
     );
   }
 }

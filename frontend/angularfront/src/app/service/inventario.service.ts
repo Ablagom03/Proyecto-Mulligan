@@ -25,4 +25,9 @@ export class InventarioService {
   updateInventario(id: number, inventario: Partial<Inventario>): Observable<Inventario> {
     return this.http.put<Inventario>(`${this.urlBase}/${id}`, inventario);
   }
+
+  // Para procesar transacciones (comprar/vender ofertas)
+  procesarTransaccion(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlBase}/transaccion/${id}`);
+  }
 }

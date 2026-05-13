@@ -1,101 +1,129 @@
 @if (perfilPublico$ | async; as user) {
-    <div class="informacion-usuario">
-        <div class="imagen-usuario">
-            <img src="assets/default-avatar.png" 
-                 alt="Avatar de {{ user.nombre_usr }}"
-                 #imgAvatar
-                 (error)="imgAvatar.src='https://ui-avatars.com/api/?name=' + user.nombre_usr">
-        </div>
-        
-        <div class="no-imagen">
-            <h1 class="nombre-usuario">{{ user.nombre_usr }}</h1>
-            
-            <div class="descripcion-usuario">
-                <p>Perfil de {{ user.nombre_usr }}</p>
-            </div>
-
-            <div class="reputacion">
-                Reputación: <span class="badge-reputacion">{{ user.reputacion }}</span>
-            </div>
-            
-            <div class="cambiarModo">
-                <button (click)="mostrarInventario()" 
-                        [class.active]="vistaActual === 'inventario'"
-                        class="btn-tab">
-                    Vendo
-                </button>
-                <button (click)="mostrarDeseados()" 
-                        [class.active]="vistaActual === 'deseados'"
-                        class="btn-tab">
-                    Compro
-                </button>
-            </div>
-        </div>
+<div class="informacion-usuario">
+    <div class="imagen-usuario">
+        <img src="assets/default-avatar.png" alt="Avatar de {{ user.nombre_usr }}" #imgAvatar
+            (error)="imgAvatar.src='https://ui-avatars.com/api/?name=' + user.nombre_usr">
     </div>
 
-    <div class="contenedor-listas">
-        
-        @if (vistaActual === 'inventario') {
-            <div class="seccion-inventario card-container">
-                <h2>Cartas en Venta</h2>
-                
-                <div class="grid-ofertas">
-                    @for (oferta of ofertasVenta$ | async; track oferta.id) {
-                        <div class="oferta-item">
-                            <div class="info-texto">
-                                <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
-                                <p>Precio: {{ oferta.valor }} €</p>
-                            </div>
-                            @if (esPropioPerfil$ | async) {
-                                <div class="acciones-oferta">
-                                    <button class="btn-editar" (click)="editarOferta(oferta.id)">
-                                        Editar
-                                    </button>
-                                    <button class="btn-eliminar" (click)="eliminarOferta(oferta.id)">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            }
-                        </div>
-                    } @empty {
-                        <p class="mensaje-vacio">Este usuario no tiene cartas a la venta.</p>
-                    }
-                </div>
-            </div>
-        }
+    <div class="no-imagen">
+        <h1 class="nombre-usuario">{{ user.nombre_usr }}</h1>
 
-        @if (vistaActual === 'deseados') {
-            <div class="seccion-deseados card-container">
-                <h2>Cartas que Compro</h2>
-                
-                <div class="grid-ofertas">
-                    @for (oferta of ofertasCompra$ | async; track oferta.id) {
-                        <div class="oferta-item">
-                            <div class="info-texto">
-                                <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
-                                <p>Pago: {{ oferta.valor }} €</p>
-                            </div>
-                            @if (esPropioPerfil$ | async) {
-                                <div class="acciones-oferta">
-                                    <button class="btn-editar" (click)="editarOferta(oferta.id)">
-                                        Editar
-                                    </button>
-                                    <button class="btn-eliminar" (click)="eliminarOferta(oferta.id)">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            }
-                        </div>
-                    } @empty {
-                        <p class="mensaje-vacio">Este usuario no está buscando ninguna carta.</p>
-                    }
+        <div class="descripcion-usuario">
+            <p>Perfil de {{ user.nombre_usr }}</p>
+        </div>
+
+        <div class="reputacion">
+            Reputación: <span class="badge-reputacion">{{ user.reputacion }}</span>
+        </div>
+
+        <div class="cambiarModo">
+            <button (click)="mostrarInventario()" [class.active]="vistaActual === 'inventario'" class="btn-tab">
+                Vendo
+            </button>
+            <button (click)="mostrarDeseados()" [class.active]="vistaActual === 'deseados'" class="btn-tab">
+                Compro
+            </button>
+            <button (click)="mostrarComentarios()" [class.active]="vistaActual === 'comentarios'" class="btn-tab">
+                Reseñas
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="contenedor-listas">
+
+    @if (vistaActual === 'inventario') {
+    <div class="seccion-inventario card-container">
+        <h2>Cartas en Venta</h2>
+
+        <div class="grid-ofertas">
+            @for (oferta of ofertasVenta$ | async; track oferta.id) {
+            <div class="oferta-item">
+                <div class="info-texto">
+                    <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
+                    <p>Precio: {{ oferta.valor }} €</p>
+                </div>
+                @if (esPropioPerfil$ | async) {
+                <div class="acciones-oferta">
+                    <button class="btn-editar" (click)="editarOferta(oferta.id)">
+                        Editar
+                    </button>
+                    <button class="btn-eliminar" (click)="eliminarOferta(oferta.id)">
+                        Eliminar
+                    </button>
+                </div>
+                }
+            </div>
+            } @empty {
+            <p class="mensaje-vacio">Este usuario no tiene cartas a la venta.</p>
+            }
+        </div>
+    </div>
+    }
+
+    @if (vistaActual === 'deseados') {
+    <div class="seccion-deseados card-container">
+        <h2>Cartas que Compro</h2>
+
+        <div class="grid-ofertas">
+            @for (oferta of ofertasCompra$ | async; track oferta.id) {
+            <div class="oferta-item">
+                <div class="info-texto">
+                    <p><strong>{{ oferta.carta.nombrecard }}</strong></p>
+                    <p>Pago: {{ oferta.valor }} €</p>
+                </div>
+                @if (esPropioPerfil$ | async) {
+                <div class="acciones-oferta">
+                    <button class="btn-editar" (click)="editarOferta(oferta.id)">
+                        Editar
+                    </button>
+                    <button class="btn-eliminar" (click)="eliminarOferta(oferta.id)">
+                        Eliminar
+                    </button>
+                </div>
+                }
+            </div>
+            } @empty {
+            <p class="mensaje-vacio">Este usuario no está buscando ninguna carta.</p>
+            }
+        </div>
+    </div>
+    }
+
+    @if (vistaActual === 'comentarios') {
+    <div class="seccion-comentarios card-container">
+        <h2>Reseñas y comentarios</h2>
+
+        <div class="lista-comentarios">
+            @for (comentario of comentariosRecibidos$ | async; track comentario.comentarioId) {
+            <div class="comentario-item" [class]="'tipo-' + comentario.tipo.toLowerCase()">
+                <div class="comentario-header">
+                    <div class="usuario-info">
+                        <span class="nombre-comprador">
+                            <strong>{{ comentario.usuarioComprador?.nombre_usr }}</strong>
+                        </span>
+                        <span class="tipo-badge" [class]="'badge-' + comentario.tipo.toLowerCase()">
+                            {{ comentario.tipo === 'POSITIVO' ? '👍 Positivo' : '👎 Negativo' }}
+                        </span>
+                    </div>
+                    <span class="fecha">
+                        {{ comentario.fechaCreacion | date:'dd/MM/yyyy HH:mm':'Europe/Madrid' }}
+                    </span>
+                </div>
+                <div class="comentario-texto">
+                    {{ comentario.texto }}
                 </div>
             </div>
-        }
+            } @empty {
+            <p class="mensaje-vacio">Este usuario aún no tiene reseñas.</p>
+            }
+        </div>
     </div>
+    }
+</div>
 } @else {
-    <div class="no-usuario-card">
-        <div class="spinner"></div>
-        <p>Buscando perfil del usuario o usuario no encontrado...</p>
-    </div>
+<div class="no-usuario-card">
+    <div class="spinner"></div>
+    <p>Buscando perfil del usuario o usuario no encontrado...</p>
+</div>
 }

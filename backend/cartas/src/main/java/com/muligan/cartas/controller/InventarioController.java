@@ -5,21 +5,13 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.muligan.cartas.dto.InventarioUpdateDTO;
 import com.muligan.cartas.dto.PeticionOferta;
 import com.muligan.cartas.model.Inventario;
 import com.muligan.cartas.model.Usuario;
 import com.muligan.cartas.service.InventarioService;
-
 
 @RestController
 @RequestMapping("/inventario")
@@ -32,10 +24,8 @@ public class InventarioController {
     }
 
     /**
-     * Metodo: GET
-     * URL: localhost:8080/inventario
-     * Proposito: Devolver todos los inventarios
-     * @return los inventarios
+     * Obtiene todos los registros de inventario.
+     * URL: GET localhost:8080/api/inventario
      */
     @GetMapping
     public ResponseEntity<List<Inventario>> getInventarios() {
@@ -44,28 +34,19 @@ public class InventarioController {
     }
 
     /**
-     * Metodo: GET
-     * URL: localhost:8080/inventario/{id}
-     * Proposito: Obtener los detalles de una oferta específica por su ID
-     * @param id de la oferta
-     * @return la oferta encontrada o 404
+     * Obtiene los detalles de una oferta específica por su ID.
+     * URL: GET localhost:8080/api/inventario/{id}
      */
     @GetMapping("/{id}")
     public ResponseEntity<Inventario> getOfertaById(@PathVariable Long id) {
-        // Asegúrate de tener este método implementado en tu InventarioService
-        // Si no existe, puedes usar el repositorio directamente o implementarlo en el service
         return inventarioService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     /**
-     * Metodo: GET
-     * URL: localhost:8080/inventario/usuario/{usrid}
-     * Proposito: Devolver las ofertas de un usuario
-     * 
-     * @param usrid del usuario cuyas ofertas queremos
-     * @return lista de ofertas del usuario
+     * Devuelve todas las ofertas publicadas por un usuario específico.
+     * URL: GET localhost:8080/api/inventario/usuario/{usrId}
      */
     @GetMapping("/usuario/{usrId}")
     public ResponseEntity<List<Inventario>> getInventarioByUsuario(@PathVariable Long usrId) {
@@ -74,39 +55,25 @@ public class InventarioController {
     }
 
     /**
-     * Metodo: GET
-     * URL: localhost:8080/inventario/carta/{cardid}
-     * Proposito: Devolver las ofertas de una carta
-     * 
-     * @param cardid de la carta cuyas ofertas queremos ver
-     * @return lista de ofertas de esa carta
+     * Devuelve todas las ofertas (Venta/Compra) asociadas a una carta específica.
+     * URL: GET localhost:8080/api/inventario/carta/{cardid}
      */
     @GetMapping("/carta/{cardid}")
-    public ResponseEntity<List<Inventario>> getMethodName(@PathVariable Long cardid) {
+    public ResponseEntity<List<Inventario>> getInventarioByCarta(@PathVariable Long cardid) {
         List<Inventario> inventario = inventarioService.getInventarioByCarta(cardid);
         return ResponseEntity.ok(inventario);
     }
-    
 
     /**
-     * Metodo: POST
-     * URL: localhost:8080/inventario/agregar
-     * Proposito: Agregar una carta al inventario de un usuario
-     * 
-     * @param request oferta que se hace
-     * @param auth autenticación del usuario
-     * @return mensaje de éxito o error
+     * Agrega una nueva carta u oferta al inventario del usuario autenticado.
+     * URL: POST localhost:8080/api/inventario/agregar
      */
-
     @PostMapping("/agregar")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> agregarCarta(@RequestBody PeticionOferta request, Authentication auth) {
-
         Usuario usuario = (Usuario) auth.getPrincipal();
-        String nombreUsuario = usuario.getNombreUsr();
-
         try {
-            inventarioService.crearOferta(request, nombreUsuario);
+            inventarioService.crearOferta(request, usuario.getNombreUsr());
             return ResponseEntity.status(201).build();
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
@@ -114,44 +81,50 @@ public class InventarioController {
     }
 
     /**
-     * Metodo: PUT
-     * URL: localhost:8080/inventario/{id}
-     * Proposito: Actualizar una oferta del inventario
-     * @param id
-     * @param auth
-     * @return oferta actualizada o error
+     * Actualiza los datos de una oferta (precio, copias, estado).
+     * URL: PUT localhost:8080/api/inventario/{id}
      */
-
     @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> actualizarOferta(@PathVariable Long id, @RequestBody InventarioUpdateDTO dto) {
-       try {
-        Inventario actualizado = inventarioService.actualizar(id, dto);
-        return ResponseEntity.ok(actualizado);
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().body(e.getMessage());
+        try {
+            Inventario actualizado = inventarioService.actualizar(id, dto);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
-    }
-
 
     /**
-     * Metodo: DELETE
-     * URL: localhost:8080/inventario/{id}
-     * Proposito: Eliminar una oferta del inventario
-     * 
-     * @param id de la oferta a eliminar
-     * @return respuesta vacía (204) o error
+     * Elimina una oferta del inventario personal. 
+     * Valida que el usuario autenticado sea el propietario de la oferta.
+     * URL: DELETE localhost:8080/api/inventario/{id}
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> eliminarOferta(@PathVariable Long id, Authentication auth) {
-        
         Usuario usuario = (Usuario) auth.getPrincipal();
-        
         try {
             inventarioService.eliminarOferta(id, usuario.getUsrId());
-            return ResponseEntity.noContent().build(); 
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return ResponseEntity.notFound().build(); 
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Procesa la eliminación de una oferta debido a una transacción de mercado.
+     * A diferencia del método anterior, este permite la eliminación por parte de un tercero (comprador).
+     * URL: DELETE localhost:8080/api/inventario/transaccion/{id}
+     */
+    @DeleteMapping("/transaccion/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> procesarTransaccion(@PathVariable Long id) {
+        try {
+            inventarioService.eliminarPorCompra(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

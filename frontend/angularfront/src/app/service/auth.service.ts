@@ -1,36 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { catchError, map, tap, filter, take, switchMap } from 'rxjs/operators';
 import { Usuario } from '../model/Usuario';
-import { catchError, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = '/api';
+
+  private userSubject = new BehaviorSubject<Usuario | null | undefined>(undefined);
+  public user$ = this.userSubject.asObservable();
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  private userSubject = new BehaviorSubject<Usuario | null>(null);
-  user$ = this.userSubject.asObservable();
   public Logeado$ = this.isLoggedInSubject.asObservable();
-  authService: any;
-  router: any;
 
   constructor(private http: HttpClient) {
     this.EstadoLogin();
   }
 
+  getUsuarioEnUsoSincrono() {
+    return this.userSubject.value;
+  }
+
   private EstadoLogin() {
     this.getUsuarioEnUso().subscribe({
-      next: (user) => {
-        this.userSubject.next(user);
-        this.isLoggedInSubject.next(!!user);
-      },
-      error: () => {
-        this.userSubject.next(null);
-        this.isLoggedInSubject.next(false);
-      }
+      next: (user) => this.actualizarEstado(user),
+      error: () => this.actualizarEstado(null)
     });
+  }
+
+  private actualizarEstado(user: Usuario | null) {
+    this.userSubject.next(user);
+    this.isLoggedInSubject.next(!!user);
   }
 
   registro(user: Usuario): Observable<Usuario> {
@@ -39,24 +41,27 @@ export class AuthService {
     });
   }
 
-  login(credenciales: { email: string; passwd: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/login`, credenciales, {
+  login(credenciales: { email: string; passwd: string }): Observable<Usuario | null> {
+    return this.http.post<any>(`${this.baseUrl}/auth/login`, credenciales, {
       withCredentials: true
-    });
-  }
-  credenciales(credenciales: any) {
-    throw new Error('Method not implemented.');
+    }).pipe(
+      switchMap(() => this.getUsuarioEnUso()),
+      tap(user => this.actualizarEstado(user))
+    );
   }
 
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/logout`, {}, {
       withCredentials: true
-    });
+    }).pipe(
+      // Limpiamos el estado al cerrar sesión
+      tap(() => this.actualizarEstado(null))
+    );
   }
 
   getUsuarioEnUso(): Observable<Usuario | null> {
     return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { withCredentials: true }).pipe(
-      catchError((error) => {
+      catchError(() => {
         return of(null);
       })
     );
@@ -68,24 +73,29 @@ export class AuthService {
     });
   }
 
-  setLoggedIn(value: boolean) {
-    this.isLoggedInSubject.next(value);
+  actualizarReputacion(idUsuario: number, nuevaRep: number): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/usuario/${idUsuario}/reputacion`, { reputacion: nuevaRep }, {
+      withCredentials: true
+    });
+  }
+
+  getUsuarioPorId(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.baseUrl}/usuario/${id}`);
   }
 
   isLoggedInValue(): boolean {
     return this.isLoggedInSubject.value;
   }
 
+  setLoggedIn(value: boolean) {
+    this.isLoggedInSubject.next(value);
+  }
+
   isAdmin(): Observable<boolean> {
-    return this.getUsuarioEnUso().pipe(
-      //Debug
-      //tap(user => console.log('USER EN isAdmin:', user)),
-      map(user => {
-        //Debug
-        //console.log('TIPO:', user?.tipo);
-        //console.log('COMPARACIÓN:', user?.tipo === 'ADMIN');
-        return user?.tipo === 'ADMIN';
-      })
+    return this.user$.pipe(
+      filter(user => user !== undefined),
+      map(user => !!user && user.tipo === 'ADMIN'),
+      take(1)
     );
   }
 }

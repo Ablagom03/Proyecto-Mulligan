@@ -1,138 +1,131 @@
 <div class="contenedor-grid">
   <div class="fullcarta">
-
     @if (cartaEncontrada$ | async; as carta) {
-    <!-- From Uiverse.io by kennyotsu -->
-
-    <div class="imagen">
-      <div class="container noselect">
-        <div class="canvas">
-          <div class="tracker tr-1"></div>
-          <div class="tracker tr-2"></div>
-          <div class="tracker tr-3"></div>
-          <div class="tracker tr-4"></div>
-          <div class="tracker tr-5"></div>
-          <div class="tracker tr-6"></div>
-          <div class="tracker tr-7"></div>
-          <div class="tracker tr-8"></div>
-          <div class="tracker tr-9"></div>
-          <div class="tracker tr-10"></div>
-          <div class="tracker tr-11"></div>
-          <div class="tracker tr-12"></div>
-          <div class="tracker tr-13"></div>
-          <div class="tracker tr-14"></div>
-          <div class="tracker tr-15"></div>
-          <div class="tracker tr-16"></div>
-          <div class="tracker tr-17"></div>
-          <div class="tracker tr-18"></div>
-          <div class="tracker tr-19"></div>
-          <div class="tracker tr-20"></div>
-          <div class="tracker tr-21"></div>
-          <div class="tracker tr-22"></div>
-          <div class="tracker tr-23"></div>
-          <div class="tracker tr-24"></div>
-          <div class="tracker tr-25"></div>
-          <div id="card">
-            <div class="title"><img [src]="'/api/imagenes/' + carta.imagen.nombre" /></div>
+      <div class="imagen">
+        <div class="container noselect">
+          <div class="canvas">
+            @for (i of [].constructor(25); track $index) {
+              <div [class]="'tracker tr-' + ($index + 1)"></div>
+            }
+            <div id="card">
+              <div class="title">
+                <img [src]="'/api/imagenes/' + carta.imagen.nombre" [alt]="carta.nombrecard" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="texto">
-      <div>
+
+      <div class="texto">
         <h1>{{ carta.nombrecard }}</h1>
+        <div class="detalles-info">
+          <p><strong>Descripción:</strong> {{ carta.descripcion }}</p>
+          <p><strong>Colección:</strong> {{ carta.coleccion }}</p>
+        </div>
       </div>
-      <div>
-        <h2>Descripción: {{ carta.descripcion }}</h2>
-        <h3>Colección: {{carta.coleccion}}</h3>
-      </div>
-    </div>
 
-    <div class="precio-mercado-widget">
-      <h4>Valor en Tiendas Oficiales / Mercado</h4>
-
-      @if (precioExterno$ | async; as datos) {
-
-      @if (datos.precio === 'No disponible' || datos.precio === 'No listado') {
-      <div class="etiqueta-precio error">
-        <span class="valor">No listado</span>
-      </div>
-      }
-      @else if (datos.precio.includes('€')) {
-      <div class="etiqueta-precio">
-        <span class="valor">{{ datos.precio }}</span>
-        @if (datos.url) {
-        <a [href]="datos.url" target="_blank" class="link-cardmarket">
-          <small>(Ver en Cardmarket)</small>
-        </a>
+      <div class="precio-mercado-widget">
+        <h4>Valor en Mercado (Referencia)</h4>
+        @if (precioExterno$ | async; as datos) {
+          <div class="etiqueta-precio" [class.error]="datos.precio === 'No disponible'">
+            <span class="valor">{{ datos.precio }}</span>
+            @if (datos.url) {
+              <a [href]="datos.url" target="_blank" class="link-cardmarket">
+                <small>(Ver en Cardmarket)</small>
+              </a>
+            }
+          </div>
         } @else {
-        <small>(Precio de referencia en Cardmarket)</small>
+          <div class="etiqueta-precio cargando">
+            <span class="spinner"></span> Consultando precios...
+          </div>
         }
       </div>
-      }
-      @else {
-      <div class="etiqueta-precio info">
-        <span class="valor">{{ datos.precio }}</span>
-      </div>
-      }
 
-      } @else {
-      <div class="etiqueta-precio cargando">
-        <span class="spinner"></span> Buscando valor comercial...
-      </div>
-      }
-    </div>
+      <div class="contenedor-ventas">
+        <div class="cambiarModo">
+          <button (click)="mostrarVentas()" 
+                  [class.active]="vistaActual === 'VENTA'"
+                  class="btn-tab">
+            Ventas Disponibles
+          </button>
+          <button (click)="mostrarCompras()" 
+                  [class.active]="vistaActual === 'COMPRA'"
+                  class="btn-tab">
+            Usuarios Buscando
+          </button>
+        </div>
 
-    <div class="contenedor-ventas">
-      <h3>Ventas Disponibles</h3>
+        <table class="tabla-ofertas">
+          <thead>
+            <tr>
+              <th>{{ vistaActual === 'VENTA' ? 'Vendedor' : 'Comprador' }}</th>
+              <th>Reputación</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (usuarioLogueado$ | async; as userLogueado) {
+              @let listaActual = (vistaActual === 'VENTA' ? (ofertasVenta$ | async) : (ofertasCompra$ | async));
 
-      <table class="tabla-ofertas">
-        <thead>
-          <tr>
-            <th>Vendedor</th>
-            <th>Reputación</th>
-            <th>Precio Unitario</th>
-            <th>Cantidad</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          @if (ofertasVenta$ | async; as ofertas) {
-          @for (oferta of ofertas; track oferta.invId) {
-          <tr>
-            <td class="usuario-info">
-              <a [routerLink]="['/usuario', oferta.usuario.nombre_usr]">
-                {{ oferta.nombreVendedor }}
-              </a>
-            </td>
-            <td class="reputacion">
-              {{ oferta.usuario.reputacion }}
-            </td>
-            <td class="precio">
-              {{ oferta.valor }} €
-            </td>
-            <td class="cantidad">
-              {{ oferta.copias }} ud.
-            </td>
-            <td>
-              <button class="btn-comprar" (click)="comprarCarta(oferta.id, oferta.copias)">
-                Comprar
-              </button>
-            </td>
-          </tr>
-          } @empty {
-          <tr>
-            <td colspan="5" class="sin-ofertas">No hay ofertas de venta para
-              esta carta.</td>
-          </tr>
-          }
-          }
-          @if (mensajeCompra) {
-          <div class="mensaje-compra">
+              @for (oferta of listaActual; track oferta.id) {
+                <tr>
+                  <td class="usuario-info">
+                    <a [routerLink]="['/usuario', oferta.usuario.nombre_usr]">
+                      {{ oferta.usuario.nombre_usr }}
+                    </a>
+                  </td>
+                  <td class="reputacion">
+                    <span class="star">★</span> {{ oferta.usuario.reputacion }}
+                  </td>
+                  <td class="precio">{{ oferta.valor }} €</td>
+                  <td class="cantidad">{{ oferta.copias }} ud.</td>
+                  <td>
+                    @if (oferta.usuario.usrId === userLogueado.usrId) {
+                      <span class="badge-propio">Tu oferta</span>
+                    } @else {
+                      <button [class]="vistaActual === 'VENTA' ? 'btn-comprar' : 'btn-vender'" 
+                              (click)="procesarTransaccion(oferta.id, oferta.copias, oferta.usuario.usrId)">
+                        {{ vistaActual === 'VENTA' ? 'Comprar' : 'Vender' }}
+                      </button>
+                    }
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="5" class="sin-ofertas">
+                    No hay {{ vistaActual === 'VENTA' ? 'ofertas de venta' : 'peticiones de compra' }} en este momento.
+                  </td>
+                </tr>
+              }
+            } @else {
+              <tr>
+                <td colspan="5" class="sin-ofertas">
+                  <a routerLink="/login">Inicia sesión</a> para realizar transacciones.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (mensajeCompra) {
+          <div class="mensaje-compra" 
+               [class.error]="mensajeCompra.includes('No') || mensajeCompra.includes('Error')"
+               [class.success]="mensajeCompra.includes('correctamente')">
             {{ mensajeCompra }}
           </div>
-          }
-        </tbody>
-      </table>
-    </div>
+        }
+      </div>
+
+    } @else {
+      <div class="loading-full">
+        <div class="spinner-grande"></div>
+        <p>Cargando datos de la carta...</p>
+      </div>
     }
+  </div>
+</div>
+
+<app-comentario-modal #comentarioModal></app-comentario-modal>

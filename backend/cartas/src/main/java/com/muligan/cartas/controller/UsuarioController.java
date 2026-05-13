@@ -138,6 +138,26 @@ public class UsuarioController {
     }
 
     /**
+     * Metodo: PATCH
+     * URL: localhost:8080/usuario/{id}/reputacion
+     * Proposito: Actualizar la reputación de un usuario
+     * 
+     * @param id del usuario
+     * @param body con la nueva reputación
+     * @return usuario actualizado
+     */
+    @PatchMapping("/{id}/reputacion")
+    public ResponseEntity<Usuario> updateReputacion(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
+        try {
+            int nuevaReputacion = body.get("reputacion");
+            Usuario usuarioActualizado = usuarioService.updateReputacion(id, nuevaReputacion);
+            return ResponseEntity.ok(usuarioActualizado);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
      * Proposito: Captura los errores de la etiqueta @Valid para devolverlos al front
      * 
      * @param ex excepción lanzada por la validación

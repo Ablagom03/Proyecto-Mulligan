@@ -22,8 +22,9 @@ public class InventarioService {
     private final CartaRepository cartaRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public InventarioService(InventarioRepository inventarioRepository, CartaRepository cartaRepository,
-            UsuarioRepository usuarioRepository) {
+    public InventarioService(InventarioRepository inventarioRepository, 
+                             CartaRepository cartaRepository,
+                             UsuarioRepository usuarioRepository) {
         this.inventarioRepository = inventarioRepository;
         this.cartaRepository = cartaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -41,32 +42,18 @@ public class InventarioService {
         return inventarioRepository.findByCartaCardId(cardid);
     }
 
-    public Inventario saveInventario(Inventario inventario) {
-        return inventarioRepository.save(inventario);
-    }
-
-    public void deleteInventario(Long id) {
-        inventarioRepository.deleteById(id);
-    }
-
     public Optional<Inventario> getById(Long id) {
         return inventarioRepository.findById(id);
     }
-    /**
-     * Crea una nueva oferta en el inventario.
-     *
-     * @param request   Objeto con los datos de la oferta.
-     * @param nombreUsuario Nombre del usuario que crea la oferta.
-     * @return La oferta creada.
-     */
+
     @Transactional
     public Inventario crearOferta(PeticionOferta request, String nombreUsuario) {
-
         Usuario usuario = usuarioRepository.findByNombreUsr(nombreUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Carta carta = cartaRepository.findByNombreCard(request.getNombreCard())
                 .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
+
         boolean existe = inventarioRepository.existsByUsuarioUsrIdAndCartaCardIdAndEstadoAndTipo(
                 usuario.getUsrId(),
                 carta.getCardId(),
@@ -79,7 +66,6 @@ public class InventarioService {
         }
 
         Inventario inventario = new Inventario();
-
         inventario.setUsuario(usuario);
         inventario.setCarta(carta);
         inventario.setEstado(request.getEstado());
@@ -90,13 +76,6 @@ public class InventarioService {
         return inventarioRepository.save(inventario);
     }
 
-    /**
-     * Actualiza una oferta existente con nuevos datos.
-     *
-     * @param id ID de la oferta a actualizar.
-     * @param dto Objeto con los datos a actualizar.
-     * @return La oferta actualizada.
-     */
     @Transactional
     public Inventario actualizar(Long id, InventarioUpdateDTO dto) {
         Inventario oferta = inventarioRepository.findById(id)
@@ -122,6 +101,11 @@ public class InventarioService {
         return inventarioRepository.save(oferta);
     }
 
+    /**
+     * Elimina una oferta validando que el usuario sea el dueño.
+     * Se usa para gestión de perfil personal.
+     */
+    @Transactional
     public void eliminarOferta(Long inventarioId, Long usrId) {
         Inventario inv = inventarioRepository.findById(inventarioId)
                 .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
@@ -131,5 +115,18 @@ public class InventarioService {
         }
 
         inventarioRepository.delete(inv);
+    }
+
+    /**
+     * Marca una oferta como vendida sin validar el dueño.
+     * Se usa exclusivamente para procesar compras/ventas entre usuarios.
+     * En lugar de eliminar, seteamos copias a 0 para permitir comentarios.
+     */
+    @Transactional
+    public void eliminarPorCompra(Long id) {
+        Inventario inv = inventarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("La oferta con ID " + id + " ya no está disponible"));
+        inv.setCopias(0);
+        inventarioRepository.save(inv);
     }
 }

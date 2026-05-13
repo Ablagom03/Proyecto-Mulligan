@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ComentarioService } from '../../service/comentario.service';
@@ -15,6 +15,7 @@ export class ComentarioModalComponent {
   @Output() comentarioEnviado = new EventEmitter<void>();
 
   private comentarioService = inject(ComentarioService);
+  private cdr = inject(ChangeDetectorRef);
 
   isVisible = false;
   inventarioId: number | null = null;
@@ -52,12 +53,14 @@ export class ComentarioModalComponent {
     this.comentarioService.crearComentario(this.inventarioId, this.texto, this.tipo).subscribe({
       next: () => {
         this.cargando = false;
+        this.cdr.detectChanges();
         console.log('Comentario creado exitosamente');
         this.comentarioEnviado.emit();
         this.cerrarModal();
       },
       error: (err) => {
         this.cargando = false;
+        this.cdr.detectChanges();
         console.error('Error completo:', err);
         console.error('Error status:', err.status);
         console.error('Error body:', err.error);

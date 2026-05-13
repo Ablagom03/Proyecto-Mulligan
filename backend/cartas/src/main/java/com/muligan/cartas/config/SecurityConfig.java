@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/precios/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/inventario/usuario/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/inventario/carta/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/comentario/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/ofertas/**").authenticated()
 
                         .anyRequest().authenticated())

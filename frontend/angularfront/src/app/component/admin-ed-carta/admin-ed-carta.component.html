@@ -1,52 +1,140 @@
-<h1><a [routerLink]="['/admin']">↩Volver a admin</a></h1>
+<h1>
+  <a [routerLink]="['/admin']">↩Volver a admin</a>
+</h1>
 
 <h1>Listado de cartas</h1>
 
-<div *ngFor="let carta of cartas; let i = index" class="carta-container">
+<div *ngIf="mensajeError" class="error-badge">
+  {{ mensajeError }}
+</div>
+
+<div *ngIf="mensajeExito" class="exito-badge">
+  {{ mensajeExito }}
+</div>
+
+<div class="search-wrapper">
+
+  <input
+    type="text"
+    class="buscar"
+    [(ngModel)]="busqueda"
+    (input)="buscarCartas()"
+    placeholder="Buscar por nombre, colección o empresa..."
+  >
+
+</div>
+
+
+<div *ngIf="resultados.length === 0">
+  <p>No se encontraron cartas.</p>
+</div>
+
+
+<div
+  *ngFor="let carta of resultados; let i = index; trackBy: trackByCarta"
+  class="carta-container"
+>
 
   <form (ngSubmit)="actualizarCarta(carta)">
+
     <h2>
       Nombre de carta:
-      <input type="text" [(ngModel)]="carta.nombrecard" name="nombreCard{{i}}" required >
+      <input
+        type="text"
+        [(ngModel)]="carta.nombrecard"
+        name="nombreCard{{i}}"
+        required
+        [class.input-invalid]="getErrores(carta.cardid)['nombrecard']"
+      >
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['nombrecard']">
+        {{ getErrores(carta.cardid)['nombrecard'] }}
+      </small>
     </h2>
 
     <h2>
       Descripción:
-      <input type="text" [(ngModel)]="carta.descripcion" name="descripcion{{i}}" required>
+      <input
+        type="text"
+        [(ngModel)]="carta.descripcion"
+        name="descripcion{{i}}"
+        required
+        [class.input-invalid]="getErrores(carta.cardid)['descripcion']"
+      >
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['descripcion']">
+        {{ getErrores(carta.cardid)['descripcion'] }}
+      </small>
     </h2>
 
     <h2>
       Colección:
-      <input type="text" [(ngModel)]="carta.coleccion" name="coleccion{{i}}" required>
+      <input
+        type="text"
+        [(ngModel)]="carta.coleccion"
+        name="coleccion{{i}}"
+        required
+        [class.input-invalid]="getErrores(carta.cardid)['coleccion']"
+      >
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['coleccion']">
+        {{ getErrores(carta.cardid)['coleccion'] }}
+      </small>
     </h2>
 
     <h2>
       Empresa:
-      <select [(ngModel)]="carta.empresa" name="empresa{{i}}">
-        <option *ngFor="let empresa of listadoEmpresas$ | async" [value]="empresa">
+      <select
+        [(ngModel)]="carta.empresa"
+        name="empresa{{i}}"
+        [class.input-invalid]="getErrores(carta.cardid)['empresa']"
+      >
+        <option value="">Selecciona una empresa</option>
+        <option
+          *ngFor="let empresa of listadoEmpresas$ | async"
+          [value]="empresa"
+        >
           {{ empresa }}
         </option>
+
       </select>
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['empresa']">
+        {{ getErrores(carta.cardid)['empresa'] }}
+      </small>
     </h2>
 
     <h2>
       Nombre imagen:
-      <input type="text" [(ngModel)]="carta.nombreImagen" name="nombreImagen{{i}}">
+      <input
+        type="text"
+        [(ngModel)]="carta.nombreImagen"
+        name="nombreImagen{{i}}"
+      >
     </h2>
 
     <h2>
       Cambiar imagen:
-      <input type="file" (change)="onFileSelected($event, carta)" accept="image/*">
+      <input
+        type="file"
+        (change)="onFileSelected($event, carta)"
+        accept="image/*"
+      >
     </h2>
 
     <div *ngIf="carta.preview">
       <p>Preview:</p>
-      <img [src]="carta.preview" width="200">
+
+      <img
+        [src]="carta.preview"
+        width="200"
+      >
     </div>
 
     <br>
-    <button type="submit">Actualizar carta</button>
+
+    <button type="submit">
+      Actualizar carta
+    </button>
+
   </form>
 
   <hr>
+
 </div>

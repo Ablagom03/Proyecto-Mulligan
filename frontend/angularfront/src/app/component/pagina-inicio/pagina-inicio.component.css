@@ -1,7 +1,7 @@
 .main {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
     text-align: center;
     font-size: xx-large;
 }
@@ -81,6 +81,7 @@ input {
     border-radius: 10px;
     box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.25);
 }
+
 .search-wrapper {
     position: relative;
     width: 400px;
@@ -88,7 +89,7 @@ input {
 
 .buscar {
     width: 100%;
-    margin: 0;            
+    margin: 0;
     box-sizing: border-box;
 }
 
@@ -103,27 +104,37 @@ input {
 .dropdown {
     position: absolute;
     top: 100%;
-    left: 0;              
+    left: 0;
     width: 100%;
-    margin-top: 2px;      
+    margin-top: 2px;
     background: white;
     border-radius: 12px;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
     /*Una pequeña animación para que quede mejor*/
     animation: fadeIn 0.15s ease-out;
+
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .item {
     padding: 10px;
     cursor: pointer;
-    
+
 }
 
 .item:hover {

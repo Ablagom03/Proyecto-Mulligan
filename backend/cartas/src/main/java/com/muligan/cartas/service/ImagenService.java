@@ -25,5 +25,18 @@ public class ImagenService {
     public Imagen guardarImagen(Imagen img) {
         return imagenRepository.save(img);
     }
-    
+
+    public Imagen updateImagen(String nombre, byte[] datos) {
+
+        Imagen imagenEncontrada = imagenRepository.findByNombre(nombre);
+
+        if (imagenEncontrada == null) {
+            return null;
+        }
+
+        imagenEncontrada.setData(datos);
+
+        return imagenRepository.save(imagenEncontrada);
+    }
+
 }

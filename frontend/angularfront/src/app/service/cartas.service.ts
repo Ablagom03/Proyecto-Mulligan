@@ -29,6 +29,7 @@ export class CartasService {
   insertCarta(carta: any): Observable<Carta> {
     return this.http.post<Carta>(this.url, carta);
   }
+  
   updateCarta(carta: Carta, id: bigint): Observable<any> {
     return this.http.put(`${this.url}/${id}`, carta);
   }

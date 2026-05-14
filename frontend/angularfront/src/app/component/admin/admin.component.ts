@@ -28,18 +28,21 @@ export class AdminComponent implements OnInit {
   listadoEmpresas$!: Observable<Empresa[]>;
 
   carta: any = {
-    nombreCard: '',
+    nombrecard: '',
     descripcion: '',
     coleccion: '',
     empresa: '',
     imagen: {
       nombre: '',
-      datos: ''
+      data: ''
     }
   };
 
   nombreImagen: string = '';
   preview: string | ArrayBuffer | null = null;
+  mensajeError: string | null = null;
+  mensajeExito: string | null = null;
+  erroresValidacion: { [key: string]: string } = {};
 
   ngOnInit() {
     this.cargarCartas();
@@ -79,34 +82,55 @@ export class AdminComponent implements OnInit {
   }
 
   guardarCarta() {
+    this.mensajeError = null;
+    this.mensajeExito = null;
+    this.erroresValidacion = {};
+
     console.log(this.carta);
 
     this.cartasService.insertCarta(this.carta).subscribe({
       next: () => {
-        alert('Carta guardada correctamente');
+        this.mensajeExito = 'Carta guardada correctamente';
         console.log(this.carta);
-        this.resetFormulario();
+        setTimeout(() => {
+          this.resetFormulario();
+          this.cargarCartas();
+        }, 1500);
       },
-      error: err => {
-        console.error(err);
-        alert('Error al guardar carta');
+      error: (err: any) => {
+        console.error('Error completo:', err);
+        if (err.error && err.error.errors) {
+          this.erroresValidacion = err.error.errors;
+          this.mensajeError = 'Por favor, corrige los errores en el formulario';
+        } else if (err.error && err.error.message) {
+          this.mensajeError = err.error.message;
+        } else if (err.error && typeof err.error === 'string') {
+          this.mensajeError = err.error;
+        } else if (err.status === 400) {
+          this.mensajeError = 'Datos inválidos. Por favor, verifica los campos.';
+        } else {
+          this.mensajeError = 'Error al guardar carta';
+        }
       }
     });
   }
 
   resetFormulario() {
     this.carta = {
-      nombreCard: '',
+      nombrecard: '',
       descripcion: '',
       coleccion: '',
       empresa: '',
       imagen: {
         nombre: '',
-        datos: ''
+        data: ''
       }
     };
 
     this.preview = null;
     this.nombreImagen = '';
+    this.mensajeError = null;
+    this.mensajeExito = null;
+    this.erroresValidacion = {};
   }
 }

@@ -1,16 +1,14 @@
 <nav class="navbar">
     <div class="nav-left">
         <button class="side-btn" (click)="abrirSide()">☰</button>
-        <a [routerLink]="['']"><img [src]="'/api/imagenes/' + 'logoMulligan'" alt="Logo"
-                class="logo"></a>
+        <a [routerLink]="['']"><img [src]="'/api/imagenes/' + 'logoMulligan'" alt="Logo" class="logo"></a>
     </div>
     <div class="nav-center">
-
     </div>
     <div class="nav-right">
 
         <!-- From Uiverse.io by zenonaiden_3341 -->
-        <input id="checkboxInput" type="checkbox" (change)="toggleDarkMode($event)"/>
+        <input id="checkboxInput" type="checkbox" (change)="toggleDarkMode($event)" />
         <label class="toggleSwitch" for="checkboxInput">
             <div class="icon icon--moon">
                 <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32"
@@ -43,5 +41,14 @@
         <a [routerLink]="['/login']"><button class="nav-btn">Iniciar sesión</button></a>
         <a [routerLink]="['/signIn']"><button class="nav-btn">Registrarse</button></a>
         }
+
+        @if (isAdmin$ | async) {
+        <a [routerLink]="['/admin']">
+            <button class="nav-btn admin-btn">
+                Admin
+            </button>
+        </a>
+        }
+
     </div>
 </nav>

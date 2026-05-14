@@ -62,7 +62,7 @@ public class CartaController {
      * @param id de la carta cuya imagen se quiere sacar
      * @return imagen de la carta
      */
-    @GetMapping("/carta/{id}/imagen")
+    @GetMapping("/{id}/imagen")
     public ResponseEntity<Imagen> getImagenFromCarta(@PathVariable Long id) {
         Imagen imagen = cartaService.getCartaById(id).getImagen();
         if (imagen != null) {

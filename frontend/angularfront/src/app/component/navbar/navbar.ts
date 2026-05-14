@@ -3,6 +3,8 @@ import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
 import { Usuario } from '../../model/Usuario';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +18,8 @@ export class Navbar implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
 
   isLoggedIn$;
+  isAdmin$!: Observable<boolean>;
+
   currentUser: Usuario | null = null;
 
   constructor(private auth: AuthService, private router: Router) {
@@ -24,6 +28,11 @@ export class Navbar implements OnInit {
 
   ngOnInit() {
     this.loadCurrentUser();
+
+    this.isAdmin$ = this.auth.user$.pipe(
+      map(user => !!user && user.tipo === 'ADMIN')
+    );
+
   }
 
   loadCurrentUser() {
@@ -36,6 +45,8 @@ export class Navbar implements OnInit {
       }
     });
   }
+
+
 
   abrirSide() {
     this.toggleSidebar.emit();
@@ -53,11 +64,13 @@ export class Navbar implements OnInit {
   }
 
   toggleDarkMode(event: any) {
-  if (event.target.checked) {
-    document.body.classList.add('body-modo-oscuro');
-  } else {
-    document.body.classList.remove('body-modo-oscuro');
+    if (event.target.checked) {
+      document.body.classList.add('body-modo-oscuro');
+    } else {
+      document.body.classList.remove('body-modo-oscuro');
+    }
   }
-}
+
+
 }
 

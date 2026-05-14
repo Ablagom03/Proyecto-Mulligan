@@ -28,16 +28,19 @@ export class PaginaInicioComponent implements OnInit {
   }
 
   buscarCartas() {
+
+    const texto = this.busqueda.trim().toLowerCase();
+
+    if (!texto) {
+      this.resultados = [];
+      return;
+    }
+
     this.resultados = this.datos.filter(carta =>
-      carta.nombrecard.toLowerCase().includes(this.busqueda.toLowerCase())
+      carta.nombrecard.toLowerCase().includes(texto)
     );
 
     this.mostrar = true;
-
-    //Para debuguear
-    //console.log("Busqueda: ", this.busqueda);
-    //console.log("Datos: ", this.datos);
-    //console.log("Resultado: ", this.resultados);
   }
 
   //Para el dropdown
@@ -51,6 +54,6 @@ export class PaginaInicioComponent implements OnInit {
   ocultar() {
     setTimeout(() => {
       this.mostrar = false;
-    }, 3);
+    }, 150);
   }
 }

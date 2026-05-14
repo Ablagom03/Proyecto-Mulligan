@@ -4,10 +4,17 @@
         <div class="search-wrapper">
             <input type="text" name="buscar" class="buscar" [(ngModel)]="busqueda" (input)="buscarCartas()"
                 (focus)="mostrar = true" (blur)="ocultar()" placeholder="Buscar carta...">
-            <div class="dropdown" *ngIf="mostrar && resultados.length > 0">
-                <div class="item" *ngFor="let carta of resultados" (click)="seleccionar(carta.nombrecard)">
-                    <a [routerLink]="['/carta']" [queryParams]="{id: carta.cardid}">{{ carta.nombrecard }}</a>
+            <div class="dropdown" *ngIf="busqueda && mostrar">
+
+                <div *ngIf="resultados.length === 0" class="item disabled">
+                    No se encontraron resultados
                 </div>
+
+                <div class="item" *ngFor="let carta of resultados" (mousedown)="seleccionar(carta.nombrecard)"
+                    [routerLink]="['/carta']" [queryParams]="{id: carta.cardid}">
+                    {{ carta.nombrecard }}
+                </div>
+
             </div>
         </div>
         <div class="marcas">

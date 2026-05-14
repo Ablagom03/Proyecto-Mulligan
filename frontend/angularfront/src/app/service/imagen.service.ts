@@ -8,12 +8,7 @@ import { Imagen } from '../model/Imagen';
 })
 export class ImagenService {
   url: string= "/api/imagen"
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {}
 
-  }
-
-  insertaImagen(nombre : string, img : string){
-    //TODO
-  }
 
 }

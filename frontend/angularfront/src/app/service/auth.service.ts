@@ -61,8 +61,6 @@ export class AuthService {
 
   getUsuarioEnUso(): Observable<Usuario | null> {
     return this.http.get<Usuario>(`${this.baseUrl}/auth/me`, { withCredentials: true }).pipe(
-      //Para debuguear
-      tap(user => console.log('Usuario recibido:', user)),
       catchError(() => {
         return of(null);
       })

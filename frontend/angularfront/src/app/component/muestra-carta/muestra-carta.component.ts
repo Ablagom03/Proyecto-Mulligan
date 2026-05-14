@@ -59,7 +59,6 @@ export class MuestraCartaComponent implements OnInit {
 
     this.ofertaService.getOfertasPorCarta(idCarta).subscribe({
       next: (ofertas) => {
-        console.log('Ofertas cargadas:', ofertas);
         this.ofertasVenta$.next(ofertas.filter(o => o.tipo === 'VENTA'));
         this.ofertasCompra$.next(ofertas.filter(o => o.tipo === 'COMPRA'));
       },
@@ -88,8 +87,6 @@ export class MuestraCartaComponent implements OnInit {
       this.mensajeCompra = 'No puedes realizar transacciones con tus propias ofertas.';
       return;
     }
-
-    console.log('Iniciando transacción para Oferta ID:', idInventarioReal);
 
     const subjectActual = this.vistaActual === 'VENTA' ? this.ofertasVenta$ : this.ofertasCompra$;
     const ofertas = subjectActual.value;

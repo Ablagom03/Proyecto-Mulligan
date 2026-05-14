@@ -110,6 +110,14 @@ public class UsuarioService {
             defNorm.setTipo(TipoUsuario.USR);
             Usuario userGuardado = saveUsuario(defNorm);
 
+            Usuario defNorm2 = new Usuario();
+            defNorm2.setNombreUsr("Manolo");
+            defNorm2.setEmail("Manolo@gmail.com");
+            defNorm2.setReputacion(0);
+            defNorm2.setPasswd("123456");
+            defNorm2.setTipo(TipoUsuario.USR);
+            Usuario userGuardado2 = saveUsuario(defNorm2);
+
             Usuario defAdmin = new Usuario();
             defAdmin.setNombreUsr("Administrador");
             defAdmin.setEmail("admin@gmail.com");
@@ -130,14 +138,21 @@ public class UsuarioService {
                 Inventario ofertaGuardada = inventarioRepository.save(oferta);
 
                 Comentario comentario = new Comentario();
-                comentario.setTexto("mu mala gente");
+                comentario.setTexto("Decia que estaba en buen estado, pero la carta esta amarilla y huele a tabaco, no se fien de este vendedor");
                 comentario.setTipo(TipoComentario.NEGATIVO);
-                comentario.setUsuarioComprador(adminGuardado);
+                comentario.setUsuarioComprador(userGuardado2);
                 comentario.setUsuarioVendedor(userGuardado);
                 comentario.setInventario(ofertaGuardada);
                 comentarioRepository.save(comentario);
 
-                userGuardado.setReputacion(userGuardado.getReputacion() + 1);
+                Comentario comentario2 = new Comentario();
+                comentario2.setTexto("Me vendio la carta mejor que a precio de mercado, 10/10, recomendable");
+                comentario2.setTipo(TipoComentario.POSITIVO);
+                comentario2.setUsuarioComprador(adminGuardado);
+                comentario2.setUsuarioVendedor(userGuardado);
+                comentario2.setInventario(ofertaGuardada);
+                comentarioRepository.save(comentario2);
+
                 usuarioRepository.save(userGuardado);
             }
 

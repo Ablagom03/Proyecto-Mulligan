@@ -1,29 +1,72 @@
 <h1>Inserción de carta</h1>
 
+<div *ngIf="mensajeError" class="error-badge">
+  {{ mensajeError }}
+</div>
+
+<div *ngIf="mensajeExito" class="exito-badge">
+  {{ mensajeExito }}
+</div>
+
 <form (ngSubmit)="guardarCarta()">
 
   <h2>
     Nombre de carta:
-    <input type="text" [(ngModel)]="carta.nombrecard" name="nombrecard" required>
+    <input 
+      type="text" 
+      [(ngModel)]="carta.nombrecard" 
+      name="nombrecard" 
+      required
+      [class.input-invalid]="erroresValidacion['nombrecard']"
+    >
+    <small class="text-error" *ngIf="erroresValidacion['nombrecard']">
+      {{ erroresValidacion['nombrecard'] }}
+    </small>
   </h2>
 
   <h2>
     Descripción:
-    <input type="text" [(ngModel)]="carta.descripcion" name="descripcion" required>
+    <input 
+      type="text" 
+      [(ngModel)]="carta.descripcion" 
+      name="descripcion" 
+      required
+      [class.input-invalid]="erroresValidacion['descripcion']"
+    >
+    <small class="text-error" *ngIf="erroresValidacion['descripcion']">
+      {{ erroresValidacion['descripcion'] }}
+    </small>
   </h2>
 
   <h2>
     Colección:
-    <input type="text" [(ngModel)]="carta.coleccion" name="coleccion" required>
+    <input 
+      type="text" 
+      [(ngModel)]="carta.coleccion" 
+      name="coleccion" 
+      required
+      [class.input-invalid]="erroresValidacion['coleccion']"
+    >
+    <small class="text-error" *ngIf="erroresValidacion['coleccion']">
+      {{ erroresValidacion['coleccion'] }}
+    </small>
   </h2>
 
   <h2>
     Empresa:
-    <select [(ngModel)]="carta.empresa" name="empresa">
+    <select 
+      [(ngModel)]="carta.empresa" 
+      name="empresa"
+      [class.input-invalid]="erroresValidacion['empresa']"
+    >
+      <option value="">Selecciona una empresa</option>
       <option *ngFor="let empresa of listadoEmpresas$ | async" [value]="empresa">
         {{ empresa }}
       </option>
     </select>
+    <small class="text-error" *ngIf="erroresValidacion['empresa']">
+      {{ erroresValidacion['empresa'] }}
+    </small>
   </h2>
 
   <h1>Imagen</h1>

@@ -4,6 +4,13 @@
 
 <h1>Listado de cartas</h1>
 
+<div *ngIf="mensajeError" class="error-badge">
+  {{ mensajeError }}
+</div>
+
+<div *ngIf="mensajeExito" class="exito-badge">
+  {{ mensajeExito }}
+</div>
 
 <div class="search-wrapper">
 
@@ -37,7 +44,11 @@
         [(ngModel)]="carta.nombrecard"
         name="nombreCard{{i}}"
         required
+        [class.input-invalid]="getErrores(carta.cardid)['nombrecard']"
       >
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['nombrecard']">
+        {{ getErrores(carta.cardid)['nombrecard'] }}
+      </small>
     </h2>
 
     <h2>
@@ -47,7 +58,11 @@
         [(ngModel)]="carta.descripcion"
         name="descripcion{{i}}"
         required
+        [class.input-invalid]="getErrores(carta.cardid)['descripcion']"
       >
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['descripcion']">
+        {{ getErrores(carta.cardid)['descripcion'] }}
+      </small>
     </h2>
 
     <h2>
@@ -57,7 +72,11 @@
         [(ngModel)]="carta.coleccion"
         name="coleccion{{i}}"
         required
+        [class.input-invalid]="getErrores(carta.cardid)['coleccion']"
       >
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['coleccion']">
+        {{ getErrores(carta.cardid)['coleccion'] }}
+      </small>
     </h2>
 
     <h2>
@@ -65,8 +84,9 @@
       <select
         [(ngModel)]="carta.empresa"
         name="empresa{{i}}"
+        [class.input-invalid]="getErrores(carta.cardid)['empresa']"
       >
-
+        <option value="">Selecciona una empresa</option>
         <option
           *ngFor="let empresa of listadoEmpresas$ | async"
           [value]="empresa"
@@ -75,6 +95,9 @@
         </option>
 
       </select>
+      <small class="text-error" *ngIf="getErrores(carta.cardid)['empresa']">
+        {{ getErrores(carta.cardid)['empresa'] }}
+      </small>
     </h2>
 
     <h2>

@@ -11,6 +11,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,14 +39,22 @@ public class Carta {
 
     @Column(name = "nombrecard")
     @JsonProperty("nombrecard")
+    @NotBlank(message = "El nombre de la carta es obligatorio")
+    @Size(min = 1, max = 100, message = "El nombre de la carta debe tener entre 1 y 100 caracteres")
     private String nombreCard;
+
+    @NotBlank(message = "La descripción es obligatoria")
+    @Size(min = 5, max = 300, message = "La descripción debe tener entre 5 y 300 caracteres")
     private String descripcion;
+
+    @NotBlank(message = "La colección es obligatoria")
+    @Size(min = 1, max = 50, message = "La colección debe tener entre 1 y 50 caracteres")
     private String coleccion;
 
+    @NotNull(message = "La empresa es obligatoria")
     @Enumerated(EnumType.STRING)
     @Column(name = "empresa")
     private Empresa empresa;
-    // private String empresa;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idimg", nullable = true)

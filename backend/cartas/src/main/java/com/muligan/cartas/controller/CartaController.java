@@ -4,6 +4,7 @@ import com.muligan.cartas.model.Carta;
 import com.muligan.cartas.model.Empresa;
 import com.muligan.cartas.model.Imagen;
 import com.muligan.cartas.service.CartaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +109,7 @@ public class CartaController {
      * @return carta creada
      */
     @PostMapping
-    public ResponseEntity<Carta> createCarta(@RequestBody Carta carta) {
+    public ResponseEntity<Carta> createCarta(@Valid @RequestBody Carta carta) {
         Carta createdCarta = cartaService.createCarta(carta);
         return ResponseEntity.ok(createdCarta);
     }
@@ -123,7 +124,7 @@ public class CartaController {
      * @return carta actualizada
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Carta> updateCarta(@PathVariable Long id, @RequestBody Carta carta) {
+    public ResponseEntity<Carta> updateCarta(@PathVariable Long id, @Valid @RequestBody Carta carta) {
         Carta updatedCarta = cartaService.updateCarta(id, carta);
         if (updatedCarta != null) {
             return ResponseEntity.ok(updatedCarta);

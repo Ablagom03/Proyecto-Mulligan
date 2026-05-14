@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { Carta } from '../../model/Carta';
 import { Empresa } from '../../model/Empresa';
 
 import { CartasService } from '../../service/cartas.service';
@@ -42,6 +41,10 @@ export class AdminEdCartaComponent implements OnInit {
   resultados: any[] = [];
 
   busqueda: string = '';
+
+  mensajeError: string | null = null;
+  mensajeExito: string | null = null;
+  erroresValidacionPorCarta: { [key: number]: { [key: string]: string } } = {};
 
   ngOnInit() {
 
@@ -131,6 +134,10 @@ export class AdminEdCartaComponent implements OnInit {
 
   actualizarCarta(carta: any) {
 
+    this.mensajeError = null;
+    this.mensajeExito = null;
+    this.erroresValidacionPorCarta[carta.cardid] = {};
+
     console.log('Actualizando carta:', carta);
 
     this.cartasService
@@ -139,14 +146,28 @@ export class AdminEdCartaComponent implements OnInit {
 
         next: () => {
 
-          alert('Carta actualizada correctamente');
+          this.mensajeExito = 'Carta actualizada correctamente';
+          setTimeout(() => {
+            this.cargarCartas();
+            this.mensajeExito = null;
+          }, 1500);
         },
 
-        error: err => {
+        error: (err: any) => {
 
-          console.error(err);
-
-          alert('Error al actualizar carta');
+          console.error('Error completo:', err);
+          if (err.error && err.error.errors) {
+            this.erroresValidacionPorCarta[carta.cardid] = err.error.errors;
+            this.mensajeError = 'Por favor, corrige los errores en el formulario';
+          } else if (err.error && err.error.message) {
+            this.mensajeError = err.error.message;
+          } else if (err.error && typeof err.error === 'string') {
+            this.mensajeError = err.error;
+          } else if (err.status === 400) {
+            this.mensajeError = 'Datos inválidos. Por favor, verifica los campos.';
+          } else {
+            this.mensajeError = 'Error al actualizar carta';
+          }
         }
       });
   }
@@ -154,5 +175,9 @@ export class AdminEdCartaComponent implements OnInit {
   trackByCarta(index: number, carta: any): number {
 
     return carta.cardid;
+  }
+
+  getErrores(cartaId: number): { [key: string]: string } {
+    return this.erroresValidacionPorCarta[cartaId] || {};
   }
 }

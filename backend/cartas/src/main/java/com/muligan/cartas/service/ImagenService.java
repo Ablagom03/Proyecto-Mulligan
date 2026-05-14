@@ -1,7 +1,5 @@
 package com.muligan.cartas.service;
 
-import javax.xml.crypto.Data;
-
 import org.springframework.stereotype.Service;
 
 import com.muligan.cartas.model.Imagen;

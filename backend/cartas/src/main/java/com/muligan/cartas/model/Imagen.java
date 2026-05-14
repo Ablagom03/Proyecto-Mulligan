@@ -1,6 +1,7 @@
 package com.muligan.cartas.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,12 +30,15 @@ public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idimg")
+    @JsonProperty("idimg")
     private Long idImg;
 
     @Column(name = "nombre")
+    @JsonProperty("nombre")
     private String nombre;
 
     @Column(name = "data", columnDefinition = "BYTEA")
+    @JsonProperty("data")
     private byte[] data;
 
     @OneToOne(mappedBy = "imagen")
